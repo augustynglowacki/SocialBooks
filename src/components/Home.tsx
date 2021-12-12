@@ -6,7 +6,7 @@ const Home: React.FC = () => {
   return (
     <View style={styles.wrapper}>
       <Text style={styles.title}>
-        Hello <Text style={styles.markedTitle}>Demo!</Text>
+        Hello <Text style={styles.markedTitle}>SocialBooks!</Text>
       </Text>
     </View>
   );
