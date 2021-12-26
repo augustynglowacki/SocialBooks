@@ -13,7 +13,7 @@ const App: React.FC = () => {
         <HomeNavigator />
       </NavigationContainer>
     </PaperProvider>
-  );
+  )
 };
 
 export default App;
