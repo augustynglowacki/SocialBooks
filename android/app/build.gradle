@@ -1,8 +1,5 @@
 apply plugin: "com.android.application"
-project.ext.vectoricons = [
-    iconFontNames: [ 'Ionicons.ttf'] // Name of the font files you want to copy
-]
-apply from: "../../node_modules/react-native-vector-icons/fonts.gradle"
+
 import com.android.build.OutputFile
 
 /**
@@ -81,7 +78,7 @@ import com.android.build.OutputFile
  */
 
 project.ext.react = [
-    enableHermes: true,  // clean and rebuild if changing
+    enableHermes: false,  // clean and rebuild if changing
 ]
 
 apply from: "../../node_modules/react-native/react.gradle"
