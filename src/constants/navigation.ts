@@ -1,8 +1,3 @@
-export const SCREEN_OPTIONS = {
-  headerShown: false,
-  gestureEnabled: true,
-  gestureResponseDistance: 200,
-};
 export enum Route {
   HOME = 'Home',
   SEARCH = 'Search',

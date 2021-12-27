@@ -12,11 +12,10 @@ const BOTTOM_TABS_HEIGHT = 60;
 const Tab = createBottomTabNavigator();
 
 const BottomTabsNavigator = () => {
-  const {bottom} = useSafeAreaInsets();
   const tabBarStyle: StyleProp<ViewStyle> = {
     backgroundColor: palette.black,
     borderTopWidth: 0,
-    height: BOTTOM_TABS_HEIGHT + bottom,
+    height: BOTTOM_TABS_HEIGHT + useSafeAreaInsets().bottom,
   };
 
   return (
