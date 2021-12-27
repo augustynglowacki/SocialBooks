@@ -31,7 +31,7 @@ const BottomTabsNavigator = () => {
         component={HomeScreen}
         options={{
           tabBarButton: ({onPress, accessibilityState}) => (
-            <TabIcon onPress={onPress} focused={!!accessibilityState?.selected} name="ios-home" />
+            <TabIcon onPress={onPress} focused={!!accessibilityState?.selected} name="ios-book" />
           ),
         }}
       />
