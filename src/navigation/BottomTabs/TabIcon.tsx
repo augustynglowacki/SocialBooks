@@ -9,9 +9,10 @@ interface Props {
   focused: boolean;
   name: string;
   size?: number;
+  iconColor: string;
 }
 
-const TabIcon: React.FC<Props> = ({onPress, focused, name, size = 26}) => {
+const TabIcon: React.FC<Props> = ({onPress, focused, name, iconColor, size = 26}) => {
   const outline = name + '-outline';
   const scale = useSharedValue(1.15);
 
@@ -29,7 +30,7 @@ const TabIcon: React.FC<Props> = ({onPress, focused, name, size = 26}) => {
     return (
       <TouchableOpacity onPress={e => handleOnPress(e)} style={styles.container}>
         <Animated.View style={[animatedStyle]}>
-          <Icon style={styles.scale} color={palette.primary} name={name} size={size} />
+          <Icon style={styles.scale} color={iconColor} name={name} size={size} />
         </Animated.View>
       </TouchableOpacity>
     );

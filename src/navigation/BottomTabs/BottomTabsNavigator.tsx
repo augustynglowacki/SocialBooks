@@ -9,6 +9,20 @@ import palette from 'src/styles/palette';
 import TabIcon from './TabIcon';
 
 const BOTTOM_TABS_HEIGHT = 60;
+const screensData = [
+  {
+    name: Route.HOME,
+    component: HomeScreen,
+    icon: 'ios-book',
+    iconColor: palette.primary,
+  },
+  {
+    name: Route.SEARCH,
+    component: SearchScreen,
+    icon: 'ios-search',
+    iconColor: palette.primary,
+  },
+];
 const Tab = createBottomTabNavigator();
 
 const BottomTabsNavigator = () => {
@@ -25,24 +39,23 @@ const BottomTabsNavigator = () => {
         tabBarStyle,
         headerShown: false,
       }}>
-      <Tab.Screen
-        name={Route.HOME}
-        component={HomeScreen}
-        options={{
-          tabBarButton: ({onPress, accessibilityState}) => (
-            <TabIcon onPress={onPress} focused={!!accessibilityState?.selected} name="ios-book" />
-          ),
-        }}
-      />
-      <Tab.Screen
-        name={Route.SEARCH}
-        component={SearchScreen}
-        options={{
-          tabBarButton: ({onPress, accessibilityState}) => (
-            <TabIcon onPress={onPress} focused={!!accessibilityState?.selected} name="ios-search" />
-          ),
-        }}
-      />
+      {screensData.map((item, index) => (
+        <Tab.Screen
+          name={item.name}
+          component={item.component}
+          options={{
+            tabBarButton: ({onPress, accessibilityState}) => (
+              <TabIcon
+                key={index + item.icon}
+                onPress={onPress}
+                focused={!!accessibilityState?.selected}
+                name={item.icon}
+                iconColor={item.iconColor}
+              />
+            ),
+          }}
+        />
+      ))}
     </Tab.Navigator>
   );
 };
