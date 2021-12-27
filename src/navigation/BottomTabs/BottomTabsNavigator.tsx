@@ -31,11 +31,7 @@ const BottomTabsNavigator = () => {
         component={HomeScreen}
         options={{
           tabBarButton: ({onPress, accessibilityState}) => (
-            <TabIcon
-              onPress={onPress}
-              focused={!!accessibilityState?.selected}
-              name="ios-home"
-            />
+            <TabIcon onPress={onPress} focused={!!accessibilityState?.selected} name="ios-home" />
           ),
         }}
       />
@@ -44,11 +40,7 @@ const BottomTabsNavigator = () => {
         component={SearchScreen}
         options={{
           tabBarButton: ({onPress, accessibilityState}) => (
-            <TabIcon
-              onPress={onPress}
-              focused={!!accessibilityState?.selected}
-              name="ios-search"
-            />
+            <TabIcon onPress={onPress} focused={!!accessibilityState?.selected} name="ios-search" />
           ),
         }}
       />

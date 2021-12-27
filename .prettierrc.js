@@ -5,4 +5,5 @@ module.exports = {
   endOfLine: 'auto',
   trailingComma: 'all',
   arrowParens: 'avoid',
+  printWidth: 120,
 };

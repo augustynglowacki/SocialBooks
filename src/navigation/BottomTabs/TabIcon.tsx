@@ -1,26 +1,11 @@
-import React from 'react';
-import {
-  GestureResponderEvent,
-  StyleSheet,
-  TouchableOpacity,
-} from 'react-native';
+import React, {useEffect} from 'react';
+import {GestureResponderEvent, StyleSheet, TouchableOpacity} from 'react-native';
 import palette from 'src/styles/palette';
 import Icon from 'src/components/Icon';
-import Animated, {
-  useAnimatedStyle,
-  useSharedValue,
-  withSequence,
-  withTiming,
-} from 'react-native-reanimated';
+import Animated, {useAnimatedStyle, useSharedValue, withSequence, withTiming} from 'react-native-reanimated';
 
 interface Props {
-  onPress:
-    | ((
-        e:
-          | React.MouseEvent<HTMLAnchorElement, MouseEvent>
-          | GestureResponderEvent,
-      ) => void)
-    | undefined;
+  onPress: ((e: React.MouseEvent<HTMLAnchorElement, MouseEvent> | GestureResponderEvent) => void) | undefined;
   focused: boolean;
   name: string;
   size?: number;
@@ -29,7 +14,7 @@ interface Props {
 const TabIcon: React.FC<Props> = ({onPress, focused, name, size = 26}) => {
   const outline = name + '-outline';
   const scale = useSharedValue(1.15);
-  const unFocusedScale = useSharedValue(1);
+
   const animatedStyle = useAnimatedStyle(() => ({
     transform: [{scale: scale.value}],
   }));
@@ -37,31 +22,21 @@ const TabIcon: React.FC<Props> = ({onPress, focused, name, size = 26}) => {
     if (onPress) {
       onPress(e);
     }
-    //sprobowac zrobic onpress na unfocused, zeby animacja sie zaczynala na klik, nie na zmiane state
-    scale.value = withSequence(
-      withTiming(1, {duration: 300}),
-      withTiming(1.15, {duration: 400}),
-    );
+    scale.value = withSequence(withTiming(1.2, {duration: 300}), withTiming(1.2, {duration: 400}));
   };
+
   if (focused) {
     return (
-      <TouchableOpacity
-        onPress={e => handleOnPress(e)}
-        style={styles.container}>
+      <TouchableOpacity onPress={e => handleOnPress(e)} style={styles.container}>
         <Animated.View style={[animatedStyle]}>
-          <Icon
-            style={styles.scale}
-            color={palette.primary}
-            name={name}
-            size={size}
-          />
+          <Icon style={styles.scale} color={palette.primary} name={name} size={size} />
         </Animated.View>
       </TouchableOpacity>
     );
   }
   return (
     <TouchableOpacity onPress={e => handleOnPress(e)} style={styles.container}>
-      <Animated.View style={[animatedStyle]}>
+      <Animated.View>
         <Icon color={palette.white} name={outline} size={size} />
       </Animated.View>
     </TouchableOpacity>

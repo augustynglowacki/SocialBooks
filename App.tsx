@@ -2,7 +2,7 @@ import React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import HomeNavigator from './src/navigation/HomeNavigator';
 import {Provider as PaperProvider} from 'react-native-paper';
-import {StatusBar} from 'react-native';
+import {StatusBar, View} from 'react-native';
 import palette from 'src/styles/palette';
 
 const App: React.FC = () => {
@@ -13,7 +13,7 @@ const App: React.FC = () => {
         <HomeNavigator />
       </NavigationContainer>
     </PaperProvider>
-  )
+  );
 };
 
 export default App;
