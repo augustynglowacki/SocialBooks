@@ -1,13 +1,14 @@
 import * as React from 'react';
 import {StyleSheet, Dimensions, View, Text} from 'react-native';
 import palette from 'src/styles/palette';
+import {AppText} from './common';
 
 const Search: React.FC = () => {
   return (
     <View style={styles.wrapper}>
-      <Text style={styles.title}>
-        Hello <Text style={styles.markedTitle}>Search!</Text>
-      </Text>
+      <AppText style={styles.title}>
+        Hello <AppText style={styles.markedTitle}>Search!</AppText>
+      </AppText>
     </View>
   );
 };

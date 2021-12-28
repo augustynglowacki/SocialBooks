@@ -1,13 +1,22 @@
 import * as React from 'react';
 import {StyleSheet, Dimensions, View, Text} from 'react-native';
 import palette from 'src/styles/palette';
+import {AppText} from './common';
 
 const Home: React.FC = () => {
   return (
     <View style={styles.wrapper}>
-      <Text style={styles.title}>
-        Hello <Text style={styles.markedTitle}>SocialBooks!</Text>
-      </Text>
+      <AppText style={styles.title} variant="h1">
+        Hello{' '}
+        <AppText variant="h1" style={styles.markedTitle}>
+          SocialBooks!
+        </AppText>
+      </AppText>
+      <View>
+        <AppText variant="h1" style={styles.markedTitle}>
+          SocialBooks!
+        </AppText>
+      </View>
     </View>
   );
 };
@@ -23,13 +32,11 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 36,
-    textAlign: 'center',
     paddingTop: 80,
     color: palette.black,
   },
   markedTitle: {
     fontSize: 36,
-    textAlign: 'center',
     color: palette.primary,
     fontWeight: '700',
   },
