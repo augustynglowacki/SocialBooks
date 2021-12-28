@@ -42,11 +42,11 @@ const BottomTabsNavigator = () => {
       {screensData.map((item, index) => (
         <Tab.Screen
           name={item.name}
+          key={index + item.name}
           component={item.component}
           options={{
             tabBarButton: ({onPress, accessibilityState}) => (
               <TabIcon
-                key={index + item.icon}
                 onPress={onPress}
                 focused={!!accessibilityState?.selected}
                 name={item.icon}
