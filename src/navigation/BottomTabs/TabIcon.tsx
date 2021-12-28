@@ -52,9 +52,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  input: {
-    alignItems: 'center',
-  },
   scale: {
     transform: [{scale: 1.15}],
   },
