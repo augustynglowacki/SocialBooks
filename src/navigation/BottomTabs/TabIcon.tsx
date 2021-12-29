@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {Dispatch, SetStateAction, useEffect} from 'react';
 import {GestureResponderEvent, StyleSheet, TouchableOpacity} from 'react-native';
 import palette from 'src/styles/palette';
 import Icon from 'src/components/Icon';
@@ -9,10 +9,11 @@ interface Props {
   focused: boolean;
   name: string;
   size?: number;
-  iconColor: string;
+  tabColor: string;
+  setBackgroundColor: Dispatch<SetStateAction<string>>;
 }
 
-const TabIcon: React.FC<Props> = ({onPress, focused, name, iconColor, size = 26}) => {
+const TabIcon: React.FC<Props> = ({onPress, focused, name, tabColor, size = 26, setBackgroundColor}) => {
   const outline = name + '-outline';
   const scale = useSharedValue(1.15);
 
@@ -22,6 +23,7 @@ const TabIcon: React.FC<Props> = ({onPress, focused, name, iconColor, size = 26}
   const handleOnPress = (e: GestureResponderEvent) => {
     if (onPress) {
       onPress(e);
+      setBackgroundColor(tabColor);
     }
     scale.value = withSequence(withTiming(1.2, {duration: 300}), withTiming(1.2, {duration: 400}));
   };
@@ -30,7 +32,7 @@ const TabIcon: React.FC<Props> = ({onPress, focused, name, iconColor, size = 26}
     return (
       <TouchableOpacity onPress={e => handleOnPress(e)} style={styles.container}>
         <Animated.View style={[animatedStyle]}>
-          <Icon style={styles.scale} color={iconColor} name={name} size={size} />
+          <Icon style={styles.scale} color={palette.black} name={name} size={size} />
         </Animated.View>
       </TouchableOpacity>
     );
@@ -38,7 +40,7 @@ const TabIcon: React.FC<Props> = ({onPress, focused, name, iconColor, size = 26}
   return (
     <TouchableOpacity onPress={e => handleOnPress(e)} style={styles.container}>
       <Animated.View>
-        <Icon color={palette.white} name={outline} size={size} />
+        <Icon color={palette.grey} name={outline} size={size} />
       </Animated.View>
     </TouchableOpacity>
   );

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import HomeScreen from 'src/screens/HomeScreen';
 import SearchScreen from 'src/screens/SearchScreen';
@@ -14,20 +14,21 @@ const screensData = [
     name: Route.HOME,
     component: HomeScreen,
     icon: 'ios-book',
-    iconColor: palette.primary,
+    tabColor: palette.primary,
   },
   {
     name: Route.SEARCH,
     component: SearchScreen,
     icon: 'ios-search',
-    iconColor: palette.primary,
+    tabColor: palette.secondary,
   },
 ];
 const Tab = createBottomTabNavigator();
 
 const BottomTabsNavigator = () => {
+  const [backgroundColor, setBackgroundColor] = useState(palette.primary);
   const tabBarStyle: StyleProp<ViewStyle> = {
-    backgroundColor: palette.black,
+    backgroundColor,
     borderTopWidth: 0,
     height: BOTTOM_TABS_HEIGHT + useSafeAreaInsets().bottom,
   };
@@ -50,7 +51,8 @@ const BottomTabsNavigator = () => {
                 onPress={onPress}
                 focused={!!accessibilityState?.selected}
                 name={item.icon}
-                iconColor={item.iconColor}
+                tabColor={item.tabColor}
+                setBackgroundColor={setBackgroundColor}
               />
             ),
           }}
