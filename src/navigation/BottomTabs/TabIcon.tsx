@@ -1,8 +1,8 @@
-import React, {Dispatch, SetStateAction, useEffect} from 'react';
+import React, {Dispatch, SetStateAction} from 'react';
 import {GestureResponderEvent, StyleSheet, TouchableOpacity} from 'react-native';
-import palette from 'src/styles/palette';
-import Icon from 'src/components/Icon';
+import {Icon} from 'src/components/common';
 import Animated, {useAnimatedStyle, useSharedValue, withSequence, withTiming} from 'react-native-reanimated';
+import {palette} from 'src/styles';
 
 interface Props {
   onPress: ((e: React.MouseEvent<HTMLAnchorElement, MouseEvent> | GestureResponderEvent) => void) | undefined;
@@ -13,7 +13,7 @@ interface Props {
   setBackgroundColor: Dispatch<SetStateAction<string>>;
 }
 
-const TabIcon: React.FC<Props> = ({onPress, focused, name, tabColor, size = 26, setBackgroundColor}) => {
+export const TabIcon: React.FC<Props> = ({onPress, focused, name, tabColor, size = 26, setBackgroundColor}) => {
   const outline = name + '-outline';
   const scale = useSharedValue(1.15);
 
@@ -30,7 +30,7 @@ const TabIcon: React.FC<Props> = ({onPress, focused, name, tabColor, size = 26, 
 
   if (focused) {
     return (
-      <TouchableOpacity onPress={e => handleOnPress(e)} style={styles.container}>
+      <TouchableOpacity onPress={e => handleOnPress(e)} style={[styles.container, styles.focusedBorder]}>
         <Animated.View style={[animatedStyle]}>
           <Icon style={styles.scale} color={palette.black} name={name} size={size} />
         </Animated.View>
@@ -46,14 +46,13 @@ const TabIcon: React.FC<Props> = ({onPress, focused, name, tabColor, size = 26, 
   );
 };
 
-export default TabIcon;
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
   },
+  focusedBorder: {borderTopWidth: 3, borderTopColor: palette.black},
   scale: {
     transform: [{scale: 1.15}],
   },
