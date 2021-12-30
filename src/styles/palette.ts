@@ -1,4 +1,4 @@
-export default {
+export const palette = {
   primary: '#D1D0FF',
   secondary: '#D0EEFF',
   third: '#FFD0EC',

@@ -1,12 +1,11 @@
 import React, {useState} from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import HomeScreen from 'src/screens/HomeScreen';
-import SearchScreen from 'src/screens/SearchScreen';
 import {StyleProp, ViewStyle} from 'react-native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {Route} from 'src/constants';
-import palette from 'src/styles/palette';
-import TabIcon from './TabIcon';
+import {TabIcon} from './TabIcon';
+import {palette} from 'src/styles';
+import {HomeScreen, SearchScreen} from 'src/screens';
 
 const BOTTOM_TABS_HEIGHT = 60;
 const screensData = [
@@ -29,7 +28,7 @@ const BottomTabsNavigator = () => {
   const [backgroundColor, setBackgroundColor] = useState(palette.primary);
   const tabBarStyle: StyleProp<ViewStyle> = {
     backgroundColor,
-    borderTopWidth: 0,
+    borderTopWidth: 1,
     height: BOTTOM_TABS_HEIGHT + useSafeAreaInsets().bottom,
   };
 

@@ -10,8 +10,6 @@ interface Props {
   style?: StyleProp<ViewStyle | TextStyle>;
 }
 
-const Icon: React.FC<Props> = ({...props}) => {
+export const Icon: React.FC<Props> = ({...props}) => {
   return <Ionicon {...props} />;
 };
-
-export default Icon;
