@@ -6,7 +6,6 @@ import {Book} from 'src/models';
 // import {books} from 'src/ts/interfaces/books';
 // import {RootObject} from 'src/ts/interfaces/topbooksResponse';
 
-console.log('api kod', API_URL);
 export const booksApi = createApi({
   reducerPath: 'booksApi',
   baseQuery: fetchBaseQuery({

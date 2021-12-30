@@ -2,7 +2,7 @@ import React from 'react';
 import {FlexStyle, StyleProp, TextStyle, TouchableOpacity, View, ViewStyle} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import {palette} from 'src/styles';
-import {BORDER_RADIUS} from 'src/styles/common';
+import {BORDER_RADIUS, BOX_SHADOW} from 'src/styles/common';
 import {AppText} from './AppText';
 
 interface Props {
@@ -43,11 +43,7 @@ export const AppButton: React.FC<Props> = ({disabled, loading, label, variant = 
     width: '100%',
     borderRadius: BORDER_RADIUS,
   };
-  const wrapperStyle: StyleProp<ViewStyle> = {
-    shadowColor: 'black',
-    shadowOffset: {width: 0, height: 0.5},
-    shadowOpacity: 0.15,
-  };
+
   const ButtonVariant = () => {
     if (isPrimary) {
       return (
@@ -67,7 +63,7 @@ export const AppButton: React.FC<Props> = ({disabled, loading, label, variant = 
   };
 
   return (
-    <View style={[wrapperStyle, style]}>
+    <View style={[BOX_SHADOW, style]}>
       <TouchableOpacity disabled={disabled} onPress={onPress} style={buttonStyle}>
         <ButtonVariant />
       </TouchableOpacity>

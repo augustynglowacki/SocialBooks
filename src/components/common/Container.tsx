@@ -68,6 +68,7 @@ export const Container: React.FC<Props> = ({style, children, withKeyboard, paddi
 const styles = StyleSheet.create({
   wrapper: {
     flex: 1,
+    width: '100%',
   },
   kbView: {
     flex: 1,

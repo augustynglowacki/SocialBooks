@@ -1,13 +1,11 @@
 import React from 'react';
 import {FlexStyle, StyleProp, TextStyle, TouchableOpacity, View, ViewStyle} from 'react-native';
-import {BORDER_RADIUS, palette} from 'src/styles';
+import {BORDER_RADIUS, BOX_SHADOW, palette} from 'src/styles';
 import {AppText} from './AppText';
 
 interface Props {
   disabled?: boolean;
   label: string;
-  loading?: boolean;
-  variant?: 'primary' | 'secondary';
   onPress: () => void;
   style?: StyleProp<FlexStyle | ViewStyle>;
   shadowColor?: string;
@@ -16,9 +14,7 @@ interface Props {
 
 export const FeatureButton: React.FC<Props> = ({
   disabled,
-  loading,
   label,
-  variant = 'primary',
   onPress,
   style,
   shadowColor = palette.primary,
@@ -43,7 +39,10 @@ export const FeatureButton: React.FC<Props> = ({
     paddingHorizontal: 40,
     color: black,
   };
-  const wrapperStyle: StyleProp<ViewStyle> = {height: 80, maxWidth: 250};
+  const wrapperStyle: StyleProp<ViewStyle> = {
+    height: 80,
+    maxWidth: 250,
+  };
   const shadowStyle: StyleProp<ViewStyle> = {
     position: 'absolute',
     left: 13,
@@ -56,7 +55,7 @@ export const FeatureButton: React.FC<Props> = ({
   };
 
   return (
-    <View style={[wrapperStyle, style]}>
+    <View style={[wrapperStyle, BOX_SHADOW, style]}>
       <TouchableOpacity disabled={disabled} onPress={onPress}>
         <View style={shadowStyle}></View>
         <View style={buttonStyle}>
