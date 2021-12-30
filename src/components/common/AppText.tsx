@@ -1,5 +1,6 @@
 import React from 'react';
 import {StyleProp, Text, TextStyle, ViewStyle} from 'react-native';
+import {palette} from 'src/styles';
 
 type FontWeight = 'light' | 'regular' | 'bold';
 type Variant = 'h1' | 'p';
@@ -12,6 +13,7 @@ interface Props {
 export const AppText: React.FC<Props> = ({children, style, variant, fontWeight = 'regular'}) => {
   const baseStyle: StyleProp<TextStyle> = {
     fontFamily: `RobotoMono-${fontWeight.charAt(0).toUpperCase() + fontWeight.slice(1)}`,
+    color: palette.black,
   };
 
   const getVariant = (): StyleProp<TextStyle> => {
@@ -19,5 +21,5 @@ export const AppText: React.FC<Props> = ({children, style, variant, fontWeight =
     return {fontSize: 17, letterSpacing: -0.5};
   };
 
-  return <Text style={[baseStyle, style, getVariant()]}>{children}</Text>;
+  return <Text style={[baseStyle, getVariant(), style]}>{children}</Text>;
 };
