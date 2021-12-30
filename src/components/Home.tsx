@@ -1,6 +1,6 @@
+import React from 'react';
 import {SerializedError} from '@reduxjs/toolkit';
 import {FetchBaseQueryError} from '@reduxjs/toolkit/dist/query';
-import * as React from 'react';
 import {StyleSheet, View} from 'react-native';
 import {Book} from 'src/models';
 import {palette} from 'src/styles';

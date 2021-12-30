@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import {StyleSheet, Dimensions, View, Text} from 'react-native';
 import {palette} from 'src/styles';
 import {AppText, Container} from 'src/components/common';
