@@ -6,6 +6,8 @@ import {Book} from 'src/models';
 import {palette} from 'src/styles';
 import {BookComponent} from 'src/components/books';
 import {AppButton, AppText, Container, FeatureButton} from 'src/components/common';
+import {useNavigation} from '@react-navigation/native';
+import {HomeScreenProp, Route} from 'src/constants';
 
 interface Props {
   book: Book | undefined;
@@ -16,6 +18,7 @@ interface Props {
 }
 
 export const Home: React.FC<Props> = ({book, isLoading, isError, error, refetch}) => {
+  const {navigate} = useNavigation<HomeScreenProp>();
   return (
     <Container style={styles.wrapper} flexStart>
       <AppText style={styles.title} variant="h1">
@@ -66,12 +69,9 @@ export const Home: React.FC<Props> = ({book, isLoading, isError, error, refetch}
         {!!book && (
           <BookComponent
             book={book}
-            label="Lorem Ipsum"
             style={{marginVertical: 24}}
             shadowColor={palette.secondary}
-            onPress={() => {
-              console.log('click');
-            }}
+            onPress={() => navigate(Route.DETAILS, {book, id: book.id})}
           />
         )}
         {/* <AppButton

@@ -6,20 +6,12 @@ import {AppText} from '../common/AppText';
 interface Props {
   book: Book;
   disabled?: boolean;
-  label: string;
-  onPress: () => void;
+  onPress?: () => void;
   style?: StyleProp<FlexStyle | ViewStyle>;
   shadowColor?: string;
 }
 
-export const BookComponent: React.FC<Props> = ({
-  book,
-  disabled,
-  label,
-  onPress,
-  style,
-  shadowColor = palette.primary,
-}) => {
+export const BookComponent: React.FC<Props> = ({book, disabled, onPress, style, shadowColor = palette.primary}) => {
   const [imageLoading, setImageLoading] = useState(false);
   const toggleImageLoading = () => setImageLoading(curr => !curr);
   const {black, white} = palette;
@@ -66,8 +58,19 @@ export const BookComponent: React.FC<Props> = ({
   };
   if (!book) return null;
 
-  const BookCover = () => {
-    if (!book.volumeInfo.imageLinks.thumbnail) {
+  const getBookCover = () => {
+    if (!!book.volumeInfo.imageLinks.thumbnail) {
+      return (
+        <Image
+          source={{
+            uri: book.volumeInfo.imageLinks.thumbnail.replace('http', 'https'),
+          }}
+          onLoadStart={toggleImageLoading}
+          onLoadEnd={toggleImageLoading}
+          style={imageStyle}
+        />
+      );
+    } else {
       return (
         <>
           <AppText style={authorStyle} fontWeight="bold">
@@ -78,15 +81,6 @@ export const BookComponent: React.FC<Props> = ({
           </AppText>
         </>
       );
-    } else {
-      return (
-        <Image
-          source={{
-            uri: book.volumeInfo.imageLinks.thumbnail,
-          }}
-          style={imageStyle}
-        />
-      );
     }
   };
 
@@ -95,8 +89,8 @@ export const BookComponent: React.FC<Props> = ({
       <TouchableOpacity disabled={disabled} onPress={onPress}>
         <View style={shadowStyle}></View>
         <View style={buttonStyle}>
-          {/* <BookCover /> */}
-          <Image
+          {getBookCover()}
+          {/* <Image
             source={{
               uri: book.volumeInfo.imageLinks.thumbnail.replace('http', 'https'),
             }}
@@ -104,7 +98,7 @@ export const BookComponent: React.FC<Props> = ({
             onLoadEnd={toggleImageLoading}
             // source={require('src/components/common/content.jpeg')}
             style={[imageStyle]}
-          />
+          /> */}
         </View>
       </TouchableOpacity>
     </View>
