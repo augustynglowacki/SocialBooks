@@ -1,15 +1,11 @@
 import {API_KEY, API_URL} from '@env';
 import {createApi, fetchBaseQuery} from '@reduxjs/toolkit/query/react';
+import {convertToBook} from 'src/helpers/convertResponse';
+import {Book} from 'src/models';
 // import {convertTobookss} from 'src/helpers/convertResponse';
 // import {books} from 'src/ts/interfaces/books';
 // import {RootObject} from 'src/ts/interfaces/topbooksResponse';
 
-export interface Post {
-  id: string;
-  title: string;
-  body: string;
-  userId: number;
-}
 console.log('api kod', API_URL);
 export const booksApi = createApi({
   reducerPath: 'booksApi',
@@ -18,12 +14,11 @@ export const booksApi = createApi({
   }),
   tagTypes: ['Popular'],
   endpoints: builder => ({
-    getPopular: builder.query<any[], void>({
+    getPopular: builder.query<Book, void>({
       query: () => ({
         url: `v1/volumes/zyTCAlFPjgYC?key=${API_KEY}`,
-        // headers: 'key',
       }),
-      //   transformResponse: ({response}: any) => convertToBooks(response),
+      transformResponse: (response: Book) => convertToBook(response),
       providesTags: [{type: 'Popular', id: 'LIST'}],
     }),
   }),

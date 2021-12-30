@@ -1,10 +1,20 @@
+import {SerializedError} from '@reduxjs/toolkit';
+import {FetchBaseQueryError} from '@reduxjs/toolkit/dist/query';
 import * as React from 'react';
-import {StyleSheet, Dimensions, View, Text} from 'react-native';
-import {SafeAreaView} from 'react-native-safe-area-context';
+import {StyleSheet, View} from 'react-native';
+import {Book} from 'src/models';
 import {palette} from 'src/styles';
 import {AppButton, AppText, Container, FeatureButton} from './common';
 
-export const Home: React.FC = () => {
+interface Props {
+  book: Book | undefined;
+  isLoading: boolean;
+  isError: boolean;
+  error: FetchBaseQueryError | SerializedError | undefined;
+  refetch: () => void;
+}
+
+export const Home: React.FC<Props> = ({book, isLoading, isError, error, refetch}) => {
   return (
     <Container style={styles.wrapper} flexStart>
       <AppText style={styles.title} variant="h1">
@@ -14,7 +24,8 @@ export const Home: React.FC = () => {
         </AppText>
       </AppText>
       <View>
-        <AppText style={styles.paragraph}>
+        {!isLoading && console.log(book)}
+        {/* <AppText style={styles.paragraph}>
           Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry
           standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to
           make a type specimen book. It has survived not only five centuries, but also the leap into electronic
@@ -36,13 +47,13 @@ export const Home: React.FC = () => {
           onPress={() => {
             console.log('click');
           }}
-        />
-        <AppText style={styles.paragraph}>
+        /> */}
+        {/* <AppText style={styles.paragraph}>
           Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry
           standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to
           make a type specimen book. It has survived not only five centuries, but also the leap into electronic
           typesetting, remaining essentially unchanged.
-        </AppText>
+        </AppText> */}
         <FeatureButton
           label="Lorem Ipsum"
           style={{marginVertical: 24}}
@@ -52,13 +63,13 @@ export const Home: React.FC = () => {
             console.log('click');
           }}
         />
-        <AppButton
+        {/* <AppButton
           label="Lorem Ipsum"
           style={{marginVertical: 24}}
           onPress={() => {
             console.log('click');
           }}
-        />
+        /> */}
         <AppButton
           label="Lorem Ipsum"
           style={{marginVertical: 24}}
