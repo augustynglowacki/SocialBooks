@@ -1,37 +1,30 @@
 import * as React from 'react';
 import {StyleSheet, Dimensions, View, Text} from 'react-native';
-import palette from 'src/styles/palette';
-import {AppText} from './common';
+import {palette} from 'src/styles';
+import {AppText, Container} from './common';
 
-const Search: React.FC = () => {
+export const Search: React.FC = () => {
   return (
-    <View style={styles.wrapper}>
-      <AppText style={styles.title}>
-        Hello <AppText style={styles.markedTitle}>Search!</AppText>
+    <Container style={styles.wrapper} flexStart>
+      <AppText style={styles.title} variant="h1">
+        Hello{' '}
+        <AppText variant="h1" style={styles.markedTitle}>
+          Search!
+        </AppText>
       </AppText>
-    </View>
+    </Container>
   );
 };
 
-export default Search;
-
 const styles = StyleSheet.create({
   wrapper: {
-    height: Dimensions.get('window').height,
-    width: '100%',
     alignItems: 'center',
-    backgroundColor: palette.primary,
+    backgroundColor: palette.white,
   },
   title: {
-    fontSize: 36,
-    textAlign: 'center',
-    paddingTop: 80,
-    color: palette.black,
+    paddingTop: 40,
   },
   markedTitle: {
-    fontSize: 36,
-    textAlign: 'center',
-    color: palette.white,
-    fontWeight: '700',
+    color: palette.secondary,
   },
 });
