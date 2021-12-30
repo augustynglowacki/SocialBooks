@@ -8,6 +8,7 @@ import {BookComponent} from 'src/components/books';
 import {AppButton, AppText, Container, FeatureButton} from 'src/components/common';
 import {useNavigation} from '@react-navigation/native';
 import {HomeScreenProp, Route} from 'src/constants';
+import {useTheme} from '@react-navigation/native';
 
 interface Props {
   book: Book | undefined;
@@ -28,7 +29,7 @@ export const Home: React.FC<Props> = ({book, isLoading, isError, error, refetch}
         </AppText>
       </AppText>
       <View style={{width: '100%'}}>
-        {/* <AppText style={styles.paragraph}>
+        <AppText style={styles.paragraph}>
           Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry
           standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to
           make a type specimen book. It has survived not only five centuries, but also the leap into electronic
@@ -50,7 +51,7 @@ export const Home: React.FC<Props> = ({book, isLoading, isError, error, refetch}
           onPress={() => {
             console.log('click');
           }}
-        /> */}
+        />
         {/* <AppText style={styles.paragraph}>
           Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry
           standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to
@@ -74,13 +75,13 @@ export const Home: React.FC<Props> = ({book, isLoading, isError, error, refetch}
             onPress={() => navigate(Route.DETAILS, {book, id: book.id})}
           />
         )}
-        {/* <AppButton
+        <AppButton
           label="Lorem Ipsum"
           style={{marginVertical: 24}}
           onPress={() => {
             console.log('click');
           }}
-        /> */}
+        />
         <AppButton
           label="Lorem Ipsum"
           style={{marginVertical: 24}}
@@ -97,7 +98,6 @@ export const Home: React.FC<Props> = ({book, isLoading, isError, error, refetch}
 const styles = StyleSheet.create({
   wrapper: {
     alignItems: 'center',
-    backgroundColor: palette.white,
   },
   title: {
     paddingTop: 40,

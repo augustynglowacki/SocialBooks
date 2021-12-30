@@ -1,3 +1,4 @@
+import {useTheme} from '@react-navigation/native';
 import React from 'react';
 import {StyleProp, Text, TextStyle, ViewStyle} from 'react-native';
 import {palette} from 'src/styles';
@@ -11,9 +12,10 @@ interface Props {
 }
 
 export const AppText: React.FC<Props> = ({children, style, variant, fontWeight = 'regular'}) => {
+  const {colors} = useTheme();
   const baseStyle: StyleProp<TextStyle> = {
     fontFamily: `RobotoMono-${fontWeight.charAt(0).toUpperCase() + fontWeight.slice(1)}`,
-    color: palette.black,
+    color: colors.text,
   };
 
   const getVariant = (): StyleProp<TextStyle> => {

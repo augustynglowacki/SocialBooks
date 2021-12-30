@@ -1,3 +1,4 @@
+import {useTheme} from '@react-navigation/native';
 import React from 'react';
 import {
   View,
@@ -20,6 +21,7 @@ interface Props {
 }
 
 export const Container: React.FC<Props> = ({style, children, withKeyboard, padding, flexStart, disableScroll}) => {
+  const {colors} = useTheme();
   const getJustifyContent = (): StyleProp<FlexStyle> => {
     return {justifyContent: flexStart ? 'flex-start' : 'center'};
   };
@@ -39,7 +41,9 @@ export const Container: React.FC<Props> = ({style, children, withKeyboard, paddi
 
   const content = (
     <SafeAreaView style={[styles.safeArea, style]}>
-      <View testID="styled" style={[styles.wrapper, style, getPadding(), getJustifyContent()]}>
+      <View
+        testID="styled"
+        style={[styles.wrapper, style, getPadding(), getJustifyContent(), {backgroundColor: colors.background}]}>
         {children}
       </View>
     </SafeAreaView>

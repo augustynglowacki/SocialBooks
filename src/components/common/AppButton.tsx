@@ -1,3 +1,4 @@
+import {useTheme} from '@react-navigation/native';
 import React from 'react';
 import {FlexStyle, StyleProp, TextStyle, TouchableOpacity, View, ViewStyle} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
@@ -16,13 +17,16 @@ interface Props {
 
 export const AppButton: React.FC<Props> = ({disabled, loading, label, variant = 'primary', onPress, style}) => {
   const isPrimary = variant === 'primary';
-  const {black, white, primary, secondary, third} = palette;
+  const {
+    colors: {background, text},
+  } = useTheme();
+  const {primary, secondary, third} = palette;
 
   const buttonStyle: StyleProp<ViewStyle> = {
     justifyContent: 'center',
     alignItems: 'center',
     alignSelf: 'center',
-    backgroundColor: isPrimary ? 'transparent' : black,
+    backgroundColor: isPrimary ? 'transparent' : text,
     borderRadius: BORDER_RADIUS,
     height: 60,
     width: '90%',
@@ -31,7 +35,7 @@ export const AppButton: React.FC<Props> = ({disabled, loading, label, variant = 
   const labelStyle: StyleProp<TextStyle> = {
     fontSize: 18,
     letterSpacing: 0.1,
-    color: isPrimary ? black : white,
+    color: isPrimary ? palette.black : background,
     textShadowOffset: {width: 1, height: 1},
     textShadowRadius: 3,
     textShadowColor: 'rgba(0, 0, 0, 0.2)',

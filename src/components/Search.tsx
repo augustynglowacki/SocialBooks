@@ -19,7 +19,6 @@ export const Search: React.FC = () => {
 const styles = StyleSheet.create({
   wrapper: {
     alignItems: 'center',
-    backgroundColor: palette.white,
   },
   title: {
     paddingTop: 40,

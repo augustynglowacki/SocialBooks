@@ -1,3 +1,4 @@
+import {useTheme} from '@react-navigation/native';
 import React from 'react';
 import {FlexStyle, StyleProp, TextStyle, TouchableOpacity, View, ViewStyle} from 'react-native';
 import {BORDER_RADIUS, BOX_SHADOW, palette} from 'src/styles';
@@ -20,24 +21,26 @@ export const FeatureButton: React.FC<Props> = ({
   shadowColor = palette.primary,
   shadowMaxWidth = 225,
 }) => {
-  const {black, white} = palette;
+  const {
+    colors: {background, text},
+  } = useTheme();
 
   const buttonStyle: StyleProp<ViewStyle> = {
     justifyContent: 'center',
     alignItems: 'center',
     alignSelf: 'flex-start',
-    backgroundColor: white,
+    backgroundColor: background,
     borderRadius: BORDER_RADIUS,
     height: 80,
     maxWidth: 250,
     borderWidth: 4,
-    borderColor: black,
+    borderColor: text,
   };
   const labelStyle: StyleProp<TextStyle> = {
     fontSize: 18,
     letterSpacing: 0.1,
     paddingHorizontal: 40,
-    color: black,
+    color: text,
   };
   const wrapperStyle: StyleProp<ViewStyle> = {
     height: 80,

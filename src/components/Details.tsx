@@ -22,6 +22,5 @@ export const Details: React.FC<Props> = ({book, goBack}) => {
 const styles = StyleSheet.create({
   wrapper: {
     alignItems: 'center',
-    backgroundColor: palette.white,
   },
 });

@@ -16,7 +16,6 @@ interface Props {
 export const TabIcon: React.FC<Props> = ({onPress, focused, name, tabColor, size = 26, setBackgroundColor}) => {
   const outline = name + '-outline';
   const scale = useSharedValue(1.15);
-
   const animatedStyle = useAnimatedStyle(() => ({
     transform: [{scale: scale.value}],
   }));

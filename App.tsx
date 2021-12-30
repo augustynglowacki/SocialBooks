@@ -1,11 +1,13 @@
 import React from 'react';
-import {NavigationContainer} from '@react-navigation/native';
+import {DefaultTheme, NavigationContainer} from '@react-navigation/native';
 import HomeNavigator from './src/navigation/HomeNavigator';
 import {Provider as PaperProvider} from 'react-native-paper';
 import {Provider} from 'react-redux';
 import store from 'src/store';
 import auth from '@react-native-firebase/auth';
-import { AppStatusBar } from 'src/components/common';
+import {AppStatusBar} from 'src/components/common';
+import {palette} from 'src/styles';
+import {useColorScheme} from 'react-native';
 
 const App: React.FC = () => {
   // auth()
@@ -24,10 +26,27 @@ const App: React.FC = () => {
 
   //     console.error(error);
   //   });
+  const lightTheme = {
+    ...DefaultTheme,
+    colors: {
+      ...DefaultTheme.colors,
+      background: palette.white,
+      text: palette.black,
+    },
+  };
+  const darkTheme = {
+    ...DefaultTheme,
+    colors: {
+      ...DefaultTheme.colors,
+      background: palette.black,
+      text: palette.white,
+    },
+  };
+  const scheme = useColorScheme();
   return (
     <Provider store={store}>
       <PaperProvider>
-        <NavigationContainer>
+        <NavigationContainer theme={scheme === 'dark' ? darkTheme : lightTheme}>
           <AppStatusBar />
           <HomeNavigator />
         </NavigationContainer>

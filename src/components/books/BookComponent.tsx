@@ -1,3 +1,4 @@
+import {useTheme} from '@react-navigation/native';
 import React, {useState} from 'react';
 import {FlexStyle, Image, ImageStyle, StyleProp, TextStyle, TouchableOpacity, View, ViewStyle} from 'react-native';
 import {Book} from 'src/models';
@@ -14,7 +15,9 @@ interface Props {
 export const BookComponent: React.FC<Props> = ({book, disabled, onPress, style, shadowColor = palette.primary}) => {
   const [imageLoading, setImageLoading] = useState(false);
   const toggleImageLoading = () => setImageLoading(curr => !curr);
-  const {black, white} = palette;
+  const {
+    colors: {background: white, text: black},
+  } = useTheme();
   const buttonStyle: StyleProp<ViewStyle> = {
     justifyContent: !book.volumeInfo.imageLinks.thumbnail ? 'flex-start' : 'center',
     alignItems: 'center',
