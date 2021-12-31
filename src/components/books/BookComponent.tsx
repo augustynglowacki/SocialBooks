@@ -1,6 +1,16 @@
 import {useTheme} from '@react-navigation/native';
 import React, {useState} from 'react';
-import {FlexStyle, Image, ImageStyle, StyleProp, TextStyle, TouchableOpacity, View, ViewStyle} from 'react-native';
+import {
+  FlexStyle,
+  ImageBackground,
+  ImageStyle,
+  StyleProp,
+  TextStyle,
+  TouchableOpacity,
+  View,
+  ViewStyle,
+} from 'react-native';
+import LinearGradient from 'react-native-linear-gradient';
 import {Book} from 'src/models';
 import {BORDER_RADIUS, BOX_SHADOW, palette} from 'src/styles';
 import {AppText} from '../common/AppText';
@@ -27,6 +37,7 @@ export const BookComponent: React.FC<Props> = ({
   const {
     colors: {background, text},
   } = useTheme();
+
   const buttonStyle: StyleProp<ViewStyle> = {
     justifyContent: !book.volumeInfo.imageLinks?.thumbnail ? 'flex-start' : 'center',
     alignItems: 'center',
@@ -78,19 +89,27 @@ export const BookComponent: React.FC<Props> = ({
     resizeMode: 'contain',
     zIndex: 40,
   };
+  const linearGradient: StyleProp<ViewStyle> = {
+    position: 'absolute',
+    height: '100%',
+    width: '100%',
+    borderRadius: 0,
+  };
   if (!book) return null;
 
   const getBookCover = () => {
     if (!!book.volumeInfo.imageLinks?.thumbnail) {
       return (
-        <Image
-          source={{
-            uri: book.volumeInfo.imageLinks?.thumbnail.replace('http', 'https'),
-          }}
-          onLoadStart={toggleImageLoading}
-          onLoadEnd={toggleImageLoading}
-          style={imageStyle}
-        />
+        <View style={{height: '100%', width: '100%'}}>
+          <ImageBackground
+            source={{
+              uri: book.volumeInfo.imageLinks?.thumbnail?.replace('http', 'https'),
+            }}
+            onLoadStart={toggleImageLoading}
+            onLoadEnd={toggleImageLoading}
+            style={imageStyle}
+          />
+        </View>
       );
     } else {
       return (
@@ -106,6 +125,23 @@ export const BookComponent: React.FC<Props> = ({
     }
   };
 
+  const Gradient = () => (
+    <LinearGradient
+      colors={[
+        'rgba(0,0,0,0)',
+        'rgba(0,0,0,0)',
+        'rgba(0,0,0,0.02)',
+        'rgba(0,0,0,0.05)',
+        'rgba(0,0,0,0.02)',
+        'rgba(0,0,0,0)',
+        'rgba(0,0,0,0)',
+      ]}
+      start={{x: 0, y: 0}}
+      end={{x: 0, y: 1}}
+      style={linearGradient}
+    />
+  );
+
   return (
     <View style={[BOX_SHADOW, wrapperStyle, style, imageLoading && {display: 'none'}]}>
       {isThumbnail ? (
@@ -116,7 +152,10 @@ export const BookComponent: React.FC<Props> = ({
       ) : (
         <>
           <View style={shadowStyle}></View>
-          <View style={buttonStyle}>{getBookCover()}</View>
+          <View style={buttonStyle}>
+            {getBookCover()}
+            <Gradient />
+          </View>
         </>
       )}
     </View>
