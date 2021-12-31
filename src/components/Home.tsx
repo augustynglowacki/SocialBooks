@@ -35,6 +35,14 @@ export const Home: React.FC<Props> = ({book, isLoading, isError, error, refetch}
           make a type specimen book. It has survived not only five centuries, but also the leap into electronic
           typesetting, remaining essentially unchanged.
         </AppText>
+        {!!book && (
+          <BookComponent
+            book={book}
+            style={{marginVertical: 24}}
+            shadowColor={palette.secondary}
+            onPress={() => navigate(Route.DETAILS, {book, id: book.id})}
+          />
+        )}
         <FeatureButton
           label="Hello world"
           style={{marginVertical: 24}}
@@ -67,14 +75,6 @@ export const Home: React.FC<Props> = ({book, isLoading, isError, error, refetch}
             console.log('click');
           }}
         />
-        {!!book && (
-          <BookComponent
-            book={book}
-            style={{marginVertical: 24}}
-            shadowColor={palette.secondary}
-            onPress={() => navigate(Route.DETAILS, {book, id: book.id})}
-          />
-        )}
         <AppButton
           label="Lorem Ipsum"
           style={{marginVertical: 24}}

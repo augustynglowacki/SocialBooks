@@ -10,9 +10,18 @@ interface Props {
   onPress?: () => void;
   style?: StyleProp<FlexStyle | ViewStyle>;
   shadowColor?: string;
+  variant?: 'thumbnail' | 'details';
 }
 
-export const BookComponent: React.FC<Props> = ({book, disabled, onPress, style, shadowColor = palette.primary}) => {
+export const BookComponent: React.FC<Props> = ({
+  book,
+  disabled,
+  onPress,
+  style,
+  variant = 'thumbnail',
+  shadowColor = palette.primary,
+}) => {
+  const isThumbnail = variant === 'thumbnail';
   const [imageLoading, setImageLoading] = useState(false);
   const toggleImageLoading = () => setImageLoading(curr => !curr);
   const {
@@ -24,33 +33,42 @@ export const BookComponent: React.FC<Props> = ({book, disabled, onPress, style, 
     alignSelf: 'flex-start',
     backgroundColor: white,
     borderRadius: BORDER_RADIUS,
-    height: 150,
-    width: 100,
-    borderWidth: 4,
+    height: isThumbnail ? 150 : 270,
+    width: isThumbnail ? 100 : 180,
+    borderWidth: isThumbnail ? 3 : 4,
     borderColor: black,
   };
+  const titleAuthorWrapper: StyleProp<ViewStyle> = {
+    height: '100%',
+    justifyContent: isThumbnail ? 'flex-start' : 'center',
+    alignItems: 'center',
+  };
   const titleStyle: StyleProp<TextStyle> = {
-    fontSize: 10,
-    marginTop: 15,
+    fontSize: isThumbnail ? 10 : 17,
+    marginTop: isThumbnail ? 15 : 30,
     letterSpacing: -1,
     color: black,
     textAlign: 'center',
   };
   const authorStyle: StyleProp<TextStyle> = {
-    marginTop: 15,
-    fontSize: 11,
+    marginTop: isThumbnail ? 15 : 0,
+    fontSize: isThumbnail ? 11 : 18,
     letterSpacing: -1,
     color: black,
   };
-  const wrapperStyle: StyleProp<ViewStyle> = {height: 133, maxWidth: 100};
+  const wrapperStyle: StyleProp<ViewStyle> = {
+    height: isThumbnail ? 150 : 270,
+    width: isThumbnail ? 100 : 180,
+    shadowOpacity: 0.2,
+  };
   const shadowStyle: StyleProp<ViewStyle> = {
     position: 'absolute',
     left: 10,
     top: 10,
     backgroundColor: shadowColor,
     width: '100%',
-    maxWidth: 97,
-    height: 147,
+    maxWidth: isThumbnail ? 96 : 180,
+    height: isThumbnail ? 146 : 270,
     borderRadius: BORDER_RADIUS,
   };
   const imageStyle: StyleProp<ImageStyle> = {
@@ -75,35 +93,31 @@ export const BookComponent: React.FC<Props> = ({book, disabled, onPress, style, 
       );
     } else {
       return (
-        <>
+        <View style={titleAuthorWrapper}>
           <AppText style={authorStyle} fontWeight="bold">
             {book.volumeInfo.authors[0]}
           </AppText>
           <AppText style={titleStyle} fontWeight="bold">
             {book.volumeInfo.title}
           </AppText>
-        </>
+        </View>
       );
     }
   };
 
   return (
-    <View style={[wrapperStyle, BOX_SHADOW, style, imageLoading && {display: 'none'}]}>
-      <TouchableOpacity disabled={disabled} onPress={onPress}>
-        <View style={shadowStyle}></View>
-        <View style={buttonStyle}>
-          {getBookCover()}
-          {/* <Image
-            source={{
-              uri: book.volumeInfo.imageLinks.thumbnail.replace('http', 'https'),
-            }}
-            onLoadStart={toggleImageLoading}
-            onLoadEnd={toggleImageLoading}
-            // source={require('src/components/common/content.jpeg')}
-            style={[imageStyle]}
-          /> */}
-        </View>
-      </TouchableOpacity>
+    <View style={[BOX_SHADOW, wrapperStyle, style, imageLoading && {display: 'none'}]}>
+      {isThumbnail ? (
+        <TouchableOpacity disabled={disabled} onPress={onPress}>
+          <View style={shadowStyle}></View>
+          <View style={buttonStyle}>{getBookCover()}</View>
+        </TouchableOpacity>
+      ) : (
+        <>
+          <View style={shadowStyle}></View>
+          <View style={buttonStyle}>{getBookCover()}</View>
+        </>
+      )}
     </View>
   );
 };

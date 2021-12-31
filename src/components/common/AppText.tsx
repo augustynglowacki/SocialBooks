@@ -19,7 +19,7 @@ export const AppText: React.FC<Props> = ({children, style, variant, fontWeight =
   };
 
   const getVariant = (): StyleProp<TextStyle> => {
-    if (variant === 'h1') return {fontSize: 32, letterSpacing: -0.5};
+    if (variant === 'h1') return {fontSize: 32, letterSpacing: -0.5, textAlign: 'center'};
     return {fontSize: 17, letterSpacing: -0.5};
   };
 
