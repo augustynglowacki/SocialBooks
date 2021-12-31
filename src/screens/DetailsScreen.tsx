@@ -1,9 +1,4 @@
 import React from 'react';
-import {StyleSheet, View} from 'react-native';
-import {Book} from 'src/models';
-import {palette} from 'src/styles';
-import {BookComponent} from 'src/components/books';
-import {Container} from 'src/components/common';
 import {DetailsScreenNavigationProp, DetailsScreenRouteProp} from 'src/constants';
 import {Details} from 'src/components/Details';
 

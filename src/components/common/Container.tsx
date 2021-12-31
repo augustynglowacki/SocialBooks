@@ -9,8 +9,8 @@ import {
   StyleProp,
   FlexStyle,
   ViewStyle,
+  SafeAreaView,
 } from 'react-native';
-import {SafeAreaView} from 'react-native-safe-area-context';
 interface Props {
   style?: StyleProp<ViewStyle>;
   //specify withKeyboard prop when using Container if you want KeyboardAvoidingView

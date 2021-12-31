@@ -25,18 +25,18 @@ export const BookComponent: React.FC<Props> = ({
   const [imageLoading, setImageLoading] = useState(false);
   const toggleImageLoading = () => setImageLoading(curr => !curr);
   const {
-    colors: {background: white, text: black},
+    colors: {background, text},
   } = useTheme();
   const buttonStyle: StyleProp<ViewStyle> = {
-    justifyContent: !book.volumeInfo.imageLinks.thumbnail ? 'flex-start' : 'center',
+    justifyContent: !book.volumeInfo.imageLinks?.thumbnail ? 'flex-start' : 'center',
     alignItems: 'center',
     alignSelf: 'flex-start',
-    backgroundColor: white,
+    backgroundColor: background,
     borderRadius: BORDER_RADIUS,
     height: isThumbnail ? 150 : 270,
     width: isThumbnail ? 100 : 180,
     borderWidth: isThumbnail ? 3 : 4,
-    borderColor: black,
+    borderColor: text,
   };
   const titleAuthorWrapper: StyleProp<ViewStyle> = {
     height: '100%',
@@ -44,17 +44,17 @@ export const BookComponent: React.FC<Props> = ({
     alignItems: 'center',
   };
   const titleStyle: StyleProp<TextStyle> = {
-    fontSize: isThumbnail ? 10 : 17,
+    fontSize: isThumbnail ? 11 : 17,
     marginTop: isThumbnail ? 15 : 30,
     letterSpacing: -1,
-    color: black,
+    color: text,
     textAlign: 'center',
   };
   const authorStyle: StyleProp<TextStyle> = {
-    marginTop: isThumbnail ? 15 : 0,
+    marginTop: isThumbnail ? 25 : 0,
     fontSize: isThumbnail ? 11 : 18,
     letterSpacing: -1,
-    color: black,
+    color: text,
   };
   const wrapperStyle: StyleProp<ViewStyle> = {
     height: isThumbnail ? 150 : 270,
@@ -74,17 +74,18 @@ export const BookComponent: React.FC<Props> = ({
   const imageStyle: StyleProp<ImageStyle> = {
     width: '100%',
     height: '100%',
+    backgroundColor: text,
     resizeMode: 'contain',
     zIndex: 40,
   };
   if (!book) return null;
 
   const getBookCover = () => {
-    if (!!book.volumeInfo.imageLinks.thumbnail) {
+    if (!!book.volumeInfo.imageLinks?.thumbnail) {
       return (
         <Image
           source={{
-            uri: book.volumeInfo.imageLinks.thumbnail.replace('http', 'https'),
+            uri: book.volumeInfo.imageLinks?.thumbnail.replace('http', 'https'),
           }}
           onLoadStart={toggleImageLoading}
           onLoadEnd={toggleImageLoading}
@@ -95,7 +96,7 @@ export const BookComponent: React.FC<Props> = ({
       return (
         <View style={titleAuthorWrapper}>
           <AppText style={authorStyle} fontWeight="bold">
-            {book.volumeInfo.authors[0]}
+            {book.volumeInfo.authors?.[0]}
           </AppText>
           <AppText style={titleStyle} fontWeight="bold">
             {book.volumeInfo.title}

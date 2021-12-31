@@ -11,16 +11,16 @@ export const booksApi = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: `${API_URL}`,
   }),
-  tagTypes: ['Popular'],
+  tagTypes: ['Book'],
   endpoints: builder => ({
-    getPopular: builder.query<Book, void>({
+    getBook: builder.query<Book, void>({
       query: () => ({
-        url: `v1/volumes/zyTCAlFPjgYC?key=${API_KEY}`,
+        url: `v1/volumes/3zDnCgAAQBAJ?&country=pl&key=${API_KEY}`,
       }),
       transformResponse: (response: Book) => convertToBook(response),
-      providesTags: [{type: 'Popular', id: 'LIST'}],
+      providesTags: [{type: 'Book', id: 'LIST'}],
     }),
   }),
 });
 
-export const {useGetPopularQuery} = booksApi;
+export const {useGetBookQuery} = booksApi;

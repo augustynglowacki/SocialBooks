@@ -8,7 +8,6 @@ import {BookComponent} from 'src/components/books';
 import {AppButton, AppText, Container, FeatureButton} from 'src/components/common';
 import {useNavigation} from '@react-navigation/native';
 import {HomeScreenProp, Route} from 'src/constants';
-import {useTheme} from '@react-navigation/native';
 
 interface Props {
   book: Book | undefined;
@@ -19,6 +18,7 @@ interface Props {
 }
 
 export const Home: React.FC<Props> = ({book, isLoading, isError, error, refetch}) => {
+  // console.log(error);
   const {navigate} = useNavigation<HomeScreenProp>();
   return (
     <Container style={styles.wrapper} flexStart>
@@ -29,7 +29,7 @@ export const Home: React.FC<Props> = ({book, isLoading, isError, error, refetch}
         </AppText>
       </AppText>
       <View style={{width: '100%'}}>
-        <AppText style={styles.paragraph}>
+        <AppText style={styles.paragraph} variant="p">
           Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry
           standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to
           make a type specimen book. It has survived not only five centuries, but also the leap into electronic

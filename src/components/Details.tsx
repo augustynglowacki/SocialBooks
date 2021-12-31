@@ -1,9 +1,10 @@
 import React from 'react';
-import {StyleSheet, View} from 'react-native';
+import {SafeAreaView, StyleSheet, View} from 'react-native';
 import {Book} from 'src/models';
 import {palette} from 'src/styles';
 import {BookComponent} from 'src/components/books';
 import {AppText, Container} from 'src/components/common';
+import {convertDescription} from 'src/helpers/convertDescription';
 
 interface Props {
   book: Book | undefined;
@@ -12,20 +13,31 @@ interface Props {
 
 export const Details: React.FC<Props> = ({book, goBack}) => {
   if (!book) return null;
+  const {volumeInfo} = book;
   return (
-    <Container style={styles.wrapper} flexStart>
-      <BookComponent book={book} style={{marginVertical: 24}} shadowColor={palette.secondary} variant="details" />
-      <AppText style={styles.title} fontWeight="bold">
-        {book.volumeInfo.title}
-      </AppText>
-      <View style={styles.authorWrapper}>
-        {book.volumeInfo.authors.slice(0, 2).map(item => (
-          <AppText key={item} style={styles.author}>
-            {item}
+    <SafeAreaView>
+      <Container style={styles.wrapper} flexStart>
+        <BookComponent book={book} style={{marginVertical: 24}} shadowColor={palette.secondary} variant="details" />
+        {volumeInfo.title && (
+          <AppText style={styles.title} fontWeight="bold">
+            {volumeInfo.title}
           </AppText>
-        ))}
-      </View>
-    </Container>
+        )}
+        <View style={styles.authorWrapper}>
+          {volumeInfo.authors &&
+            volumeInfo.authors.slice(0, 2).map(item => (
+              <AppText key={item} variant="subtitle" style={styles.author}>
+                {item}
+              </AppText>
+            ))}
+        </View>
+        {volumeInfo.description && (
+          <AppText variant="p" style={styles.paragraph}>
+            {convertDescription(volumeInfo.description)}
+          </AppText>
+        )}
+      </Container>
+    </SafeAreaView>
   );
 };
 
@@ -44,10 +56,10 @@ const styles = StyleSheet.create({
   },
   author: {
     paddingTop: 20,
-    fontSize: 16,
-    letterSpacing: -0.8,
-    textAlign: 'center',
     marginHorizontal: 12,
-    opacity: 0.8,
+  },
+  paragraph: {
+    paddingTop: 50,
+    paddingHorizontal: 3,
   },
 });
