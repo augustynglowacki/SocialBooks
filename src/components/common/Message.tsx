@@ -3,7 +3,6 @@ import {View, StyleSheet} from 'react-native';
 import {Snackbar, useTheme} from 'react-native-paper';
 import {useDispatch} from 'react-redux';
 import {setErrorNull} from 'src/redux/user/userSlice';
-import {palette} from 'src/styles';
 
 interface Props {
   label: string;
@@ -23,7 +22,7 @@ export const Message: React.FC<Props> = ({label}) => {
             onSurface: text,
           },
         }}
-        // duration={4000}
+        duration={4000}
         visible={true}
         onDismiss={onDismissSnackBar}
         style={styles.wrapper}
@@ -46,10 +45,10 @@ const styles = StyleSheet.create({
     width: '95%',
     maxWidth: 400,
     alignSelf: 'center',
-    bottom: -90,
+    bottom: -110,
   },
   wrapper: {
     borderRadius: 4,
-    height: 50,
+    maxHeight: 110,
   },
 });
