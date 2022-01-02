@@ -86,7 +86,6 @@ export const BookComponent: React.FC<Props> = ({
     width: '100%',
     height: '100%',
     backgroundColor: text,
-    resizeMode: 'contain',
     zIndex: 40,
   };
   const linearGradient: StyleProp<ViewStyle> = {
@@ -108,6 +107,7 @@ export const BookComponent: React.FC<Props> = ({
             onLoadStart={toggleImageLoading}
             onLoadEnd={toggleImageLoading}
             style={imageStyle}
+            resizeMode="cover"
           />
         </View>
       );

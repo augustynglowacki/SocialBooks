@@ -8,6 +8,7 @@ import {BookComponent} from 'src/components/books';
 import {AppButton, AppText, Container, FeatureButton} from 'src/components/common';
 import {useNavigation} from '@react-navigation/native';
 import {HomeScreenProp, Route} from 'src/constants';
+import {Input} from './common/Input';
 
 interface Props {
   book: Book | undefined;
@@ -29,6 +30,7 @@ export const Home: React.FC<Props> = ({book, isLoading, isError, error, refetch}
         </AppText>
       </AppText>
       <View style={{width: '100%'}}>
+        <Input label="login" />
         <AppText style={styles.paragraph} variant="p">
           Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry
           standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to
