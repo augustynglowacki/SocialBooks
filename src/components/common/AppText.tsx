@@ -1,7 +1,6 @@
 import {useTheme} from '@react-navigation/native';
 import React from 'react';
 import {StyleProp, Text, TextStyle, useColorScheme, ViewStyle} from 'react-native';
-import {palette} from 'src/styles';
 
 type FontWeight = 'light' | 'regular' | 'bold';
 type Variant = 'h1' | 'p' | 'subtitle';

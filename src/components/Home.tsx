@@ -8,7 +8,8 @@ import {BookComponent} from 'src/components/books';
 import {AppButton, AppText, Container, FeatureButton} from 'src/components/common';
 import {useNavigation} from '@react-navigation/native';
 import {HomeScreenProp, Route} from 'src/constants';
-import {Input} from './common/Input';
+import {useDispatch} from 'react-redux';
+import {logOutUser} from 'src/redux/user/userActions';
 
 interface Props {
   book: Book | undefined;
@@ -20,6 +21,7 @@ interface Props {
 
 export const Home: React.FC<Props> = ({book, isLoading, isError, error, refetch}) => {
   // console.log(error);
+  const dispatch = useDispatch();
   const {navigate} = useNavigation<HomeScreenProp>();
   return (
     <Container style={styles.wrapper} flexStart>
@@ -30,7 +32,6 @@ export const Home: React.FC<Props> = ({book, isLoading, isError, error, refetch}
         </AppText>
       </AppText>
       <View style={{width: '100%'}}>
-        <Input label="login" />
         <AppText style={styles.paragraph} variant="p">
           Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry
           standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to
@@ -46,21 +47,19 @@ export const Home: React.FC<Props> = ({book, isLoading, isError, error, refetch}
           />
         )}
         <FeatureButton
-          label="Hello world"
+          label="Login"
           style={{marginVertical: 24}}
-          shadowMaxWidth={202}
+          shadowMaxWidth={137}
           onPress={() => {
-            console.log('click');
+            navigate(Route.AUTH);
           }}
         />
         <FeatureButton
-          label="Another Button"
+          label="Logout"
           style={{marginVertical: 24}}
           shadowColor={palette.secondary}
-          shadowMaxWidth={234}
-          onPress={() => {
-            console.log('click');
-          }}
+          shadowMaxWidth={148}
+          onPress={() => dispatch(logOutUser())}
         />
         {/* <AppText style={styles.paragraph}>
           Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry

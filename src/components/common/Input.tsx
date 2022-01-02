@@ -27,9 +27,6 @@ export const Input: React.FC<Props> = ({
   children,
   autoCapitalize = 'none', //if u want input with automatic capital letter use autoCapitalize = 'words',
 }) => {
-  const getWidth = () => {
-    return {width: fullWidth ? '100%' : '80%'};
-  };
   const {
     colors: {background, text},
   } = useTheme();
@@ -37,7 +34,7 @@ export const Input: React.FC<Props> = ({
     <View style={styles.wrap}>
       <TextInput
         mode="outlined"
-        style={[styles.textInput, getWidth(), {backgroundColor: background}, style]}
+        style={[styles.textInput, {backgroundColor: background}, style]}
         onChangeText={onChangeText}
         value={value}
         theme={{
@@ -68,17 +65,19 @@ export const Input: React.FC<Props> = ({
 
 const styles = StyleSheet.create({
   textInput: {
-    height: 60,
-    width: '80%',
     alignSelf: 'center',
-    maxWidth: 400,
+    justifyContent: 'center',
+    width: '100%',
   },
   wrap: {
+    alignSelf: 'center',
     marginBottom: 12,
+    width: '90%',
+    maxWidth: 400,
   },
   error: {
-    alignSelf: 'center',
-    width: '80%',
+    alignSelf: 'flex-start',
+    width: '100%',
     maxWidth: 400,
     color: palette.error,
     fontSize: 12,
