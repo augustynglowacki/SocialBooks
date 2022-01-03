@@ -41,7 +41,7 @@ export const BookComponent: React.FC<Props> = ({
     height: isThumbnail ? 150 : 270,
     width: isThumbnail ? 100 : 180,
     shadowOpacity: 0.2,
-    marginHorizontal: 8,
+    marginRight: 16,
   };
   const buttonStyle: StyleProp<ViewStyle> = {
     justifyContent: !book.volumeInfo.imageLinks?.thumbnail ? 'flex-start' : 'center',
@@ -58,6 +58,7 @@ export const BookComponent: React.FC<Props> = ({
     height: '100%',
     justifyContent: isThumbnail ? 'flex-start' : 'center',
     alignItems: 'center',
+    overflow: 'hidden',
   };
   const titleStyle: StyleProp<TextStyle> = {
     fontSize: isThumbnail ? 11 : 17,
@@ -116,7 +117,7 @@ export const BookComponent: React.FC<Props> = ({
       return (
         <View style={titleAuthorWrapper}>
           <AppText style={authorStyle} fontWeight="bold">
-            {book.volumeInfo.authors?.[0]}
+            {book.volumeInfo.authors?.[0].split(' ').slice(0, 2).join(' ')}
           </AppText>
           <AppText style={titleStyle} fontWeight="bold">
             {book.volumeInfo.title}

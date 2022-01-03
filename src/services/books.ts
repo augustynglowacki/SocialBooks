@@ -2,9 +2,6 @@ import {API_KEY, API_URL} from '@env';
 import {createApi, fetchBaseQuery} from '@reduxjs/toolkit/query/react';
 import {convertToBook, convertToBooks} from 'src/helpers/convertResponse';
 import {Book} from 'src/models';
-// import {convertTobookss} from 'src/helpers/convertResponse';
-// import {books} from 'src/ts/interfaces/books';
-// import {RootObject} from 'src/ts/interfaces/topbooksResponse';
 interface SearchQueryProps {
   items: Book[];
 }
@@ -21,9 +18,11 @@ export const booksApi = createApi({
       transformResponse: (response: Book) => convertToBook(response),
     }),
     getSearchedBooks: builder.query<Book[], string>({
-      query: query => ({
-        url: `volumes?q=${query}&country=pl&maxResults=20&key=${API_KEY}`,
-      }),
+      query: query => {
+        return {
+          url: `volumes?q=${query}&country=pl&maxResults=20&key=${API_KEY}`,
+        };
+      },
       transformResponse: (response: SearchQueryProps) => convertToBooks(response.items),
     }),
   }),

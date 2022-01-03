@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {StyleSheet} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 import {palette} from 'src/styles';
 import {AppText, Container, Input} from 'src/components/common';
 import {useTranslation} from 'react-i18next';
@@ -8,17 +8,19 @@ import {useGetSearchedBooksQuery} from 'src/services/books';
 import {useNavigation} from '@react-navigation/native';
 import {SearchScreenProp} from 'src/constants';
 import {BookList} from './books';
-import {TextInput} from 'react-native-paper';
 
 export const Search: React.FC = () => {
   const {t} = useTranslation('common');
-  const {navigate} = useNavigation<SearchScreenProp>();
   const [searchTerm, setSearchTerm] = useState('');
 
   const debouncedSearchTerm = useDebounce(searchTerm, 500);
-  const {data, isLoading, error, isError, refetch} = useGetSearchedBooksQuery(debouncedSearchTerm, {
+  const {data, isLoading, error, isError} = useGetSearchedBooksQuery(debouncedSearchTerm, {
     skip: searchTerm.length < 3,
   });
+
+  if (isError && !!error && !('status' in error)) {
+    <AppText>Network error</AppText>;
+  }
   return (
     <Container style={styles.wrapper} flexStart>
       <AppText style={styles.title} variant="h1">
@@ -36,9 +38,10 @@ export const Search: React.FC = () => {
 const styles = StyleSheet.create({
   wrapper: {
     alignItems: 'center',
+    width: '100%',
   },
   title: {
-    paddingTop: 50,
+    paddingTop: 10,
     marginBottom: 30,
   },
   markedTitle: {
