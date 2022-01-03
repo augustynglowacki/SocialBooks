@@ -23,6 +23,7 @@ export type RootStackParamList = {
   Details: DetailsScreenParams;
 };
 export type HomeScreenProp = StackNavigationProp<RootStackParamList, 'Home'>;
+export type SearchScreenProp = StackNavigationProp<RootStackParamList, 'Home'>;
 export type DetailsScreenRouteProp = RouteProp<RootStackParamList, 'Details'>;
 export type DetailsScreenProp = StackNavigationProp<RootStackParamList, 'Details'>;
 export type DetailsScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Details'>;

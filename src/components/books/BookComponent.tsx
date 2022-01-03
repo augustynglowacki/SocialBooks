@@ -37,7 +37,12 @@ export const BookComponent: React.FC<Props> = ({
   const {
     colors: {background, text},
   } = useTheme();
-
+  const wrapperStyle: StyleProp<ViewStyle> = {
+    height: isThumbnail ? 150 : 270,
+    width: isThumbnail ? 100 : 180,
+    shadowOpacity: 0.2,
+    marginHorizontal: 8,
+  };
   const buttonStyle: StyleProp<ViewStyle> = {
     justifyContent: !book.volumeInfo.imageLinks?.thumbnail ? 'flex-start' : 'center',
     alignItems: 'center',
@@ -67,11 +72,7 @@ export const BookComponent: React.FC<Props> = ({
     letterSpacing: -1,
     color: text,
   };
-  const wrapperStyle: StyleProp<ViewStyle> = {
-    height: isThumbnail ? 150 : 270,
-    width: isThumbnail ? 100 : 180,
-    shadowOpacity: 0.2,
-  };
+
   const shadowStyle: StyleProp<ViewStyle> = {
     position: 'absolute',
     left: 10,

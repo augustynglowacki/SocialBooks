@@ -7,7 +7,7 @@ import {palette} from 'src/styles';
 import {BookComponent} from 'src/components/books';
 import {AppButton, AppText, Container, FeatureButton} from 'src/components/common';
 import {useNavigation} from '@react-navigation/native';
-import {HomeScreenProp, Route} from 'src/constants';
+import {ErrorType, HomeScreenProp, Route} from 'src/constants';
 import {useDispatch} from 'react-redux';
 import {logOutUser} from 'src/redux/user/userActions';
 import auth from '@react-native-firebase/auth';
@@ -15,7 +15,7 @@ interface Props {
   book: Book | undefined;
   isLoading: boolean;
   isError: boolean;
-  error: FetchBaseQueryError | SerializedError | undefined;
+  error: ErrorType;
   refetch: () => void;
 }
 

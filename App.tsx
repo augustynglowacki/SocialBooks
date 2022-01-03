@@ -9,7 +9,7 @@ import {AppStatusBar} from 'src/components/common';
 import {palette} from 'src/styles';
 import {useColorScheme} from 'react-native';
 
-// Logo inspired by https://www.svgrepo.com/svg/230344/books-book
+//Logo inspired by https://www.svgrepo.com/svg/230344/books-book
 //App design inspired by designer 'Sara' https://www.figma.com/community/file/940142152024758826/My-Digital-Bookshelf-App-%5BBravo-Studio-Tutorial%5D
 
 const App: React.FC = () => {

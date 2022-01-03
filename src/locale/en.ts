@@ -12,8 +12,10 @@ const translations = {
     email: 'Email',
     login: 'Login',
     register: 'Register',
+    search: 'Search',
     welcomeMessage: 'Welcome to SocialBooks!',
     registerSuggestion: 'First time here?',
+    books: 'Books',
   },
 };
 export default translations;
