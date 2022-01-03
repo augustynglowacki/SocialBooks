@@ -1,5 +1,5 @@
-import React from 'react';
-import {DefaultTheme, NavigationContainer} from '@react-navigation/native';
+import React, {useRef, useState} from 'react';
+import {DefaultTheme, NavigationContainer, useNavigationContainerRef} from '@react-navigation/native';
 import HomeNavigator from './src/navigation/HomeNavigator';
 import {Provider as PaperProvider} from 'react-native-paper';
 import {Provider} from 'react-redux';
@@ -8,28 +8,12 @@ import auth from '@react-native-firebase/auth';
 import {AppStatusBar} from 'src/components/common';
 import {palette} from 'src/styles';
 import {useColorScheme} from 'react-native';
-
+import {Route} from 'src/constants';
+import useInitialUserCheck from 'src/hooks/useCheckLoginStatus';
 //Logo inspired by https://www.svgrepo.com/svg/230344/books-book
 //App design inspired by designer 'Sara' https://www.figma.com/community/file/940142152024758826/My-Digital-Bookshelf-App-%5BBravo-Studio-Tutorial%5D
 
 const App: React.FC = () => {
-  // auth()
-  //   .createUserWithEmailAndPassword('jane.doe@example.com', 'SuperSecretPassword!')
-  //   .then(() => {
-  //     console.log('User account created & signed in!');
-  //   })
-  //   .catch(error => {
-  //     if (error.code === 'auth/email-already-in-use') {
-  //       console.log('That email address is already in use!');
-  //     }
-
-  //     if (error.code === 'auth/invalid-email') {
-  //       console.log('That email address is invalid!');
-  //     }
-
-  //     console.error(error);
-  //   });
-
   const lightTheme = {
     ...DefaultTheme,
     colors: {
@@ -48,11 +32,22 @@ const App: React.FC = () => {
   };
 
   const scheme = useColorScheme();
+  const navigationRef = useNavigationContainerRef();
+  useInitialUserCheck();
+  const [routeName, setRouteName] = useState<string | undefined>('');
   return (
     <Provider store={store}>
       <PaperProvider>
-        <NavigationContainer theme={scheme === 'dark' ? darkTheme : lightTheme}>
-          <AppStatusBar />
+        <NavigationContainer
+          theme={scheme === 'dark' ? darkTheme : lightTheme}
+          ref={navigationRef}
+          onReady={() => {
+            setRouteName(navigationRef?.getCurrentRoute()?.name);
+          }}
+          onStateChange={() => {
+            setRouteName(navigationRef?.getCurrentRoute()?.name);
+          }}>
+          <AppStatusBar variant={routeName === Route.PROFILE ? 'translucent' : 'full'} />
           <HomeNavigator />
         </NavigationContainer>
       </PaperProvider>
