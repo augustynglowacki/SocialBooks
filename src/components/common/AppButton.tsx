@@ -28,7 +28,7 @@ export const AppButton: React.FC<Props> = ({disabled, label, variant = 'primary'
     backgroundColor: isPrimary ? 'transparent' : text,
     borderRadius: BORDER_RADIUS,
     height: 60,
-    width: '90%',
+    width: '100%',
     maxWidth: 400,
   };
   const labelStyle: StyleProp<TextStyle> = {

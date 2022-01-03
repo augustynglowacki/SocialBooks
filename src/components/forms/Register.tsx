@@ -29,7 +29,7 @@ export const Register: React.FC<Props> = ({onChange, onSubmit, form, serverError
   const [hiddenPassword, setHiddenPassword] = useState(false);
   const handleHide = () => setHiddenPassword(!hiddenPassword);
   return (
-    <Container withKeyboard>
+    <Container withKeyboard disableScroll>
       <Animated.View entering={FlipInYRight.springify().stiffness(65)}>
         <AppLogo style={styles.logoImage} />
       </Animated.View>

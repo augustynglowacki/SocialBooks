@@ -9,8 +9,8 @@ import {
   StyleProp,
   FlexStyle,
   ViewStyle,
-  SafeAreaView,
 } from 'react-native';
+import {SafeAreaView} from 'react-native-safe-area-context';
 interface Props {
   style?: StyleProp<ViewStyle>;
   //specify withKeyboard prop when using Container if you want KeyboardAvoidingView
@@ -22,10 +22,6 @@ interface Props {
 
 export const Container: React.FC<Props> = ({style, children, withKeyboard, padding, flexStart, disableScroll}) => {
   const {colors} = useTheme();
-  const getJustifyContent = (): StyleProp<FlexStyle> => {
-    return {justifyContent: flexStart ? 'flex-start' : 'center'};
-  };
-
   const getPadding = (): StyleProp<FlexStyle> => {
     switch (padding) {
       case 'small': {
@@ -35,51 +31,38 @@ export const Container: React.FC<Props> = ({style, children, withKeyboard, paddi
         return {padding: 0};
       }
       default:
-        return {paddingVertical: 8, paddingHorizontal: 10};
+        return {paddingVertical: 8, paddingHorizontal: 14};
     }
   };
 
   const content = (
-    <SafeAreaView style={[styles.safeArea, style]}>
-      <View
-        testID="styled"
-        style={[styles.wrapper, style, getPadding(), getJustifyContent(), {backgroundColor: colors.background}]}>
-        {children}
-      </View>
+    <SafeAreaView style={[styles.safeArea, style]} edges={['top', 'left', 'right']}>
+      {disableScroll ? (
+        <View style={[styles.wrapper, style, getPadding(), {backgroundColor: colors.background}]}>{children}</View>
+      ) : (
+        <ScrollView showsVerticalScrollIndicator={false}>
+          <View style={[styles.wrapper, style, getPadding(), {backgroundColor: colors.background}]}>{children}</View>
+        </ScrollView>
+      )}
     </SafeAreaView>
   );
 
-  const scrollWrapper = disableScroll ? (
-    content
-  ) : (
-    <ScrollView contentContainerStyle={styles.scrollView} showsVerticalScrollIndicator={false}>
-      {content}
-    </ScrollView>
-  );
-
   return withKeyboard ? (
-    <KeyboardAvoidingView
-      testID="keyboard"
-      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-      style={styles.kbView}>
-      {scrollWrapper}
+    <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={styles.kbView}>
+      {content}
     </KeyboardAvoidingView>
   ) : (
-    scrollWrapper
+    content
   );
 };
 
 const styles = StyleSheet.create({
   wrapper: {
-    flex: 1,
     width: '100%',
+    minWidth: '100%',
   },
   kbView: {
     flex: 1,
-  },
-  scrollView: {
-    flexGrow: 1,
-    justifyContent: 'center',
   },
   safeArea: {
     flex: 1,

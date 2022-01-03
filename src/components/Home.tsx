@@ -8,9 +8,10 @@ import {BookComponent} from 'src/components/books';
 import {AppButton, AppText, Container, FeatureButton} from 'src/components/common';
 import {useNavigation} from '@react-navigation/native';
 import {ErrorType, HomeScreenProp, Route} from 'src/constants';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {logOutUser} from 'src/redux/user/userActions';
 import auth from '@react-native-firebase/auth';
+import {userSelector} from 'src/redux/user/userSlice';
 interface Props {
   book: Book | undefined;
   isLoading: boolean;
@@ -23,7 +24,9 @@ export const Home: React.FC<Props> = ({book, isLoading, isError, error, refetch}
   // console.log(error);
   const dispatch = useDispatch();
   const {navigate} = useNavigation<HomeScreenProp>();
-
+  const {
+    user: {userName},
+  } = useSelector(userSelector);
   const [loggedIn, setLoggedIn] = useState(false);
   useEffect(() => {
     const subscriber = auth().onAuthStateChanged(user => {
@@ -37,11 +40,11 @@ export const Home: React.FC<Props> = ({book, isLoading, isError, error, refetch}
   }, [navigate]);
 
   return (
-    <Container style={styles.wrapper} flexStart>
+    <Container>
       <AppText style={styles.title} variant="h1">
         Hello{' '}
         <AppText variant="h1" style={styles.markedTitle}>
-          MY DIGITAL
+          {!!userName && userName}
         </AppText>
       </AppText>
       <View style={{width: '100%'}}>
@@ -123,11 +126,8 @@ export const Home: React.FC<Props> = ({book, isLoading, isError, error, refetch}
 };
 
 const styles = StyleSheet.create({
-  wrapper: {
-    alignItems: 'center',
-  },
   title: {
-    paddingTop: 40,
+    paddingTop: 10,
   },
   paragraph: {
     paddingTop: 50,

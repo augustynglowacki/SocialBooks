@@ -72,7 +72,8 @@ const styles = StyleSheet.create({
   wrap: {
     alignSelf: 'center',
     marginBottom: 12,
-    width: '90%',
+    minWidth: '100%',
+    width: '100%',
     maxWidth: 400,
   },
   error: {

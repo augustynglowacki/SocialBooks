@@ -29,31 +29,33 @@ export const Login: React.FC<Props> = ({onChange, onSubmit, form, serverError, e
   const [hiddenPassword, setHiddenPassword] = useState(false);
   const handleHide = () => setHiddenPassword(!hiddenPassword);
   return (
-    <Container withKeyboard>
-      <Animated.View entering={FlipInYRight.springify().stiffness(65)}>
-        <AppLogo style={styles.logoImage} />
-      </Animated.View>
-      <View>
-        <Text style={styles.title}>{t('welcomeMessage')}</Text>
-        <View style={styles.form}>
-          <Input
-            label={t('email')}
-            value={form.email}
-            onChangeText={onChange('email')}
-            error={errors.email}
-            autoCompleteType="email"
-            keyboardType="email-address"
-          />
-          <Input
-            label={t('password')}
-            value={form.password}
-            onChangeText={onChange('password')}
-            secureTextEntry={hiddenPassword}
-            error={errors.password}
-            right={<TextInput.Icon name="eye" color={palette.third} onPress={handleHide} />}
-          />
-          <AppButton style={styles.button} label={t('login')} onPress={onSubmit} disabled={loading} />
-          {!!serverError && <Message label={serverError} />}
+    <Container withKeyboard disableScroll>
+      <View style={styles.formWrapper}>
+        <Animated.View entering={FlipInYRight.springify().stiffness(65)}>
+          <AppLogo style={styles.logoImage} />
+        </Animated.View>
+        <View>
+          <Text style={styles.title}>{t('welcomeMessage')}</Text>
+          <View style={styles.form}>
+            <Input
+              label={t('email')}
+              value={form.email}
+              onChangeText={onChange('email')}
+              error={errors.email}
+              autoCompleteType="email"
+              keyboardType="email-address"
+            />
+            <Input
+              label={t('password')}
+              value={form.password}
+              onChangeText={onChange('password')}
+              secureTextEntry={hiddenPassword}
+              error={errors.password}
+              right={<TextInput.Icon name="eye" color={palette.third} onPress={handleHide} />}
+            />
+            <AppButton style={styles.button} label={t('login')} onPress={onSubmit} disabled={loading} />
+            {!!serverError && <Message label={serverError} />}
+          </View>
         </View>
       </View>
     </Container>
@@ -61,8 +63,13 @@ export const Login: React.FC<Props> = ({onChange, onSubmit, form, serverError, e
 };
 
 const styles = StyleSheet.create({
+  formWrapper: {
+    maxWidth: '90%',
+    alignSelf: 'center',
+  },
   logoImage: {
     alignSelf: 'center',
+    // marginTop: 100,
   },
   title: {
     fontSize: 24,

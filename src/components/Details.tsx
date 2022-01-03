@@ -31,39 +31,37 @@ export const Details: React.FC<Props> = ({book, goBack}) => {
     });
   }, []);
   return (
-    <SafeAreaView>
-      <Container style={styles.wrapper} flexStart>
-        <TapGestureHandler maxDelayMs={500} ref={doubleTapRef} numberOfTaps={2} onActivated={onDoubleTap}>
-          <View>
-            <BookComponent book={book} style={{marginVertical: 24}} shadowColor={palette.secondary} variant="details" />
-            <Animated.Image
-              source={require('src/assets/images/heart.png')}
-              style={[styles.heart, rStyle]}
-              resizeMode={'center'}
-            />
-          </View>
-        </TapGestureHandler>
-
-        {volumeInfo.title && (
-          <AppText style={styles.title} fontWeight="bold">
-            {volumeInfo.title}
-          </AppText>
-        )}
-        <View style={styles.authorWrapper}>
-          {volumeInfo.authors &&
-            volumeInfo.authors.slice(0, 2).map(item => (
-              <AppText key={item} variant="subtitle" style={styles.author}>
-                {item}
-              </AppText>
-            ))}
+    <Container style={styles.wrapper} flexStart>
+      <TapGestureHandler maxDelayMs={500} ref={doubleTapRef} numberOfTaps={2} onActivated={onDoubleTap}>
+        <View>
+          <BookComponent book={book} style={{marginVertical: 24}} shadowColor={palette.secondary} variant="details" />
+          <Animated.Image
+            source={require('src/assets/images/heart.png')}
+            style={[styles.heart, rStyle]}
+            resizeMode={'center'}
+          />
         </View>
-        {volumeInfo.description && (
-          <AppText variant="p" style={styles.paragraph}>
-            {convertDescription(volumeInfo.description)}
-          </AppText>
-        )}
-      </Container>
-    </SafeAreaView>
+      </TapGestureHandler>
+
+      {volumeInfo.title && (
+        <AppText style={styles.title} fontWeight="bold">
+          {volumeInfo.title}
+        </AppText>
+      )}
+      <View style={styles.authorWrapper}>
+        {volumeInfo.authors &&
+          volumeInfo.authors.slice(0, 2).map(item => (
+            <AppText key={item} variant="subtitle" style={styles.author}>
+              {item}
+            </AppText>
+          ))}
+      </View>
+      {volumeInfo.description && (
+        <AppText variant="p" style={styles.paragraph}>
+          {convertDescription(volumeInfo.description)}
+        </AppText>
+      )}
+    </Container>
   );
 };
 
