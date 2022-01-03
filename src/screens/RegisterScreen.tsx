@@ -1,61 +1,63 @@
 import {useNavigation} from '@react-navigation/native';
-import React, {useCallback, useEffect} from 'react';
-import {LoginScreenProp, Route} from 'src/constants';
+import React from 'react';
+import {useEffect} from 'react';
+import {RegisterUser} from 'src/models';
 import auth from '@react-native-firebase/auth';
+import {createUserWithEmailAndPassword} from 'src/redux/user/userActions';
 import {useDispatch, useSelector} from 'react-redux';
+import {userSelector} from 'src/redux/user/userSlice';
 import {useFormik} from 'formik';
-import * as Yup from 'yup';
 import {useTranslation} from 'react-i18next';
-import {signInWithEmailAndPassword} from 'src/redux/user/userActions';
-import {LoginUser} from 'src/models';
-import {setErrorNull, userSelector} from 'src/redux/user/userSlice';
-import {useFocusEffect} from '@react-navigation/native';
-import {Login} from 'src/components/forms/Login';
+import {Register} from 'src/components/forms/Register';
+import * as Yup from 'yup';
+import {RegisterScreenProp, Route} from 'src/constants';
 
-const initialValues = {email: '', password: ''};
-export const LoginScreen: React.FC = () => {
+const initialState = {username: '', email: '', password: ''};
+
+export const RegisterScreen: React.FC = () => {
   const {error, loading} = useSelector(userSelector);
   const dispatch = useDispatch();
-  const {navigate} = useNavigation<LoginScreenProp>();
+  const {navigate} = useNavigation<RegisterScreenProp>();
   const {t} = useTranslation('form');
-
-  useFocusEffect(
-    useCallback(() => {
-      dispatch(setErrorNull());
-    }, []),
-  );
 
   useEffect(() => {
     const subscriber = auth().onAuthStateChanged(user => {
       if (user) {
-        navigate(Route.HOME);
+        navigate(Route.HOME_NAVIGATOR);
       }
     });
     return subscriber;
   }, [navigate]);
 
-  const handleLoginUser = ({email, password}: LoginUser) => {
+  const handleCreateUser = ({email, password, username}: RegisterUser) => {
     dispatch(
-      signInWithEmailAndPassword({
+      createUserWithEmailAndPassword({
         email,
         password,
+        displayName: username,
       }),
     );
   };
 
   const onSubmit = () => {
-    handleLoginUser(values);
+    handleCreateUser(form);
   };
 
   const validationSchema = Yup.object({
+    username: Yup.string().required(t('required')),
     email: Yup.string().email(t('email')).required(t('required')),
     password: Yup.string()
       .min(6, t('short', {length: 6}))
       .required(t('required')),
   });
 
-  const {handleChange, handleSubmit, values, errors} = useFormik<LoginUser>({
-    initialValues,
+  const {
+    handleChange,
+    handleSubmit,
+    values: form,
+    errors,
+  } = useFormik<RegisterUser>({
+    initialValues: initialState,
     validationSchema,
     //validate only after submit click
     validateOnChange: false,
@@ -64,10 +66,10 @@ export const LoginScreen: React.FC = () => {
   });
 
   return (
-    <Login
+    <Register
       onSubmit={handleSubmit}
       onChange={handleChange}
-      form={values}
+      form={form}
       serverError={error}
       errors={errors}
       loading={loading}

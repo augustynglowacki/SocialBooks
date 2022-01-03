@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {SerializedError} from '@reduxjs/toolkit';
 import {FetchBaseQueryError} from '@reduxjs/toolkit/dist/query';
 import {StyleSheet, View} from 'react-native';
@@ -10,7 +10,7 @@ import {useNavigation} from '@react-navigation/native';
 import {HomeScreenProp, Route} from 'src/constants';
 import {useDispatch} from 'react-redux';
 import {logOutUser} from 'src/redux/user/userActions';
-
+import auth from '@react-native-firebase/auth';
 interface Props {
   book: Book | undefined;
   isLoading: boolean;
@@ -23,6 +23,19 @@ export const Home: React.FC<Props> = ({book, isLoading, isError, error, refetch}
   // console.log(error);
   const dispatch = useDispatch();
   const {navigate} = useNavigation<HomeScreenProp>();
+
+  const [loggedIn, setLoggedIn] = useState(false);
+  useEffect(() => {
+    const subscriber = auth().onAuthStateChanged(user => {
+      if (user) {
+        setLoggedIn(true);
+      } else {
+        setLoggedIn(false);
+      }
+    });
+    return subscriber;
+  }, [navigate]);
+
   return (
     <Container style={styles.wrapper} flexStart>
       <AppText style={styles.title} variant="h1">
@@ -47,20 +60,33 @@ export const Home: React.FC<Props> = ({book, isLoading, isError, error, refetch}
           />
         )}
         <FeatureButton
-          label="Login"
+          label="Register"
           style={{marginVertical: 24}}
-          shadowMaxWidth={137}
+          shadowMaxWidth={169}
           onPress={() => {
-            navigate(Route.AUTH);
+            navigate(Route.REGISTER);
           }}
+          disabled={loggedIn}
         />
-        <FeatureButton
-          label="Logout"
-          style={{marginVertical: 24}}
-          shadowColor={palette.secondary}
-          shadowMaxWidth={148}
-          onPress={() => dispatch(logOutUser())}
-        />
+        {loggedIn ? (
+          <FeatureButton
+            label="Logout"
+            style={{marginVertical: 24}}
+            shadowColor={palette.secondary}
+            shadowMaxWidth={148}
+            onPress={() => dispatch(logOutUser())}
+          />
+        ) : (
+          <FeatureButton
+            label="Login"
+            style={{marginVertical: 24}}
+            shadowMaxWidth={137}
+            onPress={() => {
+              navigate(Route.LOGIN);
+            }}
+          />
+        )}
+
         {/* <AppText style={styles.paragraph}>
           Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry
           standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to

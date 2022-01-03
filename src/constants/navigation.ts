@@ -7,7 +7,6 @@ export enum Route {
   HOME = 'Home',
   SEARCH = 'Search',
   DETAILS = 'Details',
-  AUTH = 'Auth',
   LOGIN = 'Login',
   REGISTER = 'Register',
 }
@@ -19,7 +18,6 @@ export type RootStackParamList = {
   Home: undefined;
   Search: undefined;
   HomeNavigator: undefined;
-  Auth: undefined;
   Login: undefined;
   Register: undefined;
   Details: DetailsScreenParams;

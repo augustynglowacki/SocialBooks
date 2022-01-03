@@ -1,15 +1,14 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import {useNavigation} from '@react-navigation/native';
+import {FormikErrors} from 'formik';
 import React from 'react';
 import {useState} from 'react';
+import {useTranslation} from 'react-i18next';
 import {StyleSheet, Text, View} from 'react-native';
 import {TextInput} from 'react-native-paper';
 import Animated, {FlipInYRight} from 'react-native-reanimated';
-import {useTranslation} from 'react-i18next';
-import {FormikErrors} from 'formik';
+import {RegisterUser} from 'src/models';
 import {Container, AppButton, Input, Message, AppLogo} from 'src/components/common';
 import {palette} from 'src/styles';
-import {LoginUser} from 'src/models';
 
 interface Props {
   //type from useFormik handleChange
@@ -19,12 +18,13 @@ interface Props {
       : (e: string | React.ChangeEvent<any>) => void;
   };
   onSubmit: () => void;
-  form: LoginUser;
-  errors: FormikErrors<LoginUser>;
+  form: RegisterUser;
+  errors: FormikErrors<RegisterUser>;
   serverError: string;
   loading: boolean;
 }
-export const Login: React.FC<Props> = ({onChange, onSubmit, form, serverError, errors, loading}) => {
+
+export const Register: React.FC<Props> = ({onChange, onSubmit, form, serverError, errors, loading}) => {
   const {t} = useTranslation('common');
   const [hiddenPassword, setHiddenPassword] = useState(false);
   const handleHide = () => setHiddenPassword(!hiddenPassword);
@@ -36,6 +36,13 @@ export const Login: React.FC<Props> = ({onChange, onSubmit, form, serverError, e
       <View>
         <Text style={styles.title}>{t('welcomeMessage')}</Text>
         <View style={styles.form}>
+          <Input
+            label={t('userName')}
+            value={form.username}
+            onChangeText={onChange('username')}
+            error={errors.username}
+            autoCapitalize="words"
+          />
           <Input
             label={t('email')}
             value={form.email}
@@ -50,9 +57,9 @@ export const Login: React.FC<Props> = ({onChange, onSubmit, form, serverError, e
             onChangeText={onChange('password')}
             secureTextEntry={hiddenPassword}
             error={errors.password}
-            right={<TextInput.Icon name="eye" color={palette.third} onPress={handleHide} />}
+            right={<TextInput.Icon name="eye" color={palette.grey} onPress={handleHide} />}
           />
-          <AppButton style={styles.button} label={t('login')} onPress={onSubmit} disabled={loading} />
+          <AppButton style={styles.button} onPress={onSubmit} label={t('register')} disabled={loading} />
           {!!serverError && <Message label={serverError} />}
         </View>
       </View>
@@ -71,8 +78,7 @@ const styles = StyleSheet.create({
     color: palette.white,
   },
   form: {
-    position: 'relative',
-    marginTop: 20,
+    paddingTop: 20,
   },
   button: {
     marginTop: 30,

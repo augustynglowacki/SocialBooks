@@ -9,13 +9,12 @@ import {AppText} from './AppText';
 interface Props {
   disabled?: boolean;
   label: string;
-  loading?: boolean;
   variant?: 'primary' | 'secondary';
   onPress: () => void;
   style?: StyleProp<FlexStyle | ViewStyle>;
 }
 
-export const AppButton: React.FC<Props> = ({disabled, loading, label, variant = 'primary', onPress, style}) => {
+export const AppButton: React.FC<Props> = ({disabled, label, variant = 'primary', onPress, style}) => {
   const isPrimary = variant === 'primary';
   const {
     colors: {background, text},

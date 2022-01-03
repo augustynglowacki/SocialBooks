@@ -1,8 +1,7 @@
 import {createStackNavigator, CardStyleInterpolators} from '@react-navigation/stack';
 import React from 'react';
 import {RootStackParamList, Route} from 'src/constants';
-import {DetailsScreen} from 'src/screens';
-import AuthNavigator from './AuthNavigator';
+import {DetailsScreen, LoginScreen, RegisterScreen} from 'src/screens';
 import BottomTabsNavigator from './BottomTabs/BottomTabsNavigator';
 
 const Stack = createStackNavigator<RootStackParamList>();
@@ -24,7 +23,8 @@ function HomeNavigator() {
         //   return [route.params.id];
         // }}
       />
-      <Stack.Screen name={Route.AUTH} component={AuthNavigator} />
+      <Stack.Screen name={Route.LOGIN} component={LoginScreen} />
+      <Stack.Screen name={Route.REGISTER} component={RegisterScreen} />
     </Stack.Navigator>
   );
 }
