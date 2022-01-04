@@ -1,19 +1,19 @@
 import React, {useCallback, useRef} from 'react';
-import {Dimensions, SafeAreaView, StyleSheet, View} from 'react-native';
+import {Dimensions, StyleSheet, Touchable, TouchableOpacity, View} from 'react-native';
 import {Book} from 'src/models';
 import {palette} from 'src/styles';
 import {BookComponent} from 'src/components/books';
-import {AppText, Container} from 'src/components/common';
+import {AppText, Container, Icon} from 'src/components/common';
 import {convertDescription} from 'src/helpers/convertDescription';
 import Animated, {useAnimatedStyle, useSharedValue, withDelay, withSpring} from 'react-native-reanimated';
 import {TapGestureHandler} from 'react-native-gesture-handler';
+import {NavigateBackBar} from './common/NavigateBackBar';
 
 interface Props {
   book: Book | undefined;
-  goBack: () => void;
 }
 
-export const Details: React.FC<Props> = ({book, goBack}) => {
+export const Details: React.FC<Props> = ({book}) => {
   if (!book) return null;
   const {volumeInfo} = book;
   //heart animation, touch logic
@@ -23,7 +23,6 @@ export const Details: React.FC<Props> = ({book, goBack}) => {
     transform: [{scale: Math.max(scale.value, 0)}],
   }));
   const onDoubleTap = useCallback(() => {
-    console.log('click');
     scale.value = withSpring(1, undefined, isFinished => {
       if (isFinished) {
         scale.value = withDelay(500, withSpring(0));
@@ -31,37 +30,40 @@ export const Details: React.FC<Props> = ({book, goBack}) => {
     });
   }, []);
   return (
-    <Container style={styles.wrapper} flexStart>
-      <TapGestureHandler maxDelayMs={500} ref={doubleTapRef} numberOfTaps={2} onActivated={onDoubleTap}>
-        <View>
-          <BookComponent book={book} style={{marginVertical: 24}} shadowColor={palette.secondary} variant="details" />
-          <Animated.Image
-            source={require('src/assets/images/heart.png')}
-            style={[styles.heart, rStyle]}
-            resizeMode={'center'}
-          />
-        </View>
-      </TapGestureHandler>
+    <>
+      <NavigateBackBar />
+      <Container style={styles.wrapper} edges={['left', 'right', 'bottom']} flexStart>
+        <TapGestureHandler maxDelayMs={500} ref={doubleTapRef} numberOfTaps={2} onActivated={onDoubleTap}>
+          <View>
+            <BookComponent book={book} style={{marginVertical: 24}} shadowColor={palette.secondary} variant="details" />
+            <Animated.Image
+              source={require('src/assets/images/heart.png')}
+              style={[styles.heart, rStyle]}
+              resizeMode={'center'}
+            />
+          </View>
+        </TapGestureHandler>
 
-      {volumeInfo.title && (
-        <AppText style={styles.title} fontWeight="bold">
-          {volumeInfo.title}
-        </AppText>
-      )}
-      <View style={styles.authorWrapper}>
-        {volumeInfo.authors &&
-          volumeInfo.authors.slice(0, 2).map(item => (
-            <AppText key={item} variant="subtitle" style={styles.author}>
-              {item}
-            </AppText>
-          ))}
-      </View>
-      {volumeInfo.description && (
-        <AppText variant="p" style={styles.paragraph}>
-          {convertDescription(volumeInfo.description)}
-        </AppText>
-      )}
-    </Container>
+        {volumeInfo.title && (
+          <AppText style={styles.title} fontWeight="bold">
+            {volumeInfo.title}
+          </AppText>
+        )}
+        <View style={styles.authorWrapper}>
+          {volumeInfo.authors &&
+            volumeInfo.authors.slice(0, 2).map(item => (
+              <AppText key={item} variant="subtitle" style={styles.author}>
+                {item}
+              </AppText>
+            ))}
+        </View>
+        {volumeInfo.description && (
+          <AppText variant="p" style={styles.paragraph}>
+            {convertDescription(volumeInfo.description)}
+          </AppText>
+        )}
+      </Container>
+    </>
   );
 };
 
@@ -71,6 +73,8 @@ const styles = StyleSheet.create({
   },
   authorWrapper: {
     flexDirection: 'row',
+    marginLeft: 4,
+    marginTop: 4,
   },
   title: {
     paddingTop: 30,

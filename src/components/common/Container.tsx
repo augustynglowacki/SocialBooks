@@ -10,17 +10,26 @@ import {
   FlexStyle,
   ViewStyle,
 } from 'react-native';
-import {SafeAreaView} from 'react-native-safe-area-context';
+import {Edge, SafeAreaView} from 'react-native-safe-area-context';
 interface Props {
   style?: StyleProp<ViewStyle>;
   //specify withKeyboard prop when using Container if you want KeyboardAvoidingView
   withKeyboard?: boolean;
   padding?: 'small' | 'none';
   flexStart?: boolean;
+  edges?: Edge[];
   disableScroll?: boolean;
 }
 
-export const Container: React.FC<Props> = ({style, children, withKeyboard, padding, flexStart, disableScroll}) => {
+export const Container: React.FC<Props> = ({
+  style,
+  children,
+  withKeyboard,
+  padding,
+  flexStart,
+  edges = ['top', 'left', 'right'],
+  disableScroll,
+}) => {
   const {colors} = useTheme();
   const getPadding = (): StyleProp<FlexStyle> => {
     switch (padding) {
@@ -36,7 +45,7 @@ export const Container: React.FC<Props> = ({style, children, withKeyboard, paddi
   };
 
   const content = (
-    <SafeAreaView style={[styles.safeArea, style]} edges={['top', 'left', 'right']}>
+    <SafeAreaView style={[styles.safeArea, style]} edges={edges}>
       {disableScroll ? (
         <View style={[styles.wrapper, style, getPadding(), {backgroundColor: colors.background}]}>{children}</View>
       ) : (
