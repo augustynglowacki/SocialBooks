@@ -28,6 +28,7 @@ export const AppButton: React.FC<Props> = ({disabled, label, variant = 'primary'
     backgroundColor: isPrimary ? 'transparent' : text,
     borderRadius: BORDER_RADIUS,
     height: 60,
+    minWidth: '100%',
     width: '100%',
     maxWidth: 400,
   };

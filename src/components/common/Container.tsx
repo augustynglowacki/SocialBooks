@@ -14,6 +14,7 @@ import {Edge, SafeAreaView} from 'react-native-safe-area-context';
 import {NavigateBackBar} from './NavigateBackBar';
 interface Props {
   style?: StyleProp<ViewStyle>;
+  scrollViewContainerStyle?: StyleProp<ViewStyle>;
   //specify withKeyboard prop when using Container if you want KeyboardAvoidingView
   withKeyboard?: boolean;
   padding?: 'small' | 'none';
@@ -24,6 +25,7 @@ interface Props {
 
 export const Container: React.FC<Props> = ({
   style,
+  scrollViewContainerStyle,
   children,
   withKeyboard,
   padding,
@@ -52,7 +54,14 @@ export const Container: React.FC<Props> = ({
       {disableScroll ? (
         <View style={[styles.wrapper, style, getPadding(), {backgroundColor: colors.background}]}>{children}</View>
       ) : (
-        <ScrollView showsVerticalScrollIndicator={false}>
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={[
+            {
+              flexGrow: 1,
+            },
+            scrollViewContainerStyle,
+          ]}>
           <View style={[styles.wrapper, style, getPadding(), {backgroundColor: colors.background}]}>{children}</View>
         </ScrollView>
       )}
