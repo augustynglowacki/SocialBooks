@@ -1,5 +1,6 @@
 import {createStackNavigator, CardStyleInterpolators} from '@react-navigation/stack';
 import React from 'react';
+import {Platform} from 'react-native';
 import {RootStackParamList, Route} from 'src/constants';
 import {DetailsScreen, LoginScreen, RegisterScreen} from 'src/screens';
 import BottomTabsNavigator from './BottomTabs/BottomTabsNavigator';
@@ -7,7 +8,7 @@ import BottomTabsNavigator from './BottomTabs/BottomTabsNavigator';
 const Stack = createStackNavigator<RootStackParamList>();
 export const screenOptions = {
   headerShown: false,
-  gestureEnabled: true,
+  gestureEnabled: Platform.OS === 'ios',
   gestureResponseDistance: 200,
   cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
 };
