@@ -11,13 +11,14 @@ import {
   ViewStyle,
 } from 'react-native';
 import {Edge, SafeAreaView} from 'react-native-safe-area-context';
+import {NavigateBackBar} from './NavigateBackBar';
 interface Props {
   style?: StyleProp<ViewStyle>;
   //specify withKeyboard prop when using Container if you want KeyboardAvoidingView
   withKeyboard?: boolean;
   padding?: 'small' | 'none';
-  flexStart?: boolean;
-  edges?: Edge[];
+  rightIcon?: boolean;
+  withNavigateBackBar?: boolean;
   disableScroll?: boolean;
 }
 
@@ -26,8 +27,8 @@ export const Container: React.FC<Props> = ({
   children,
   withKeyboard,
   padding,
-  flexStart,
-  edges = ['top', 'left', 'right'],
+  rightIcon,
+  withNavigateBackBar,
   disableScroll,
 }) => {
   const {colors} = useTheme();
@@ -45,7 +46,9 @@ export const Container: React.FC<Props> = ({
   };
 
   const content = (
-    <SafeAreaView style={[styles.safeArea, style]} edges={edges}>
+    <SafeAreaView
+      style={[styles.safeArea, style]}
+      edges={withNavigateBackBar ? ['left', 'right', 'bottom'] : ['top', 'left', 'right']}>
       {disableScroll ? (
         <View style={[styles.wrapper, style, getPadding(), {backgroundColor: colors.background}]}>{children}</View>
       ) : (
@@ -57,11 +60,17 @@ export const Container: React.FC<Props> = ({
   );
 
   return withKeyboard ? (
-    <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={styles.kbView}>
-      {content}
-    </KeyboardAvoidingView>
+    <>
+      {withNavigateBackBar && <NavigateBackBar rightIcon={rightIcon} />}
+      <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={styles.kbView}>
+        {content}
+      </KeyboardAvoidingView>
+    </>
   ) : (
-    content
+    <>
+      {withNavigateBackBar && <NavigateBackBar rightIcon={rightIcon} />}
+      {content}
+    </>
   );
 };
 

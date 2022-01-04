@@ -9,6 +9,7 @@ export enum Route {
   DETAILS = 'Details',
   LOGIN = 'Login',
   REGISTER = 'Register',
+  PROFILE = 'Profile',
 }
 type DetailsScreenParams = {
   book: Book;
@@ -20,6 +21,7 @@ export type RootStackParamList = {
   HomeNavigator: undefined;
   Login: undefined;
   Register: undefined;
+  Profile: undefined;
   Details: DetailsScreenParams;
 };
 export type HomeScreenProp = StackNavigationProp<RootStackParamList, 'Home'>;
@@ -29,3 +31,5 @@ export type DetailsScreenProp = StackNavigationProp<RootStackParamList, 'Details
 export type DetailsScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Details'>;
 export type LoginScreenProp = StackNavigationProp<RootStackParamList, 'Login'>;
 export type RegisterScreenProp = StackNavigationProp<RootStackParamList, 'Register'>;
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export type AnyScreenProp = StackNavigationProp<RootStackParamList, any>;

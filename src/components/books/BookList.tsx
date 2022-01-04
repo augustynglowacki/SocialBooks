@@ -49,7 +49,6 @@ export const BookList: React.FC<Props> = ({data, error}) => {
 const styles = StyleSheet.create({
   wrapper: {
     paddingVertical: 20,
-    paddingHorizontal: '5%',
     flex: 1,
   },
 });

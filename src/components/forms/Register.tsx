@@ -29,7 +29,7 @@ export const Register: React.FC<Props> = ({onChange, onSubmit, form, serverError
   const [hiddenPassword, setHiddenPassword] = useState(false);
   const handleHide = () => setHiddenPassword(!hiddenPassword);
   return (
-    <Container withKeyboard disableScroll>
+    <Container withKeyboard withNavigateBackBar style={styles.wrapper}>
       <Animated.View entering={FlipInYRight.springify().stiffness(65)}>
         <AppLogo style={styles.logoImage} />
       </Animated.View>
@@ -68,6 +68,9 @@ export const Register: React.FC<Props> = ({onChange, onSubmit, form, serverError
 };
 
 const styles = StyleSheet.create({
+  wrapper: {
+    paddingTop: '10%',
+  },
   logoImage: {
     alignSelf: 'center',
   },

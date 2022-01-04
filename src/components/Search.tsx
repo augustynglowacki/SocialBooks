@@ -22,7 +22,7 @@ export const Search: React.FC = () => {
     <AppText>Network error</AppText>;
   }
   return (
-    <Container style={styles.wrapper} flexStart>
+    <Container style={styles.wrapper}>
       <AppText style={styles.title} variant="h1">
         Type to{' '}
         <AppText variant="h1" style={styles.markedTitle}>

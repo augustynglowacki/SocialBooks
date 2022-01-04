@@ -1,11 +1,12 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {StyleProp, ViewStyle} from 'react-native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {Route} from 'src/constants';
 import {TabIcon} from './TabIcon';
 import {palette} from 'src/styles';
-import {HomeScreen, SearchScreen} from 'src/screens';
+import {HomeScreen, ProfileScreen, SearchScreen} from 'src/screens';
+import auth from '@react-native-firebase/auth';
 
 const BOTTOM_TABS_HEIGHT = 60;
 const screensData = [
@@ -21,16 +22,33 @@ const screensData = [
     icon: 'ios-search',
     tabColor: palette.secondary,
   },
+  {
+    name: Route.PROFILE,
+    component: ProfileScreen,
+    icon: 'ios-person',
+    tabColor: palette.third,
+  },
 ];
 const Tab = createBottomTabNavigator();
 
 const BottomTabsNavigator = () => {
   const [backgroundColor, setBackgroundColor] = useState(palette.primary);
+  const [loggedIn, setLoggedIn] = useState(false);
   const tabBarStyle: StyleProp<ViewStyle> = {
     backgroundColor,
     borderTopWidth: 1,
     height: BOTTOM_TABS_HEIGHT + useSafeAreaInsets().bottom,
   };
+  useEffect(() => {
+    const subscriber = auth().onAuthStateChanged(user => {
+      if (user) {
+        setLoggedIn(true);
+      } else {
+        setLoggedIn(false);
+      }
+    });
+    return subscriber;
+  }, []);
 
   return (
     <Tab.Navigator
@@ -39,7 +57,7 @@ const BottomTabsNavigator = () => {
         tabBarStyle,
         headerShown: false,
       }}>
-      {screensData.map((item, index) => (
+      {screensData.slice(0, loggedIn ? 3 : 2).map((item, index) => (
         <Tab.Screen
           name={item.name}
           key={index + item.name}

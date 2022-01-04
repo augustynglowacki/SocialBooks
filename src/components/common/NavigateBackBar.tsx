@@ -5,7 +5,10 @@ import {TouchableOpacity} from 'react-native-gesture-handler';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {Icon} from './Icon';
 
-export const NavigateBackBar: React.FC = () => {
+interface Props {
+  rightIcon?: boolean;
+}
+export const NavigateBackBar: React.FC<Props> = ({rightIcon}) => {
   const {
     colors: {text},
   } = useTheme();
@@ -17,9 +20,11 @@ export const NavigateBackBar: React.FC = () => {
         <TouchableOpacity onPress={goBack}>
           <Icon color={text} name="ios-arrow-back" size={38} />
         </TouchableOpacity>
-        <TouchableOpacity onPress={goBack}>
-          <Icon color={text} name="ios-heart-outline" size={38} />
-        </TouchableOpacity>
+        {rightIcon && (
+          <TouchableOpacity onPress={goBack}>
+            <Icon color={text} name="ios-heart-outline" size={38} />
+          </TouchableOpacity>
+        )}
       </View>
     </SafeAreaView>
   );

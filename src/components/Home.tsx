@@ -37,7 +37,7 @@ export const Home: React.FC<Props> = ({book, isLoading, isError, error, refetch}
       }
     });
     return subscriber;
-  }, [navigate]);
+  }, []);
 
   return (
     <Container>

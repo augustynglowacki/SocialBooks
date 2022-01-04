@@ -3,7 +3,7 @@ import {useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {setActiveUser, userSelector} from 'src/redux/user/userSlice';
 
-export default function useInitialUserCheck() {
+export default function useCheckLoginStatus() {
   const {
     user: {email},
   } = useSelector(userSelector);
