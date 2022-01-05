@@ -3,7 +3,7 @@ import {DefaultTheme, NavigationContainer, useNavigationContainerRef} from '@rea
 import HomeNavigator from './src/navigation/HomeNavigator';
 import {Provider as PaperProvider} from 'react-native-paper';
 import {Provider} from 'react-redux';
-import store from 'src/store';
+import store from 'src/redux/store';
 import auth from '@react-native-firebase/auth';
 import {AppStatusBar} from 'src/components/common';
 import {palette} from 'src/styles';
