@@ -12,7 +12,7 @@ interface Props {
 
 export const AppModal: React.FC<Props> = ({modalVisible, toggleModal, children}) => {
   const {
-    colors: {background, text},
+    colors: {background},
   } = useTheme();
   return (
     <SafeAreaView edges={['bottom']}>

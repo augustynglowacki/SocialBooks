@@ -5,13 +5,10 @@ import {AppButton, AppText, Container, Input} from 'src/components/common';
 import {useTranslation} from 'react-i18next';
 import useDebounce from 'src/hooks/useDebounce';
 import {useGetSearchedBooksQuery} from 'src/services/books';
-import {useNavigation} from '@react-navigation/native';
-import {SearchScreenProp} from 'src/constants';
 import {BookList} from './books';
 import {Picker} from '@react-native-picker/picker';
 import {AppModal} from './common/AppModal';
-
-type Filter = 'author' | 'title' | 'fulltext' | 'romance';
+import {QueryFilters} from 'src/services/queryFIlters';
 
 export const Search: React.FC = () => {
   const {t} = useTranslation('common');
@@ -20,12 +17,16 @@ export const Search: React.FC = () => {
   const toggleModal = () => {
     setModalVisible(curr => !curr);
   };
-  const [selectedFilter, setSelectedFilter] = useState<Filter>('title');
+  const [selectedQuery, setSelectedQuery] = useState<QueryFilters>(QueryFilters.TITLE);
+
   const debouncedSearchTerm = useDebounce(searchTerm, 500);
-  const {data, isLoading, error, isError} = useGetSearchedBooksQuery(debouncedSearchTerm, {
-    skip: searchTerm.length < 3,
-  });
-  console.log(data);
+  const {data, isLoading, error, isError} = useGetSearchedBooksQuery(
+    {query: debouncedSearchTerm, queryType: selectedQuery},
+    {
+      skip: searchTerm.length < 3,
+    },
+  );
+
   if (isError && !!error && !('status' in error)) {
     <AppText>Network error</AppText>;
   }
@@ -41,16 +42,14 @@ export const Search: React.FC = () => {
         <Input label={t('search')} value={searchTerm} onChangeText={setSearchTerm} autoFocus />
         {!!data && <BookList title={t('books')} data={data} error={error} loading={isLoading} />}
         <AppModal modalVisible={modalVisible} toggleModal={toggleModal}>
-          <Picker selectedValue={selectedFilter} onValueChange={item => setSelectedFilter(item)}>
-            <Picker.Item label="Author" value="author" />
-            <Picker.Item label="Title" value="title" />
-            <Picker.Item label="Fulltext" value="fulltext" />
-            <Picker.Item label="Category" value="romance" />
+          <Picker selectedValue={selectedQuery} onValueChange={item => setSelectedQuery(item)}>
+            {Object.values(QueryFilters).map(item => (
+              <Picker.Item key={item} label={item} value={item} />
+            ))}
           </Picker>
         </AppModal>
       </View>
-
-      <AppButton label="Filters" style={{marginVertical: 24}} onPress={toggleModal} />
+      <AppButton label="Change Search Type" style={{marginVertical: 24}} onPress={toggleModal} />
     </Container>
   );
 };
