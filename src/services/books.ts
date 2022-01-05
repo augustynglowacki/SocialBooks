@@ -1,8 +1,8 @@
 import {API_KEY, API_URL} from '@env';
 import {createApi, fetchBaseQuery} from '@reduxjs/toolkit/query/react';
+import {QueryFilters} from 'src/constants';
 import {convertToBook, convertToBooks} from 'src/helpers/convertResponse';
 import {Book} from 'src/models';
-import {QueryFilters} from './queryFIlters';
 interface SearchQueryProps {
   items: Book[];
 }

@@ -1,22 +1,21 @@
 import auth from '@react-native-firebase/auth';
 import {createAsyncThunk} from '@reduxjs/toolkit';
-import {DEFAULT_AVATAR} from 'src/constants';
 import {BackendUser, LoginUser, User} from 'src/models/user';
 
 export const signInWithEmailAndPassword = createAsyncThunk<User, LoginUser>(
   'auth/signIn',
   async ({email, password}, {rejectWithValue}) => {
     const {
-      user: {uid, displayName, photoURL},
+      user: {uid, displayName},
     } = await auth().signInWithEmailAndPassword(email, password);
-    if (!uid || !displayName || !photoURL) {
+    if (!uid || !displayName) {
       return rejectWithValue('Something went wrong while connecting to Firebase');
     }
     return {
       id: uid,
       email,
       userName: displayName,
-      photoURL,
+      photoURL: '',
     };
   },
 );
@@ -30,14 +29,12 @@ export const createUserWithEmailAndPassword = createAsyncThunk<User, BackendUser
 
     await user.updateProfile({
       displayName,
-      photoURL: DEFAULT_AVATAR,
     });
 
     const displayNameFirebase = auth().currentUser?.displayName;
-    const photoURLFirebase = auth().currentUser?.photoURL;
     const {uid} = user;
 
-    if (!displayNameFirebase || !photoURLFirebase) {
+    if (!displayNameFirebase || '') {
       return rejectWithValue('Something went wrong while connecting to Firebase');
     }
 
@@ -45,7 +42,7 @@ export const createUserWithEmailAndPassword = createAsyncThunk<User, BackendUser
       id: uid,
       email,
       userName: displayNameFirebase,
-      photoURL: photoURLFirebase,
+      photoURL: '',
     };
   },
 );

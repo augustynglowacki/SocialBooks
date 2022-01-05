@@ -1,6 +1,5 @@
 import React from 'react';
 import {Image, Pressable, StyleSheet, TouchableOpacity} from 'react-native';
-import {DEFAULT_AVATAR} from 'src/constants';
 import {palette} from 'src/styles';
 import {Icon} from './Icon';
 import {Avatar as AvatarPaper} from 'react-native-paper';
@@ -25,7 +24,7 @@ export const Avatar: React.FC<Props> = ({isSmall, editable, source, name, onPres
           opacity: pressed ? 0.5 : 1,
         }
       }>
-      {source === DEFAULT_AVATAR && !!name ? (
+      {!source && !!name ? (
         <AvatarPaper.Text
           size={100}
           label={name?.slice(0, 2).toUpperCase()}

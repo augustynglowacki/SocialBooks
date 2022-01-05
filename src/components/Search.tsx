@@ -8,7 +8,7 @@ import {useGetSearchedBooksQuery} from 'src/services/books';
 import {BookList} from './books';
 import {Picker} from '@react-native-picker/picker';
 import {AppModal} from './common/AppModal';
-import {QueryFilters} from 'src/services/queryFIlters';
+import {QueryFilters} from 'src/constants';
 
 export const Search: React.FC = () => {
   const {t} = useTranslation('common');
