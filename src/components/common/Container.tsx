@@ -21,6 +21,8 @@ interface Props {
   rightIcon?: boolean;
   withNavigateBackBar?: boolean;
   disableScroll?: boolean;
+  buttonState?: boolean;
+  toggleButtonState?: () => void;
 }
 
 export const Container: React.FC<Props> = ({
@@ -32,6 +34,8 @@ export const Container: React.FC<Props> = ({
   rightIcon,
   withNavigateBackBar,
   disableScroll,
+  buttonState,
+  toggleButtonState,
 }) => {
   const {colors} = useTheme();
   const getPadding = (): StyleProp<FlexStyle> => {
@@ -70,14 +74,18 @@ export const Container: React.FC<Props> = ({
 
   return withKeyboard ? (
     <>
-      {withNavigateBackBar && <NavigateBackBar rightIcon={rightIcon} />}
+      {withNavigateBackBar && (
+        <NavigateBackBar rightIcon={rightIcon} buttonState={!!buttonState} toggleButtonState={toggleButtonState} />
+      )}
       <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={styles.kbView}>
         {content}
       </KeyboardAvoidingView>
     </>
   ) : (
     <>
-      {withNavigateBackBar && <NavigateBackBar rightIcon={rightIcon} />}
+      {withNavigateBackBar && (
+        <NavigateBackBar rightIcon={rightIcon} buttonState={!!buttonState} toggleButtonState={toggleButtonState} />
+      )}
       {content}
     </>
   );

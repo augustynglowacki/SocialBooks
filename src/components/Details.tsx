@@ -1,4 +1,4 @@
-import React, {useCallback, useRef} from 'react';
+import React, {useCallback, useRef, useState} from 'react';
 import {Dimensions, StyleSheet, Touchable, TouchableOpacity, View} from 'react-native';
 import {Book} from 'src/models';
 import {palette} from 'src/styles';
@@ -8,6 +8,10 @@ import {convertDescription} from 'src/helpers/convertDescription';
 import Animated, {useAnimatedStyle, useSharedValue, withDelay, withSpring} from 'react-native-reanimated';
 import {TapGestureHandler} from 'react-native-gesture-handler';
 import {NavigateBackBar} from './common/NavigateBackBar';
+import {useDispatch, useSelector} from 'react-redux';
+import {userSelector} from 'src/redux/user/userSlice';
+import {setFavorite} from 'src/redux/collections/collectionsActions';
+import {collectionsSelector} from 'src/redux/collections/collectionsSlice';
 
 interface Props {
   book: Book | undefined;
@@ -15,6 +19,22 @@ interface Props {
 
 export const Details: React.FC<Props> = ({book}) => {
   if (!book) return null;
+  const dispatch = useDispatch();
+  const {favorite} = useSelector(collectionsSelector);
+  const favoriteInitialState = favorite.some(item => item.id === book.id);
+  const [favoriteButton, setFavoriteButton] = useState(favoriteInitialState);
+  const {
+    user: {userName},
+  } = useSelector(userSelector);
+
+  const handleAddtoCollection = (action: 'favorite') => {
+    if (!!userName) {
+      if (action === 'favorite') {
+        setFavoriteButton(prev => !prev);
+        dispatch(setFavorite(book));
+      }
+    }
+  };
   const {volumeInfo} = book;
   //heart animation, touch logic
   const scale = useSharedValue(0);
@@ -22,15 +42,24 @@ export const Details: React.FC<Props> = ({book}) => {
   const rStyle = useAnimatedStyle(() => ({
     transform: [{scale: Math.max(scale.value, 0)}],
   }));
+
   const onDoubleTap = useCallback(() => {
     scale.value = withSpring(1, undefined, isFinished => {
       if (isFinished) {
         scale.value = withDelay(500, withSpring(0));
       }
     });
+    handleAddtoCollection('favorite');
   }, []);
+  //----------------------------------
+
   return (
-    <Container style={styles.wrapper} withNavigateBackBar rightIcon>
+    <Container
+      style={styles.wrapper}
+      withNavigateBackBar
+      rightIcon
+      buttonState={favoriteButton}
+      toggleButtonState={() => handleAddtoCollection('favorite')}>
       <TapGestureHandler maxDelayMs={500} ref={doubleTapRef} numberOfTaps={2} onActivated={onDoubleTap}>
         <View>
           <BookComponent book={book} style={{marginVertical: 24}} shadowColor={palette.secondary} variant="details" />

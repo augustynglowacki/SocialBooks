@@ -27,17 +27,6 @@ export const Home: React.FC<Props> = ({book, isLoading, isError, error, refetch}
   const {
     user: {userName},
   } = useSelector(userSelector);
-  const [loggedIn, setLoggedIn] = useState(false);
-  useEffect(() => {
-    const subscriber = auth().onAuthStateChanged(user => {
-      if (user) {
-        setLoggedIn(true);
-      } else {
-        setLoggedIn(false);
-      }
-    });
-    return subscriber;
-  }, []);
 
   return (
     <Container>
@@ -69,9 +58,9 @@ export const Home: React.FC<Props> = ({book, isLoading, isError, error, refetch}
           onPress={() => {
             navigate(Route.REGISTER);
           }}
-          disabled={loggedIn}
+          disabled={!!userName}
         />
-        {loggedIn ? (
+        {!!userName ? (
           <FeatureButton
             label="Logout"
             style={{marginVertical: 24}}
