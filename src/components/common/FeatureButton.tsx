@@ -7,7 +7,7 @@ import {AppText} from './AppText';
 interface Props {
   disabled?: boolean;
   label: string;
-  onPress: () => void;
+  onPress?: () => void;
   style?: StyleProp<FlexStyle | ViewStyle>;
   shadowColor?: string;
   shadowMaxWidth: number;

@@ -6,7 +6,5 @@ import {useGetBookQuery} from 'src/services/books';
 
 export const HomeScreen: React.FC = () => {
   const {data, isLoading, isError, error, refetch} = useGetBookQuery();
-  const {favorite} = useSelector(collectionsSelector);
-  // console.log(favorite);
   return <Home book={data} isLoading={isLoading} isError={isError} error={error} refetch={refetch} />;
 };

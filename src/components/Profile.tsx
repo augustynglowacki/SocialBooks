@@ -5,7 +5,9 @@ import LinearGradient from 'react-native-linear-gradient';
 import {Avatar, AppText, FeatureButton, InfoBox, Stats, Container} from 'src/components/common';
 import {logOutUser} from 'src/redux/user/userActions';
 import {palette} from 'src/styles';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
+import {BookList} from './books';
+import {collectionsSelector} from 'src/redux/collections/collectionsSlice';
 interface Props {
   name: string;
   photo: string;
@@ -13,7 +15,7 @@ interface Props {
 
 export const Profile: FC<Props> = ({name, photo}) => {
   const {colors} = useTheme();
-  const dispatch = useDispatch();
+  const {favorite, error, loading} = useSelector(collectionsSelector);
   const gradientStyle: StyleProp<ViewStyle | FlexStyle> = {
     flex: 1,
     position: 'absolute',
@@ -23,7 +25,7 @@ export const Profile: FC<Props> = ({name, photo}) => {
     height: '100%',
   };
   const stats: Stats[] = [
-    {label: 'Favorite', count: 1},
+    {label: 'Favorite', count: favorite.length},
     {label: 'Reviews', count: 2},
   ];
 
@@ -48,8 +50,22 @@ export const Profile: FC<Props> = ({name, photo}) => {
           </SafeAreaView>
         </LinearGradient>
       </View>
-      <View style={styles.info}>
+      <View>
         <InfoBox stats={stats} shadowColor={palette.third} style={styles.infoBox} />
+      </View>
+      <View style={styles.collections}>
+        <View style={styles.favorite}>
+          <AppText style={styles.collectionTitle} fontWeight="bold">
+            Favorite
+          </AppText>
+          {!!favorite && <BookList title="books" data={favorite} error={error} loading={loading} />}
+        </View>
+        <View style={styles.reviews}>
+          <AppText style={styles.collectionTitle} fontWeight="bold">
+            Reviews
+          </AppText>
+          {!!favorite && <BookList title="books" data={favorite} error={error} loading={loading} />}
+        </View>
       </View>
     </Container>
   );
@@ -60,16 +76,30 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: palette.secondary,
   },
+  favorite: {paddingBottom: 0},
+  reviews: {paddingBottom: 0},
   gradient: {
-    height: '40%',
+    minHeight: 270,
+    height: Dimensions.get('window').height * 0.4,
     maxHeight: 300,
     flex: 1,
+  },
+  collectionTitle: {
+    marginTop: 24,
+    fontSize: 24,
   },
   info: {
     alignSelf: 'center',
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  collections: {
+    alignSelf: 'center',
+    width: '90%',
+    maxWidth: '90%',
+    flex: 1,
+    height: 'auto',
   },
   infoBox: {
     alignSelf: 'center',
