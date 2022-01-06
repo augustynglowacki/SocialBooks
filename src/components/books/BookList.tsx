@@ -9,14 +9,13 @@ import {Book} from 'src/models';
 import {BookComponent} from '.';
 
 interface Props {
-  title: string;
   data: Book[];
   error?: ErrorType | string | undefined | null;
   loading: boolean;
 }
 
 export const BookList: React.FC<Props> = ({data, error}) => {
-  console.log(data);
+  // console.log(data);
   const {navigate} = useNavigation<AnyScreenProp>();
   const renderItem: ListRenderItem<Book> = ({item, index}) => (
     <BookComponent

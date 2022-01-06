@@ -40,7 +40,7 @@ export const Search: React.FC = () => {
           </AppText>
         </AppText>
         <Input label={t('search')} value={searchTerm} onChangeText={setSearchTerm} autoFocus />
-        {!!data && <BookList title={t('books')} data={data} error={error} loading={isLoading} />}
+        {!!data && <BookList data={data} error={error} loading={isLoading} />}
         <AppModal modalVisible={modalVisible} toggleModal={toggleModal}>
           <Picker selectedValue={selectedQuery} onValueChange={item => setSelectedQuery(item)}>
             {Object.values(QueryFilters).map(item => (

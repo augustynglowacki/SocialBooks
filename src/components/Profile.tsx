@@ -58,13 +58,24 @@ export const Profile: FC<Props> = ({name, photo}) => {
           <AppText style={styles.collectionTitle} fontWeight="bold">
             Favorite
           </AppText>
-          {!!favorite && <BookList title="books" data={favorite} error={error} loading={loading} />}
+          {!!favorite.length ? (
+            <BookList data={favorite} error={error} loading={loading} />
+          ) : (
+            <AppText style={{paddingTop: 12}}>
+              Add some favorites! {'\n'}1.Search for a movie.{'\n'}2.Open the movie by clicking on it.{'\n'}3.Like by
+              double tapping the movie cover!
+            </AppText>
+          )}
         </View>
         <View style={styles.reviews}>
           <AppText style={styles.collectionTitle} fontWeight="bold">
             Reviews
           </AppText>
-          {!!favorite && <BookList title="books" data={favorite} error={error} loading={loading} />}
+          {!!favorite.length ? (
+            <BookList data={favorite} error={error} loading={loading} />
+          ) : (
+            <AppText style={{paddingTop: 12}}>Add some reviews!</AppText>
+          )}
         </View>
       </View>
     </Container>
