@@ -4,6 +4,11 @@ import {Book} from 'src/models';
 
 export const setData = async (book: Book, name: string) => {
   const {volumeInfo, id} = book;
+  const title = volumeInfo?.title ?? '';
+  const description = volumeInfo?.description ?? '';
+  const averageRating = volumeInfo?.averageRating ?? 0;
+  const ratingCount = volumeInfo?.ratingCount ?? 0;
+  const authors = volumeInfo?.authors ?? [];
   const imagePath = volumeInfo?.imageLinks?.thumbnail ?? '';
   const db = firestore();
   const userId = auth().currentUser?.uid;
@@ -12,20 +17,13 @@ export const setData = async (book: Book, name: string) => {
     return null;
   }
 
-  const docRef = db.collection('users').doc(userId).collection(name).doc(id.toString());
+  const docRef = db.collection('users').doc(userId).collection(name).doc(id);
   const doc = await docRef.get();
 
   if (doc.exists) {
     docRef.delete();
   }
   if (!doc.exists) {
-    docRef.set({
-      imagePath,
-    });
+    docRef.set({title, description, averageRating, ratingCount, authors, imagePath});
   }
-};
-
-export const setCover = (imagePath: string, userId: string) => {
-  const db = firestore();
-  db.collection('users').doc(userId).set({imagePath});
 };

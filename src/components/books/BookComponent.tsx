@@ -117,10 +117,10 @@ export const BookComponent: React.FC<Props> = ({
       return (
         <View style={titleAuthorWrapper}>
           <AppText style={authorStyle} fontWeight="bold">
-            {book.volumeInfo.authors?.[0].split(' ').slice(0, 2).join(' ')}
+            {!!book.volumeInfo?.authors && book.volumeInfo.authors?.[0].split(' ').slice(0, 2).join(' ')}
           </AppText>
           <AppText style={titleStyle} fontWeight="bold">
-            {book.volumeInfo.title}
+            {!!book.volumeInfo?.title && book.volumeInfo.title}
           </AppText>
         </View>
       );

@@ -11,11 +11,12 @@ import {BookComponent} from '.';
 interface Props {
   title: string;
   data: Book[];
-  error?: ErrorType;
+  error?: ErrorType | string | undefined | null;
   loading: boolean;
 }
 
 export const BookList: React.FC<Props> = ({data, error}) => {
+  console.log(data);
   const {navigate} = useNavigation<AnyScreenProp>();
   const renderItem: ListRenderItem<Book> = ({item, index}) => (
     <BookComponent
@@ -48,7 +49,7 @@ export const BookList: React.FC<Props> = ({data, error}) => {
 
 const styles = StyleSheet.create({
   wrapper: {
-    paddingVertical: 20,
+    paddingTop: 20,
     flex: 1,
   },
 });

@@ -23,6 +23,11 @@ export const getFavorite = createAsyncThunk<Book[]>(
               snap.docs.map(doc => ({
                 id: doc.id,
                 volumeInfo: {
+                  title: doc.data().title,
+                  description: doc.data().description,
+                  authors: doc.data().authors,
+                  averageRating: doc.data().averageRating,
+                  ratingCount: doc.data().ratingCount,
                   imageLinks: {
                     thumbnail: doc.data().imagePath,
                   },
