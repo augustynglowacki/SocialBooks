@@ -71,20 +71,20 @@ export const Details: React.FC<Props> = ({book}) => {
         </View>
       </TapGestureHandler>
 
-      {volumeInfo.title && (
+      {!!volumeInfo.title && (
         <AppText style={styles.title} fontWeight="bold">
           {volumeInfo.title}
         </AppText>
       )}
       <View style={styles.authorWrapper}>
-        {volumeInfo.authors &&
+        {!!volumeInfo.authors &&
           volumeInfo.authors.slice(0, 2).map(item => (
             <AppText key={item} variant="subtitle" style={styles.author}>
               {item}
             </AppText>
           ))}
       </View>
-      {volumeInfo.description && (
+      {!!volumeInfo.description && (
         <AppText variant="p" style={styles.paragraph}>
           {convertDescription(volumeInfo.description)}
         </AppText>

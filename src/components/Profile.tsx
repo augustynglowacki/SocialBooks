@@ -2,7 +2,7 @@ import {useTheme} from '@react-navigation/native';
 import React, {FC} from 'react';
 import {Dimensions, FlexStyle, SafeAreaView, StyleProp, StyleSheet, View, ViewStyle} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
-import {Avatar, AppText, FeatureButton, InfoBox, Stats, Container} from 'src/components/common';
+import {Avatar, AppText, FeatureButton, InfoBox, Stats, Container, Review} from 'src/components/common';
 import {logOutUser} from 'src/redux/user/userActions';
 import {palette} from 'src/styles';
 import {useDispatch, useSelector} from 'react-redux';
@@ -50,9 +50,7 @@ export const Profile: FC<Props> = ({name, photo}) => {
           </SafeAreaView>
         </LinearGradient>
       </View>
-      <View>
-        <InfoBox stats={stats} shadowColor={palette.third} style={styles.infoBox} />
-      </View>
+      <InfoBox stats={stats} shadowColor={palette.third} style={styles.infoBox} />
       <View style={styles.collections}>
         <View style={styles.favorite}>
           <AppText style={styles.collectionTitle} fontWeight="bold">
@@ -72,7 +70,7 @@ export const Profile: FC<Props> = ({name, photo}) => {
             Reviews
           </AppText>
           {!!favorite.length ? (
-            <BookList data={favorite} error={error} loading={loading} />
+            <Review stats={stats} shadowColor={palette.third} style={styles.reviewCollection} />
           ) : (
             <AppText style={{paddingTop: 12}}>Add some reviews!</AppText>
           )}
@@ -88,7 +86,10 @@ const styles = StyleSheet.create({
     backgroundColor: palette.secondary,
   },
   favorite: {paddingBottom: 0},
-  reviews: {paddingBottom: 0},
+  reviews: {paddingBottom: 200},
+  reviewCollection: {
+    marginTop: 20,
+  },
   gradient: {
     minHeight: 270,
     height: Dimensions.get('window').height * 0.4,

@@ -19,11 +19,20 @@ export const setData = async (book: Book, name: string) => {
 
   const docRef = db.collection('users').doc(userId).collection(name).doc(id);
   const doc = await docRef.get();
-
-  if (doc.exists) {
-    docRef.delete();
+  if (name === 'favorite') {
+    if (doc.exists) {
+      docRef.delete();
+    }
+    if (!doc.exists) {
+      docRef.set({title, description, averageRating, ratingCount, authors, imagePath});
+    }
   }
-  if (!doc.exists) {
-    docRef.set({title, description, averageRating, ratingCount, authors, imagePath});
+  if (name === 'reviews') {
+    if (doc.exists) {
+      docRef.delete();
+    }
+    if (!doc.exists) {
+      docRef.set({book: {title, description, averageRating, ratingCount, authors, imagePath}});
+    }
   }
 };
