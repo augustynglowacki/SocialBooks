@@ -4,23 +4,18 @@ import {FlexStyle, StyleProp, TextStyle, TouchableOpacity, View, ViewStyle} from
 import {BORDER_RADIUS, BOX_SHADOW, palette} from 'src/styles';
 import {AppText} from './AppText';
 
-interface Props {
-  disabled?: boolean;
+export interface Stats {
   label: string;
-  onPress: () => void;
+  count: number;
+}
+interface Props {
   style?: StyleProp<FlexStyle | ViewStyle>;
   shadowColor?: string;
-  shadowMaxWidth: number;
+  paddingVal?: number;
+  stats: Stats[];
 }
 
-export const FeatureButton: React.FC<Props> = ({
-  disabled,
-  label,
-  onPress,
-  style,
-  shadowColor = palette.primary,
-  shadowMaxWidth = 225,
-}) => {
+export const InfoBox: React.FC<Props> = ({style, shadowColor = palette.primary, stats}) => {
   const {
     colors: {background, text},
   } = useTheme();
@@ -28,56 +23,58 @@ export const FeatureButton: React.FC<Props> = ({
   const buttonStyle: StyleProp<ViewStyle> = {
     justifyContent: 'center',
     alignItems: 'center',
-    alignSelf: 'flex-start',
+    alignSelf: 'center',
+    flexDirection: 'row',
     backgroundColor: background,
     borderRadius: BORDER_RADIUS,
     height: 80,
-    maxWidth: 250,
+    minWidth: '90%',
+    width: '90%',
+    maxWidth: 400,
     borderWidth: 4,
     borderColor: text,
   };
   const labelStyle: StyleProp<TextStyle> = {
     fontSize: 18,
     letterSpacing: 0.1,
-    paddingHorizontal: 40,
+    width: '100%',
     color: text,
+    textAlign: 'center',
   };
   const wrapperStyle: StyleProp<ViewStyle> = {
     height: 80,
-    maxWidth: 250,
+    width: '100%',
   };
   const shadowStyle: StyleProp<ViewStyle> = {
     position: 'absolute',
-    left: 13,
-    top: 13,
+    alignSelf: 'center',
+    left: 10,
+    top: 15,
     backgroundColor: shadowColor,
     width: '100%',
-    maxWidth: shadowMaxWidth, //need to specify it manually every time because the width on the white box is auto (text+padding)
+    maxWidth: '90%',
     height: 75,
     borderRadius: BORDER_RADIUS,
   };
-  if (disabled) {
-    return (
-      <View style={[wrapperStyle, BOX_SHADOW, style]}>
-        <View style={shadowStyle}></View>
-        <View style={buttonStyle}>
-          <AppText style={labelStyle} fontWeight="bold">
-            {label}
-          </AppText>
-        </View>
-      </View>
-    );
-  }
+  const infoStyle: StyleProp<ViewStyle> = {
+    marginHorizontal: 28,
+  };
   return (
     <View style={[wrapperStyle, BOX_SHADOW, style]}>
-      <TouchableOpacity onPress={onPress}>
-        <View style={shadowStyle}></View>
-        <View style={buttonStyle}>
-          <AppText style={labelStyle} fontWeight="bold">
-            {label}
-          </AppText>
-        </View>
-      </TouchableOpacity>
+      <View style={shadowStyle}></View>
+      <View style={buttonStyle}>
+        {!!stats &&
+          stats.map(item => (
+            <View key={item.label + item.count} style={[infoStyle]}>
+              <AppText style={labelStyle} fontWeight="bold">
+                {item.label}
+              </AppText>
+              <AppText style={[labelStyle]} fontWeight="bold">
+                {item.count}
+              </AppText>
+            </View>
+          ))}
+      </View>
     </View>
   );
 };

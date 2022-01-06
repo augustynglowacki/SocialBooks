@@ -15,12 +15,14 @@ import {NavigateBackBar} from './NavigateBackBar';
 interface Props {
   style?: StyleProp<ViewStyle>;
   scrollViewContainerStyle?: StyleProp<ViewStyle>;
+  safeAreaEdges?: Edge[];
   //specify withKeyboard prop when using Container if you want KeyboardAvoidingView
   withKeyboard?: boolean;
   padding?: 'small' | 'none';
   rightIcon?: boolean;
   withNavigateBackBar?: boolean;
   disableScroll?: boolean;
+  disableSafeArea?: boolean;
   buttonState?: boolean;
   toggleButtonState?: () => void;
 }
@@ -33,7 +35,9 @@ export const Container: React.FC<Props> = ({
   padding,
   rightIcon,
   withNavigateBackBar,
+  safeAreaEdges,
   disableScroll,
+  disableSafeArea,
   buttonState,
   toggleButtonState,
 }) => {
@@ -50,25 +54,29 @@ export const Container: React.FC<Props> = ({
         return {paddingVertical: 8, paddingHorizontal: 14};
     }
   };
-
-  const content = (
+  const scrollViewContent = disableScroll ? (
+    <View style={[styles.wrapper, style, getPadding(), {backgroundColor: colors.background}]}>{children}</View>
+  ) : (
+    <ScrollView
+      showsVerticalScrollIndicator={false}
+      contentContainerStyle={[
+        {
+          flexGrow: 1,
+        },
+        scrollViewContainerStyle,
+      ]}>
+      <View style={[styles.wrapper, style, getPadding(), {backgroundColor: colors.background}]}>{children}</View>
+    </ScrollView>
+  );
+  const safeAreaContent = disableSafeArea ? (
+    scrollViewContent
+  ) : (
     <SafeAreaView
       style={[styles.safeArea, style]}
-      edges={withNavigateBackBar ? ['left', 'right', 'bottom'] : ['top', 'left', 'right']}>
-      {disableScroll ? (
-        <View style={[styles.wrapper, style, getPadding(), {backgroundColor: colors.background}]}>{children}</View>
-      ) : (
-        <ScrollView
-          showsVerticalScrollIndicator={false}
-          contentContainerStyle={[
-            {
-              flexGrow: 1,
-            },
-            scrollViewContainerStyle,
-          ]}>
-          <View style={[styles.wrapper, style, getPadding(), {backgroundColor: colors.background}]}>{children}</View>
-        </ScrollView>
-      )}
+      edges={
+        !!safeAreaEdges ? safeAreaEdges : withNavigateBackBar ? ['left', 'right', 'bottom'] : ['top', 'left', 'right']
+      }>
+      {scrollViewContent}
     </SafeAreaView>
   );
 
@@ -78,7 +86,7 @@ export const Container: React.FC<Props> = ({
         <NavigateBackBar rightIcon={rightIcon} buttonState={!!buttonState} toggleButtonState={toggleButtonState} />
       )}
       <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={styles.kbView}>
-        {content}
+        {safeAreaContent}
       </KeyboardAvoidingView>
     </>
   ) : (
@@ -86,7 +94,7 @@ export const Container: React.FC<Props> = ({
       {withNavigateBackBar && (
         <NavigateBackBar rightIcon={rightIcon} buttonState={!!buttonState} toggleButtonState={toggleButtonState} />
       )}
-      {content}
+      {safeAreaContent}
     </>
   );
 };

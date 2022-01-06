@@ -7,8 +7,7 @@ import {TabIcon} from './TabIcon';
 import {palette} from 'src/styles';
 import {HomeScreen, ProfileScreen, SearchScreen} from 'src/screens';
 import auth from '@react-native-firebase/auth';
-import {useDispatch, useSelector} from 'react-redux';
-import {userSelector} from 'src/redux/user/userSlice';
+import {useDispatch} from 'react-redux';
 import {useFocusEffect} from '@react-navigation/native';
 import {getFavorite} from 'src/redux/collections/collectionsActions';
 
@@ -37,6 +36,7 @@ const Tab = createBottomTabNavigator();
 
 const BottomTabsNavigator = () => {
   const [backgroundColor, setBackgroundColor] = useState(palette.primary);
+  const [loggedIn, setLoggedIn] = useState(false);
   const tabBarStyle: StyleProp<ViewStyle> = {
     backgroundColor,
     borderTopWidth: 1,
@@ -48,9 +48,17 @@ const BottomTabsNavigator = () => {
       dispatch(getFavorite());
     }, [dispatch]),
   );
-  const {
-    user: {userName},
-  } = useSelector(userSelector);
+
+  useEffect(() => {
+    const subscriber = auth().onAuthStateChanged(user => {
+      if (user) {
+        setLoggedIn(true);
+      } else {
+        setLoggedIn(false);
+      }
+    });
+    return subscriber;
+  }, []);
 
   return (
     <Tab.Navigator
@@ -59,7 +67,7 @@ const BottomTabsNavigator = () => {
         tabBarStyle,
         headerShown: false,
       }}>
-      {screensData.slice(0, !!userName ? 3 : 2).map((item, index) => (
+      {screensData.slice(0, loggedIn ? 3 : 2).map((item, index) => (
         <Tab.Screen
           name={item.name}
           key={index + item.name}

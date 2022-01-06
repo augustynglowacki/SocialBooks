@@ -7,6 +7,7 @@ export * from './Container';
 export * from './FeatureButton';
 export * from './Icon';
 export * from './Input';
+export * from './InfoBox';
 export * from './Message';
 export * from './NavigateBackBar';
 export * from './AppButton';
