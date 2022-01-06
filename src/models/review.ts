@@ -1,13 +1,13 @@
 import {Book} from './book';
 
-export interface BookReview {
+export interface Review {
   id: string;
   book: Book;
-  createdBy: string;
+  createdBy?: string;
   createdDate: string;
   reviewTitle: string;
-  reviewDescription: string;
+  reviewDescription?: string;
   rating: number;
-  likes: number;
-  comments: string[];
+  likes?: number;
+  comments?: string[];
 }
