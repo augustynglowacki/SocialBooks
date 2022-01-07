@@ -1,14 +1,24 @@
 import {useTheme} from '@react-navigation/native';
 import React, {FC} from 'react';
-import {Dimensions, FlexStyle, SafeAreaView, StyleProp, StyleSheet, View, ViewStyle} from 'react-native';
+import {
+  Dimensions,
+  FlexStyle,
+  SafeAreaView,
+  StyleProp,
+  StyleSheet,
+  TouchableOpacity,
+  View,
+  ViewStyle,
+} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
-import {Avatar, AppText, InfoBox, Stats, Container} from 'src/components/common';
+import {Avatar, AppText, InfoBox, Stats, Container, FeatureButton, Icon} from 'src/components/common';
 import {palette} from 'src/styles';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {BookList} from './books';
 import {collectionsSelector} from 'src/redux/collections/collectionsSlice';
 import {userSelector} from 'src/redux/user/userSlice';
 import {ReviewList} from './reviews';
+import {logOutUser} from 'src/redux/user/userActions';
 interface Props {
   name: string;
   photo: string;
@@ -20,6 +30,7 @@ export const Profile: FC<Props> = ({name, photo}) => {
   const {
     user: {id},
   } = useSelector(userSelector);
+  const dispatch = useDispatch();
   const userReviews = reviews.filter(item => item.createdBy === id);
   const gradientStyle: StyleProp<ViewStyle | FlexStyle> = {
     flex: 1,
@@ -46,6 +57,11 @@ export const Profile: FC<Props> = ({name, photo}) => {
           start={{x: 0, y: 0}}
           end={{x: 0, y: 1}}>
           <SafeAreaView>
+            <View style={styles.logoutBar}>
+              <TouchableOpacity onPress={() => dispatch(logOutUser())}>
+                <Icon color={'black'} name={'log-out-outline'} size={38} />
+              </TouchableOpacity>
+            </View>
             <View style={styles.info}>
               <Avatar source={photo} name={name} />
               <AppText style={styles.title} variant="h1">
@@ -88,7 +104,15 @@ export const Profile: FC<Props> = ({name, photo}) => {
 const styles = StyleSheet.create({
   wrapper: {
     flex: 1,
+    position: 'relative',
     // backgroundColor: palette.secondary, //drag down effect
+  },
+  logoutBar: {
+    position: 'absolute',
+    top: 0,
+    right: 0,
+    marginTop: -35,
+    marginRight: -50,
   },
   gradient: {
     minHeight: 270,
