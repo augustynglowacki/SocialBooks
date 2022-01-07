@@ -115,10 +115,12 @@ export const Details: React.FC<Props> = ({book}) => {
 const styles = StyleSheet.create({
   wrapper: {
     alignItems: 'center',
+    maxWidth: '100%',
   },
   authorWrapper: {
     flexDirection: 'row',
-    marginLeft: 4,
+    marginLeft: 15,
+    marginRight: 15,
     marginTop: 4,
   },
   title: {
