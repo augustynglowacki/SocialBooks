@@ -2,7 +2,7 @@ import {createStackNavigator, CardStyleInterpolators} from '@react-navigation/st
 import React from 'react';
 import {Platform} from 'react-native';
 import {RootStackParamList, Route} from 'src/constants';
-import {AddReviewScreen, DetailsScreen, LoginScreen, RegisterScreen} from 'src/screens';
+import {AddReviewScreen, DetailsScreen, LoginScreen, RegisterScreen, WelcomeScreen} from 'src/screens';
 import BottomTabsNavigator from './BottomTabs/BottomTabsNavigator';
 
 const Stack = createStackNavigator<RootStackParamList>();
@@ -16,6 +16,7 @@ export const screenOptions = {
 function HomeNavigator() {
   return (
     <Stack.Navigator screenOptions={screenOptions}>
+      <Stack.Screen name={Route.WELCOME} component={WelcomeScreen} />
       <Stack.Screen name={Route.HOME_NAVIGATOR} component={BottomTabsNavigator} />
       <Stack.Screen name={Route.DETAILS} component={DetailsScreen} />
       <Stack.Screen name={Route.ADD_REVIEW_SCREEN} component={AddReviewScreen} />

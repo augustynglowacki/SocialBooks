@@ -11,6 +11,7 @@ export enum Route {
   REGISTER = 'Register',
   PROFILE = 'Profile',
   ADD_REVIEW_SCREEN = 'AddReview',
+  WELCOME = 'Welcome',
 }
 type DetailsScreenParams = {
   book: Book;
@@ -29,6 +30,7 @@ export type RootStackParamList = {
   Profile: undefined;
   Details: DetailsScreenParams;
   AddReview: AddReviewScreenParams;
+  Welcome: undefined;
 };
 export type HomeScreenProp = StackNavigationProp<RootStackParamList, 'Home'>;
 export type SearchScreenProp = StackNavigationProp<RootStackParamList, 'Home'>;
@@ -40,5 +42,6 @@ export type AddReviewScreenProp = StackNavigationProp<RootStackParamList, 'AddRe
 export type AddReviewScreenNavigationProp = StackNavigationProp<RootStackParamList, 'AddReview'>;
 export type LoginScreenProp = StackNavigationProp<RootStackParamList, 'Login'>;
 export type RegisterScreenProp = StackNavigationProp<RootStackParamList, 'Register'>;
+export type WelcomeScreenProp = StackNavigationProp<RootStackParamList, 'Welcome'>;
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type AnyScreenProp = StackNavigationProp<RootStackParamList, any>;

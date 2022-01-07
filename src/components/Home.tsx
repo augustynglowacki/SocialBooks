@@ -6,60 +6,38 @@ import {useSelector} from 'react-redux';
 import {userSelector} from 'src/redux/user/userSlice';
 import {collectionsSelector} from 'src/redux/collections/collectionsSlice';
 import {ReviewList} from './reviews';
+import Animated, {FadeIn} from 'react-native-reanimated';
 interface Props {}
 
 export const Home: React.FC<Props> = () => {
   const {
     user: {userName},
   } = useSelector(userSelector);
-  const {favorite, reviews, error, loading} = useSelector(collectionsSelector);
+  const {reviews, error, loading} = useSelector(collectionsSelector);
   return (
     <Container style={styles.container} disableScroll>
-      <AppText style={styles.title} variant="h1">
-        Hello{' '}
-        <AppText variant="h1" style={styles.markedTitle} fontWeight="bold">
-          {!!userName && userName}
-        </AppText>
-      </AppText>
-      <View style={{width: '100%', flex: 1}}>
-        <AppText style={styles.collectionTitle} fontWeight="bold">
-          Latest Reviews:
-        </AppText>
-
-        {!!reviews ? (
-          <ReviewList data={reviews} error={error} loading={loading} />
-        ) : (
-          <AppText style={{paddingTop: 12}}>Error loading reviews :/</AppText>
-        )}
-
-        {/* <FeatureButton
-          label="Register"
-          style={{marginVertical: 24}}
-          shadowMaxWidth={169}
-          onPress={() => {
-            navigate(Route.REGISTER);
-          }}
-          disabled={!!userName}
-        />
-        {!!userName ? (
-          <FeatureButton
-            label="Logout"
-            style={{marginVertical: 24}}
-            shadowColor={palette.secondary}
-            shadowMaxWidth={148}
-            onPress={() => dispatch(logOutUser())}
-          />
-        ) : (
-          <FeatureButton
-            label="Login"
-            style={{marginVertical: 24}}
-            shadowMaxWidth={137}
-            onPress={() => {
-              navigate(Route.LOGIN);
-            }}
-          />
-        )} */}
-      </View>
+      {!!userName && (
+        <Animated.View entering={FadeIn.springify().stiffness(15)}>
+          <AppText style={styles.title} variant="h1">
+            Hello{' '}
+            <AppText variant="h1" style={styles.markedTitle} fontWeight="bold">
+              {userName}
+            </AppText>
+          </AppText>
+        </Animated.View>
+      )}
+      {!!reviews && (
+        <Animated.View entering={FadeIn.springify().stiffness(15)} style={{width: '100%', flex: 1}}>
+          <AppText style={styles.collectionTitle} fontWeight="bold">
+            Latest Reviews:
+          </AppText>
+          {!!reviews ? (
+            <ReviewList data={reviews} error={error} loading={loading} />
+          ) : (
+            <AppText style={{paddingTop: 12}}>Error loading reviews :/</AppText>
+          )}
+        </Animated.View>
+      )}
     </Container>
   );
 };
@@ -69,13 +47,13 @@ const styles = StyleSheet.create({
     paddingTop: 10,
   },
   container: {
-    paddingTop: 20,
+    paddingTop: 10,
     justifyContent: 'flex-start',
     flex: 1,
   },
   collectionTitle: {
-    marginTop: 24,
-    marginBottom: 16,
+    marginTop: 20,
+    marginBottom: 26,
     fontSize: 24,
     textAlign: 'center',
   },

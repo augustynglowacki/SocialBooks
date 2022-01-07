@@ -1,4 +1,4 @@
-import {useTheme} from '@react-navigation/native';
+import {useNavigation, useTheme} from '@react-navigation/native';
 import React, {FC} from 'react';
 import {
   Dimensions,
@@ -19,6 +19,7 @@ import {collectionsSelector} from 'src/redux/collections/collectionsSlice';
 import {userSelector} from 'src/redux/user/userSlice';
 import {ReviewList} from './reviews';
 import {logOutUser} from 'src/redux/user/userActions';
+import {AnyScreenProp, Route} from 'src/constants';
 interface Props {
   name: string;
   photo: string;
@@ -31,6 +32,7 @@ export const Profile: FC<Props> = ({name, photo}) => {
     user: {id},
   } = useSelector(userSelector);
   const dispatch = useDispatch();
+  const {navigate} = useNavigation<AnyScreenProp>();
   const userReviews = reviews.filter(item => item.createdBy === id);
   const gradientStyle: StyleProp<ViewStyle | FlexStyle> = {
     flex: 1,
@@ -56,9 +58,13 @@ export const Profile: FC<Props> = ({name, photo}) => {
           style={gradientStyle}
           start={{x: 0, y: 0}}
           end={{x: 0, y: 1}}>
-          <SafeAreaView>
+          <SafeAreaView style={{width: '100%'}}>
             <View style={styles.logoutBar}>
-              <TouchableOpacity onPress={() => dispatch(logOutUser())}>
+              <TouchableOpacity
+                onPress={() => {
+                  dispatch(logOutUser());
+                  navigate(Route.WELCOME);
+                }}>
                 <Icon color={'black'} name={'log-out-outline'} size={38} />
               </TouchableOpacity>
             </View>
@@ -110,9 +116,8 @@ const styles = StyleSheet.create({
   logoutBar: {
     position: 'absolute',
     top: 0,
-    right: 0,
-    marginTop: -35,
-    marginRight: -50,
+    marginTop: -30,
+    right: 15,
   },
   gradient: {
     minHeight: 270,
