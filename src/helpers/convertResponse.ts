@@ -1,4 +1,4 @@
-import {Book} from 'src/models/';
+import {Book, Review} from 'src/models/';
 
 export const convertToBook = ({id, volumeInfo}: Book): Book => ({
   id,
@@ -32,3 +32,18 @@ export const convertToBooks = (response: Book[]): Book[] => {
   }
   return [] as Book[];
 };
+// export const convertToReview = (response: Review[]): Review[] => {
+//   if (!!response?.length) {
+//     return response.map((review: Review) => ({
+//       id: review.id,
+//       book: review.book,
+//       reviewTitle: review.reviewTitle,
+//       reviewDescription: review.reviewDescription,
+//       createdDate: review.createdDate,
+//       rating: review.rating,
+//       likes: review.likes,
+//       comments: review.comments,
+//     }));
+//   }
+//   return [] as Review[];
+// };

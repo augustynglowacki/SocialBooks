@@ -9,7 +9,7 @@ import {HomeScreen, ProfileScreen, SearchScreen} from 'src/screens';
 import auth from '@react-native-firebase/auth';
 import {useDispatch} from 'react-redux';
 import {useFocusEffect} from '@react-navigation/native';
-import {getFavorite} from 'src/redux/collections/collectionsActions';
+import {getFavorite, getReviews} from 'src/redux/collections/collectionsActions';
 
 const BOTTOM_TABS_HEIGHT = 60;
 const screensData = [
@@ -46,9 +46,9 @@ const BottomTabsNavigator = () => {
   useFocusEffect(
     useCallback(() => {
       dispatch(getFavorite());
+      dispatch(getReviews());
     }, [dispatch]),
   );
-
   useEffect(() => {
     const subscriber = auth().onAuthStateChanged(user => {
       if (user) {

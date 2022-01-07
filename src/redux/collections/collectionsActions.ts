@@ -1,8 +1,8 @@
 import {createAsyncThunk} from '@reduxjs/toolkit';
-import {Book} from 'src/models';
+import {Book, Review} from 'src/models';
 import firestore from '@react-native-firebase/firestore';
 import auth from '@react-native-firebase/auth';
-import {setData} from 'src/services/firestore';
+import {setData, setReview} from 'src/services/firestore';
 
 export const setFavorite = createAsyncThunk<void, Book>('collections/setFavorite', async book => {
   await setData(book, 'favorite');
@@ -32,6 +32,35 @@ export const getFavorite = createAsyncThunk<Book[]>(
                     thumbnail: doc.data().imagePath,
                   },
                 },
+              })),
+            );
+          },
+          error => {
+            reject(error);
+          },
+        );
+    }),
+);
+export const setReviews = createAsyncThunk<void, Review>('collections/setReviews', async review => {
+  await setReview(review);
+});
+
+export const getReviews = createAsyncThunk<Review[]>(
+  'collections/getReviews',
+  () =>
+    new Promise((resolve, reject) => {
+      firestore()
+        .collection('reviews')
+        .onSnapshot(
+          snap => {
+            resolve(
+              snap.docs.map(doc => ({
+                id: doc.data().id,
+                book: doc.data().book,
+                createdDate: doc.data().createdDate,
+                reviewTitle: doc.data().reviewTitle,
+                reviewDescription: doc.data().reviewDescription,
+                rating: doc.data().rating,
               })),
             );
           },

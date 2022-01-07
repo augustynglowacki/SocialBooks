@@ -3,7 +3,7 @@ import {Dimensions, StyleSheet, Touchable, TouchableOpacity, View} from 'react-n
 import {Book} from 'src/models';
 import {palette} from 'src/styles';
 import {BookComponent} from 'src/components/books';
-import {AppText, Container, Icon} from 'src/components/common';
+import {AppButton, AppText, Container, Icon} from 'src/components/common';
 import {convertDescription} from 'src/helpers/convertDescription';
 import Animated, {useAnimatedStyle, useSharedValue, withDelay, withSpring} from 'react-native-reanimated';
 import {TapGestureHandler} from 'react-native-gesture-handler';
@@ -12,6 +12,9 @@ import {useDispatch, useSelector} from 'react-redux';
 import {userSelector} from 'src/redux/user/userSlice';
 import {setFavorite} from 'src/redux/collections/collectionsActions';
 import {collectionsSelector} from 'src/redux/collections/collectionsSlice';
+import {AppModal} from './common/AppModal';
+import {DetailsScreenProp, Route} from 'src/constants';
+import {useNavigation} from '@react-navigation/native';
 
 interface Props {
   book: Book | undefined;
@@ -20,7 +23,9 @@ interface Props {
 export const Details: React.FC<Props> = ({book}) => {
   if (!book) return null;
   const dispatch = useDispatch();
-  const {favorite} = useSelector(collectionsSelector);
+  const {favorite, reviews} = useSelector(collectionsSelector);
+
+  // console.log(reviews.forEach(item => console.log(item.reviewTitle)));
   const favoriteInitialState = favorite.some(item => item.id === book.id);
   const [favoriteButton, setFavoriteButton] = useState(favoriteInitialState);
   const {
@@ -52,6 +57,11 @@ export const Details: React.FC<Props> = ({book}) => {
     handleAddtoCollection('favorite');
   }, []);
   //----------------------------------
+  // const [modalVisible, setModalVisible] = useState(false);
+  // const toggleModal = () => {
+  //   setModalVisible(curr => !curr);
+  // };
+  const {navigate} = useNavigation<DetailsScreenProp>();
 
   return (
     <Container
@@ -84,6 +94,15 @@ export const Details: React.FC<Props> = ({book}) => {
             </AppText>
           ))}
       </View>
+      <AppButton
+        label="Write a review"
+        style={{marginVertical: 24}}
+        variant="secondary"
+        onPress={() => navigate(Route.ADD_REVIEW_SCREEN, {book: book, id: book.id})}
+      />
+      {/* <AppModal modalVisible={modalVisible} toggleModal={toggleModal}>
+        <AppText>New modal</AppText>
+      </AppModal> */}
       {!!volumeInfo.description && (
         <AppText variant="p" style={styles.paragraph}>
           {convertDescription(volumeInfo.description)}

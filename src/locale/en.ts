@@ -3,6 +3,8 @@ const translations = {
     required: 'Required!',
     email: 'Email must be a valid email!',
     short: 'Password must be at least {{length}} characters long!',
+    reviewShort: 'Review title must be at least {{length}} characters long!',
+    reviewLong: 'Review title must be maximum {{length}} characters long!',
   },
   common: {
     cancel: 'Cancel',

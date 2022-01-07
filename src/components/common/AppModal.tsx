@@ -1,5 +1,5 @@
 import React from 'react';
-import {StyleSheet, View} from 'react-native';
+import {StyleProp, StyleSheet, View, ViewStyle} from 'react-native';
 import Modal from 'react-native-modal';
 import {useTheme} from 'react-native-paper';
 import {SafeAreaView} from 'react-native-safe-area-context';
@@ -8,20 +8,21 @@ import {palette} from 'src/styles';
 interface Props {
   modalVisible: boolean;
   toggleModal: () => void;
+  style?: StyleProp<ViewStyle>;
 }
 
-export const AppModal: React.FC<Props> = ({modalVisible, toggleModal, children}) => {
+export const AppModal: React.FC<Props> = ({modalVisible, toggleModal, children, style}) => {
   const {
     colors: {background},
   } = useTheme();
   return (
-    <SafeAreaView edges={['bottom']}>
+    <SafeAreaView edges={['left', 'right', 'bottom']}>
       <Modal
         isVisible={modalVisible}
         style={styles.modal}
         onBackButtonPress={toggleModal}
         onBackdropPress={toggleModal}>
-        <View style={[styles.wrapper, {backgroundColor: background}]}>{children}</View>
+        <View style={[styles.wrapper, {backgroundColor: background}, style]}>{children}</View>
       </Modal>
     </SafeAreaView>
   );
@@ -34,7 +35,7 @@ const styles = StyleSheet.create({
   wrapper: {
     position: 'absolute',
     bottom: 0,
-    height: 200,
+    height: 'auto',
     width: '100%',
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,

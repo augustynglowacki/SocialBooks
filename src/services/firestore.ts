@@ -43,7 +43,6 @@ export const setReview = async (review: Review) => {
   const comments = review.reviewDescription ?? [''];
   const likes = review.likes ?? 0;
   const rating = review.rating ?? 0;
-
   const title = volumeInfo?.title ?? '';
   const description = volumeInfo?.description ?? '';
   const averageRating = volumeInfo?.averageRating ?? 0;
@@ -80,7 +79,7 @@ export const setReview = async (review: Review) => {
   // }
   if (!globalDoc.exists) {
     globalDocRef.set({
-      book: {title, description, averageRating, ratingCount, authors, imagePath},
+      book: {id, title, description, averageRating, ratingCount, authors, imagePath},
       createdBy,
       createdDate,
       reviewDescription,

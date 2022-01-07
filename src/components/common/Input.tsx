@@ -23,6 +23,7 @@ export const Input: React.FC<Props> = ({
   clearButtonMode,
   secureTextEntry,
   fullWidth,
+  multiline,
   autoFocus,
   children,
   autoCapitalize = 'none', //if u want input with automatic capital letter use autoCapitalize = 'words',
@@ -55,7 +56,8 @@ export const Input: React.FC<Props> = ({
         autoCapitalize={autoCapitalize}
         autoCorrect={false}
         editable={editable}
-        autoComplete={undefined}>
+        autoComplete={undefined}
+        multiline>
         {children}
       </TextInput>
       {!!error && <Text style={styles.error}>{error}</Text>}
