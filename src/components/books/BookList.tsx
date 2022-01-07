@@ -2,7 +2,6 @@ import {useNavigation} from '@react-navigation/native';
 import React from 'react';
 import {ListRenderItem, StyleSheet, View} from 'react-native';
 import {FlatList} from 'react-native-gesture-handler';
-import {SafeAreaView} from 'react-native-safe-area-context';
 import {AnyScreenProp, ErrorType, Route} from 'src/constants';
 import {getBookShadowColor} from 'src/helpers/getBookShadowColor';
 import {Book} from 'src/models';

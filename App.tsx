@@ -1,16 +1,14 @@
-import React, {useCallback, useRef, useState} from 'react';
-import {DefaultTheme, NavigationContainer, useFocusEffect, useNavigationContainerRef} from '@react-navigation/native';
+import React, {useState} from 'react';
+import {DefaultTheme, NavigationContainer,  useNavigationContainerRef} from '@react-navigation/native';
 import HomeNavigator from './src/navigation/HomeNavigator';
 import {Provider as PaperProvider} from 'react-native-paper';
-import {Provider, useDispatch} from 'react-redux';
+import {Provider} from 'react-redux';
 import store from 'src/redux/store';
-import auth from '@react-native-firebase/auth';
 import {AppStatusBar} from 'src/components/common';
 import {palette} from 'src/styles';
 import {useColorScheme} from 'react-native';
 import {Route} from 'src/constants';
 import useCheckLoginStatus from 'src/hooks/useCheckLoginStatus';
-import {getFavorite} from 'src/redux/collections/collectionsActions';
 //Logo inspired by https://www.svgrepo.com/svg/230344/books-book
 //App design inspired by designer 'Sara' https://www.figma.com/community/file/940142152024758826/My-Digital-Bookshelf-App-%5BBravo-Studio-Tutorial%5D
 

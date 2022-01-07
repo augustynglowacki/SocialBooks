@@ -90,9 +90,6 @@ const styles = StyleSheet.create({
     flex: 1,
     // backgroundColor: palette.secondary, //drag down effect
   },
-  reviewCollection: {
-    marginTop: 20,
-  },
   gradient: {
     minHeight: 270,
     height: Dimensions.get('window').height * 0.4,

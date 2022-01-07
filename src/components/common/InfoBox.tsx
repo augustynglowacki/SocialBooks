@@ -1,6 +1,6 @@
 import {useTheme} from '@react-navigation/native';
 import React from 'react';
-import {FlexStyle, StyleProp, TextStyle, TouchableOpacity, View, ViewStyle} from 'react-native';
+import {FlexStyle, StyleProp, TextStyle, View, ViewStyle} from 'react-native';
 import {BORDER_RADIUS, BOX_SHADOW, palette} from 'src/styles';
 import {AppText} from './AppText';
 

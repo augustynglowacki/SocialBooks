@@ -101,16 +101,18 @@ export const ReviewComponent: React.FC<Props> = ({style, shadowColor = palette.p
               justifyContent: 'flex-start',
               marginTop: 24,
             }}>
-            <Stars
-              display={reviewData.rating}
-              spacing={8}
-              count={5}
-              starSize={23}
-              color={palette.primary}
-              fullStar={scheme === 'dark' ? require('src/assets/images/starFilled.png') : undefined}
-              emptyStar={scheme === 'dark' ? require('src/assets/images/starEmpty.png') : undefined}
-              halfStar={scheme === 'dark' ? require('src/assets/images/starHalf.png') : undefined}
-            />
+            {!!reviewData.rating && (
+              <Stars
+                display={reviewData.rating}
+                spacing={8}
+                count={5}
+                starSize={23}
+                color={palette.primary}
+                fullStar={scheme === 'dark' ? require('src/assets/images/starFilled.png') : undefined}
+                emptyStar={scheme === 'dark' ? require('src/assets/images/starEmpty.png') : undefined}
+                halfStar={scheme === 'dark' ? require('src/assets/images/starHalf.png') : undefined}
+              />
+            )}
           </View>
         </View>
       </View>

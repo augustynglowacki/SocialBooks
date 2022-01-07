@@ -1,5 +1,5 @@
 import React from 'react';
-import {DetailsScreenNavigationProp, DetailsScreenRouteProp} from 'src/constants';
+import {DetailsScreenRouteProp} from 'src/constants';
 import {Details} from 'src/components/Details';
 
 interface Props {

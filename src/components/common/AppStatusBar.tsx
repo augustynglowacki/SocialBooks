@@ -1,7 +1,6 @@
 import {useTheme} from '@react-navigation/native';
 import React from 'react';
-import {SafeAreaView, StatusBar, useColorScheme, View} from 'react-native';
-import {palette} from 'src/styles';
+import {StatusBar, useColorScheme} from 'react-native';
 interface Props {
   variant?: 'translucent' | 'full';
 }

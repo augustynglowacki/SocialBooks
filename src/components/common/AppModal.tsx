@@ -3,7 +3,6 @@ import {StyleProp, StyleSheet, View, ViewStyle} from 'react-native';
 import Modal from 'react-native-modal';
 import {useTheme} from 'react-native-paper';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import {palette} from 'src/styles';
 
 interface Props {
   modalVisible: boolean;
