@@ -6,7 +6,7 @@ import {TextInput} from 'react-native-paper';
 import Animated, {FlipInYRight} from 'react-native-reanimated';
 import {useTranslation} from 'react-i18next';
 import {FormikErrors} from 'formik';
-import {Container, AppButton, Input, Message, AppLogo} from 'src/components/common';
+import {Container, AppButton, Input, Message, AppLogo, AppText} from 'src/components/common';
 import {palette} from 'src/styles';
 import {LoginUser} from 'src/models';
 
@@ -34,7 +34,6 @@ export const Login: React.FC<Props> = ({onChange, onSubmit, form, serverError, e
           <AppLogo style={styles.logoImage} />
         </Animated.View>
         <View>
-          <Text style={styles.title}>{t('welcomeMessage')}</Text>
           <View style={styles.form}>
             <Input
               label={t('email')}
@@ -73,12 +72,6 @@ const styles = StyleSheet.create({
   logoImage: {
     alignSelf: 'center',
     // marginTop: 100,
-  },
-  title: {
-    fontSize: 24,
-    textAlign: 'center',
-    paddingTop: 10,
-    color: palette.white,
   },
   form: {
     position: 'relative',

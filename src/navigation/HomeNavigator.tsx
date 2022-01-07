@@ -16,12 +16,12 @@ export const screenOptions = {
 function HomeNavigator() {
   return (
     <Stack.Navigator screenOptions={screenOptions}>
-      <Stack.Screen name={Route.WELCOME} component={WelcomeScreen} />
-      <Stack.Screen name={Route.HOME_NAVIGATOR} component={BottomTabsNavigator} />
-      <Stack.Screen name={Route.DETAILS} component={DetailsScreen} />
-      <Stack.Screen name={Route.ADD_REVIEW_SCREEN} component={AddReviewScreen} />
+      <Stack.Screen name={Route.WELCOME} component={WelcomeScreen} options={{gestureEnabled: false}} />
       <Stack.Screen name={Route.LOGIN} component={LoginScreen} />
       <Stack.Screen name={Route.REGISTER} component={RegisterScreen} />
+      <Stack.Screen name={Route.HOME_NAVIGATOR} component={BottomTabsNavigator} options={{gestureEnabled: false}} />
+      <Stack.Screen name={Route.DETAILS} component={DetailsScreen} />
+      <Stack.Screen name={Route.ADD_REVIEW_SCREEN} component={AddReviewScreen} />
     </Stack.Navigator>
   );
 }

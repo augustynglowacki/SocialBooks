@@ -7,7 +7,7 @@ import {StyleSheet, Text, View} from 'react-native';
 import {TextInput} from 'react-native-paper';
 import Animated, {FlipInYRight} from 'react-native-reanimated';
 import {RegisterUser} from 'src/models';
-import {Container, AppButton, Input, Message, AppLogo} from 'src/components/common';
+import {Container, AppButton, Input, Message, AppLogo, AppText} from 'src/components/common';
 import {palette} from 'src/styles';
 
 interface Props {
@@ -34,7 +34,6 @@ export const Register: React.FC<Props> = ({onChange, onSubmit, form, serverError
         <AppLogo style={styles.logoImage} />
       </Animated.View>
       <View>
-        <Text style={styles.title}>{t('welcomeMessage')}</Text>
         <View style={styles.form}>
           <Input
             label={t('userName')}
@@ -74,12 +73,6 @@ const styles = StyleSheet.create({
   },
   logoImage: {
     alignSelf: 'center',
-  },
-  title: {
-    fontSize: 24,
-    textAlign: 'center',
-    paddingTop: 10,
-    color: palette.white,
   },
   form: {
     paddingTop: 20,

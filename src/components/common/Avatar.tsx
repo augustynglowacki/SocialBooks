@@ -36,7 +36,7 @@ export const Avatar: React.FC<Props> = ({isSmall, editable, source, name, onPres
       ) : (
         <Image
           source={{
-            uri: source,
+            uri: source ?? null,
           }}
           style={[styles.avatar, isSmall && styles.small]}
         />

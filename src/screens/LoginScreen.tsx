@@ -28,7 +28,7 @@ export const LoginScreen: React.FC = () => {
   useEffect(() => {
     const subscriber = auth().onAuthStateChanged(user => {
       if (user) {
-        navigate(Route.HOME);
+        navigate(Route.HOME_NAVIGATOR);
       }
     });
     return subscriber;
