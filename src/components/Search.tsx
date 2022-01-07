@@ -9,9 +9,13 @@ import {BookList} from './books';
 import {Picker} from '@react-native-picker/picker';
 import {AppModal} from './common/AppModal';
 import {QueryFilters} from 'src/constants';
+import {useTheme} from '@react-navigation/native';
 
 export const Search: React.FC = () => {
   const {t} = useTranslation('common');
+  const {
+    colors: {text},
+  } = useTheme();
   const [searchTerm, setSearchTerm] = useState('');
   const [modalVisible, setModalVisible] = useState(false);
   const toggleModal = () => {
@@ -44,7 +48,7 @@ export const Search: React.FC = () => {
         <AppModal modalVisible={modalVisible} toggleModal={toggleModal}>
           <Picker selectedValue={selectedQuery} onValueChange={item => setSelectedQuery(item)}>
             {Object.values(QueryFilters).map(item => (
-              <Picker.Item key={item} label={item} value={item} />
+              <Picker.Item key={item} label={item} value={item} color={text} />
             ))}
           </Picker>
         </AppModal>
