@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React from 'react';
 import {useState} from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import {StyleSheet, Text, useColorScheme, View} from 'react-native';
 import {TextInput} from 'react-native-paper';
 import Animated, {FlipInYRight} from 'react-native-reanimated';
 import {useTranslation} from 'react-i18next';
@@ -10,7 +10,7 @@ import {Container, AppButton, Input, Message, AppLogo, AppText} from 'src/compon
 import {palette} from 'src/styles';
 import {Book, Review} from 'src/models';
 import {BookComponent} from '../books';
-
+import Stars from 'react-native-stars';
 interface Props {
   //type from useFormik handleChange
   onChange: {
@@ -19,13 +19,24 @@ interface Props {
       : (e: string | React.ChangeEvent<any>) => void;
   };
   onSubmit: () => void;
+  setFieldValue: any;
   form: Review;
   errors: FormikErrors<Review>;
   serverError: string;
   loading: boolean;
   book: Book;
 }
-export const AddReview: React.FC<Props> = ({onChange, onSubmit, form, serverError, errors, loading, book}) => {
+export const AddReview: React.FC<Props> = ({
+  onChange,
+  onSubmit,
+  form,
+  setFieldValue,
+  serverError,
+  errors,
+  loading,
+  book,
+}) => {
+  const scheme = useColorScheme();
   return (
     <Container withKeyboard withNavigateBackBar>
       <View style={styles.formWrapper}>
@@ -37,8 +48,23 @@ export const AddReview: React.FC<Props> = ({onChange, onSubmit, form, serverErro
         </View>
         <View>
           <View style={styles.form}>
+            <Stars
+              half={false}
+              default={form.rating}
+              spacing={8}
+              count={5}
+              update={(val: any) => {
+                setFieldValue('rating', val);
+              }}
+              starSize={40}
+              color={palette.primary}
+              fullStar={scheme === 'dark' ? require('src/assets/images/starFilled.png') : undefined}
+              emptyStar={scheme === 'dark' ? require('src/assets/images/starEmpty.png') : undefined}
+              halfStar={scheme === 'dark' ? require('src/assets/images/starHalf.png') : undefined}
+            />
             <Input
               label={'Review'}
+              style={{marginTop: 20}}
               value={form.reviewTitle}
               onChangeText={onChange('reviewTitle')}
               error={errors.reviewTitle}
@@ -82,7 +108,7 @@ const styles = StyleSheet.create({
   },
   form: {
     position: 'relative',
-    marginTop: 20,
+    marginTop: 25,
   },
   button: {
     marginTop: 30,

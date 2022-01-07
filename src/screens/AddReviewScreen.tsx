@@ -24,7 +24,7 @@ export const AddReviewScreen: React.FC<Props> = ({route}) => {
     book,
     createdDate: new Date().toISOString(),
     id: new Date().toISOString() + book.id,
-    rating: 0,
+    rating: 3,
     reviewTitle: '',
     reviewDescription: '',
     comments: [''],
@@ -63,13 +63,13 @@ export const AddReviewScreen: React.FC<Props> = ({route}) => {
   const validationSchema = Yup.object({
     rating: Yup.number().required(t('required')),
     reviewTitle: Yup.string()
-      .min(6, t('reviewShort', {length: 6}))
+      .min(6, t('reviewShort', {length: 3}))
       .max(24, t('reviewLong', {length: 24}))
       .required(t('required')),
     reviewDescription: Yup.string().max(1000, t('reviewLong', {length: 1000})),
   });
 
-  const {handleChange, handleSubmit, values, errors} = useFormik<Review>({
+  const {handleChange, handleSubmit, values, errors, setFieldValue} = useFormik<Review>({
     initialValues,
     validationSchema,
     //validate only after submit click
@@ -82,6 +82,7 @@ export const AddReviewScreen: React.FC<Props> = ({route}) => {
     <AddReview
       onSubmit={handleSubmit}
       onChange={handleChange}
+      setFieldValue={setFieldValue}
       form={values}
       serverError={error}
       errors={errors}

@@ -102,7 +102,7 @@ export const ReviewComponent: React.FC<Props> = ({style, shadowColor = palette.p
               marginTop: 24,
             }}>
             <Stars
-              display={3.67}
+              display={reviewData.rating}
               spacing={8}
               count={5}
               starSize={23}
