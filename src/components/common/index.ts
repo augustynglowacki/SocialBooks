@@ -8,6 +8,5 @@ export * from './FeatureButton';
 export * from './Icon';
 export * from './Input';
 export * from './InfoBox';
-export * from './Review';
 export * from './Message';
 export * from './NavigateBackBar';

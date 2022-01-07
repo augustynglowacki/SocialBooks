@@ -12,13 +12,14 @@ export default function useCheckLoginStatus() {
 
   useEffect(() => {
     if (!email) {
-      const subscriber = auth().onAuthStateChanged(userFirebase => {
-        if (userFirebase) {
+      const subscriber = auth().onAuthStateChanged(item => {
+        if (item) {
           dispatch(
             setActiveUser({
-              email: userFirebase.email,
-              userName: userFirebase.displayName,
-              photoURL: userFirebase.photoURL,
+              email: item.email,
+              userName: item.displayName,
+              photoURL: item.photoURL,
+              id: item.uid,
             }),
           );
         }

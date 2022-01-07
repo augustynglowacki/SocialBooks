@@ -3,6 +3,7 @@ import {Book, Review} from 'src/models';
 import firestore from '@react-native-firebase/firestore';
 import auth from '@react-native-firebase/auth';
 import {setData, setReview} from 'src/services/firestore';
+import {convertToBook} from 'src/helpers/convertResponse';
 
 export const setFavorite = createAsyncThunk<void, Book>('collections/setFavorite', async book => {
   await setData(book, 'favorite');
@@ -55,8 +56,9 @@ export const getReviews = createAsyncThunk<Review[]>(
           snap => {
             resolve(
               snap.docs.map(doc => ({
-                id: doc.data().id,
-                book: doc.data().book,
+                id: doc.id,
+                book: convertToBook(doc.data().book),
+                createdBy: doc.data().createdBy,
                 createdDate: doc.data().createdDate,
                 reviewTitle: doc.data().reviewTitle,
                 reviewDescription: doc.data().reviewDescription,

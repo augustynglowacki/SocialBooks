@@ -12,6 +12,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import {logOutUser} from 'src/redux/user/userActions';
 import auth from '@react-native-firebase/auth';
 import {userSelector} from 'src/redux/user/userSlice';
+import {collectionsSelector} from 'src/redux/collections/collectionsSlice';
 interface Props {
   book: Book | undefined;
   isLoading: boolean;
@@ -27,22 +28,16 @@ export const Home: React.FC<Props> = ({book, isLoading, isError, error, refetch}
   const {
     user: {userName},
   } = useSelector(userSelector);
-
+  const {reviews} = useSelector(collectionsSelector);
   return (
     <Container>
       <AppText style={styles.title} variant="h1">
         Hello{' '}
-        <AppText variant="h1" style={styles.markedTitle}>
+        <AppText variant="h1" style={styles.markedTitle} fontWeight="bold">
           {!!userName && userName}
         </AppText>
       </AppText>
       <View style={{width: '100%'}}>
-        <AppText style={styles.paragraph} variant="p">
-          Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry
-          standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to
-          make a type specimen book. It has survived not only five centuries, but also the leap into electronic
-          typesetting, remaining essentially unchanged.
-        </AppText>
         {!!book && (
           <BookComponent
             book={book}
@@ -78,22 +73,6 @@ export const Home: React.FC<Props> = ({book, isLoading, isError, error, refetch}
             }}
           />
         )}
-
-        {/* <AppText style={styles.paragraph}>
-          Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry
-          standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to
-          make a type specimen book. It has survived not only five centuries, but also the leap into electronic
-          typesetting, remaining essentially unchanged.
-        </AppText> */}
-        <FeatureButton
-          label="Lorem Ipsum"
-          style={{marginVertical: 24}}
-          shadowColor={palette.third}
-          shadowMaxWidth={202}
-          onPress={() => {
-            console.log('click');
-          }}
-        />
         <AppButton
           label="Lorem Ipsum"
           style={{marginVertical: 24}}

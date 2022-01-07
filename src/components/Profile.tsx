@@ -2,12 +2,13 @@ import {useTheme} from '@react-navigation/native';
 import React, {FC} from 'react';
 import {Dimensions, FlexStyle, SafeAreaView, StyleProp, StyleSheet, View, ViewStyle} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
-import {Avatar, AppText, FeatureButton, InfoBox, Stats, Container, Review} from 'src/components/common';
-import {logOutUser} from 'src/redux/user/userActions';
+import {Avatar, AppText, InfoBox, Stats, Container} from 'src/components/common';
 import {palette} from 'src/styles';
-import {useDispatch, useSelector} from 'react-redux';
+import {useSelector} from 'react-redux';
 import {BookList} from './books';
 import {collectionsSelector} from 'src/redux/collections/collectionsSlice';
+import {userSelector} from 'src/redux/user/userSlice';
+import {ReviewList} from './reviews';
 interface Props {
   name: string;
   photo: string;
@@ -15,7 +16,11 @@ interface Props {
 
 export const Profile: FC<Props> = ({name, photo}) => {
   const {colors} = useTheme();
-  const {favorite, error, loading} = useSelector(collectionsSelector);
+  const {favorite, reviews, error, loading} = useSelector(collectionsSelector);
+  const {
+    user: {id},
+  } = useSelector(userSelector);
+  const userReviews = reviews.filter(item => item.createdBy === id);
   const gradientStyle: StyleProp<ViewStyle | FlexStyle> = {
     flex: 1,
     position: 'absolute',
@@ -26,7 +31,7 @@ export const Profile: FC<Props> = ({name, photo}) => {
   };
   const stats: Stats[] = [
     {label: 'Favorite', count: favorite.length},
-    {label: 'Reviews', count: 2},
+    {label: 'Reviews', count: userReviews.length},
   ];
 
   // giving background color to SafeAreaView is the only way to have the blue color, giving the gradient
@@ -69,8 +74,9 @@ export const Profile: FC<Props> = ({name, photo}) => {
           <AppText style={styles.collectionTitle} fontWeight="bold">
             Reviews
           </AppText>
-          {!!favorite.length ? (
-            <Review stats={stats} shadowColor={palette.third} style={styles.reviewCollection} />
+          {!!userReviews.length && console.log(userReviews.length)}
+          {!!userReviews.length ? (
+            <ReviewList data={userReviews} error={error} loading={loading} />
           ) : (
             <AppText style={{paddingTop: 12}}>Add some reviews!</AppText>
           )}
@@ -86,7 +92,7 @@ const styles = StyleSheet.create({
     backgroundColor: palette.secondary,
   },
   favorite: {paddingBottom: 0},
-  reviews: {paddingBottom: 200},
+  reviews: {paddingBottom: 20},
   reviewCollection: {
     marginTop: 20,
   },
@@ -110,8 +116,6 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     width: '90%',
     maxWidth: '90%',
-    flex: 1,
-    height: 'auto',
   },
   infoBox: {
     alignSelf: 'center',

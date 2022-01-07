@@ -30,7 +30,7 @@ export const setData = async (book: Book, name: string) => {
 
 export const setReview = async (review: Review) => {
   const {
-    book: {volumeInfo},
+    book: {volumeInfo, id: bookId},
     id,
   } = review;
   const db = firestore();
@@ -38,6 +38,7 @@ export const setReview = async (review: Review) => {
 
   const reviewDescription = review.reviewDescription ?? '';
   const reviewTitle = review.reviewTitle ?? '';
+
   const createdBy = userId ?? '';
   const createdDate = review.createdDate ?? '';
   const comments = review.reviewDescription ?? [''];
@@ -48,38 +49,34 @@ export const setReview = async (review: Review) => {
   const averageRating = volumeInfo?.averageRating ?? 0;
   const ratingCount = volumeInfo?.ratingCount ?? 0;
   const authors = volumeInfo?.authors ?? [];
-  const imagePath = volumeInfo?.imageLinks?.thumbnail ?? '';
+  const thumbnail = volumeInfo?.imageLinks?.thumbnail ?? '';
 
   if (!userId) {
     return null;
   }
 
-  // const docRef = db.collection('users').doc(userId).collection('reviews').doc(id);
-  // const doc = await docRef.get();
-  const globalDocRef = db.collection('reviews').doc(id.toString());
+  const globalDocRef = db.collection('reviews').doc(id);
   const globalDoc = await globalDocRef.get();
 
-  // if (doc.exists) {
-  //   docRef.delete();
-  // }
   if (globalDoc.exists) {
     globalDocRef.delete();
   }
-  // if (!doc.exists) {
-  //   docRef.set({
-  //     book: {title, description, averageRating, ratingCount, authors, imagePath},
-  //     createdBy: userId,
-  //     createdDate,
-  //     reviewDescription,
-  //     reviewTitle,
-  //     comments,
-  //     likes,
-  //     rating,
-  //   });
-  // }
   if (!globalDoc.exists) {
     globalDocRef.set({
-      book: {id, title, description, averageRating, ratingCount, authors, imagePath},
+      id,
+      book: {
+        id: bookId,
+        volumeInfo: {
+          title,
+          description,
+          averageRating,
+          ratingCount,
+          authors,
+          imageLinks: {
+            thumbnail,
+          },
+        },
+      },
       createdBy,
       createdDate,
       reviewDescription,
@@ -90,12 +87,3 @@ export const setReview = async (review: Review) => {
     });
   }
 };
-// id: string;
-// book: Book;
-// createdBy: string;
-// createdDate: string;
-// reviewTitle: string;
-// reviewDescription: string;
-// rating: number;
-// likes: number;
-// comments: string[];

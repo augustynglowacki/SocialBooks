@@ -2,31 +2,26 @@ import {useNavigation} from '@react-navigation/native';
 import React from 'react';
 import {ListRenderItem, StyleSheet, View} from 'react-native';
 import {FlatList} from 'react-native-gesture-handler';
-import {SafeAreaView} from 'react-native-safe-area-context';
 import {AnyScreenProp, ErrorType, Route} from 'src/constants';
 import {getBookShadowColor} from 'src/helpers/getBookShadowColor';
-import {Book} from 'src/models';
-import {BookComponent} from '.';
+import {Review} from 'src/models';
+import {ReviewComponent} from './ReviewComponent';
 
 interface Props {
-  data: Book[];
+  data: Review[];
   error?: ErrorType | string | undefined | null;
   loading: boolean;
 }
 
-export const BookList: React.FC<Props> = ({data, error}) => {
-  // console.log(data);
+export const ReviewList: React.FC<Props> = ({data, error}) => {
   const {navigate} = useNavigation<AnyScreenProp>();
-  const renderItem: ListRenderItem<Book> = ({item, index}) => (
-    <BookComponent
-      book={item}
+  const renderItem: ListRenderItem<Review> = ({item, index}) => (
+    <ReviewComponent
+      reviewData={item}
       shadowColor={getBookShadowColor(index)}
-      onPress={() => navigate(Route.DETAILS, {book: item, id: item.id})}
+      //   onPress={() => navigate(Route.DETAILS, {book: item, id: item.id})}
     />
   );
-  //   if (error) {
-  //     return <ErrorWrapper error={error} loading={false} />;
-  //   }
   if (!data.length) {
     return null;
   }
@@ -39,7 +34,7 @@ export const BookList: React.FC<Props> = ({data, error}) => {
         maxToRenderPerBatch={10}
         initialNumToRender={4}
         keyExtractor={(item, index) => item.id.toString()}
-        contentContainerStyle={{maxHeight: 180, height: 180}}
+        contentContainerStyle={{maxHeight: 210, height: 210}}
         persistentScrollbar={true}
       />
     </View>
@@ -50,5 +45,6 @@ const styles = StyleSheet.create({
   wrapper: {
     paddingTop: 20,
     flex: 1,
+    marginHorizontal: -14,
   },
 });

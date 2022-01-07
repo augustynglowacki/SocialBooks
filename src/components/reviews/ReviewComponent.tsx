@@ -1,19 +1,20 @@
 import {useTheme} from '@react-navigation/native';
 import React from 'react';
-import {FlexStyle, StyleProp, TextStyle, TouchableOpacity, View, ViewStyle} from 'react-native';
-import {Book} from 'src/models';
+import {Dimensions, FlexStyle, StyleProp, TextStyle, TouchableOpacity, View, ViewStyle} from 'react-native';
+import {Book, Review} from 'src/models';
 import {BORDER_RADIUS, BOX_SHADOW, palette} from 'src/styles';
-import {Stats} from '.';
-import {AppText} from './AppText';
+import {BookComponent} from '../books';
+import {Stats} from '../common';
+import {AppText} from '../common/AppText';
 
 interface Props {
   style?: StyleProp<FlexStyle | ViewStyle>;
   shadowColor?: string;
   paddingVal?: number;
-  stats: Stats[];
+  reviewData: Review;
 }
 
-export const Review: React.FC<Props> = ({style, shadowColor = palette.primary, stats}) => {
+export const ReviewComponent: React.FC<Props> = ({style, shadowColor = palette.primary, reviewData}) => {
   const {
     colors: {background, text},
   } = useTheme();
@@ -25,7 +26,8 @@ export const Review: React.FC<Props> = ({style, shadowColor = palette.primary, s
     flexDirection: 'row',
     backgroundColor: background,
     borderRadius: BORDER_RADIUS,
-    height: 200,
+    minHeight: 180,
+    height: 180,
     minWidth: '100%',
     width: '100%',
     maxWidth: 400,
@@ -41,7 +43,8 @@ export const Review: React.FC<Props> = ({style, shadowColor = palette.primary, s
   };
   const wrapperStyle: StyleProp<ViewStyle> = {
     height: 80,
-    width: '100%',
+    width: Dimensions.get('window').width * 0.9,
+    marginHorizontal: 14,
   };
   const shadowStyle: StyleProp<ViewStyle> = {
     position: 'absolute',
@@ -49,29 +52,39 @@ export const Review: React.FC<Props> = ({style, shadowColor = palette.primary, s
     left: -10,
     top: 15,
     backgroundColor: shadowColor,
-    width: '100%',
-    maxWidth: '100%',
-    height: 195,
+    width: Dimensions.get('window').width * 0.9,
+    maxWidth: Dimensions.get('window').width * 0.9,
+    height: 175,
     borderRadius: BORDER_RADIUS,
   };
   const infoStyle: StyleProp<ViewStyle> = {
     marginHorizontal: 28,
+    maxWidth: '40%',
+    width: '40%',
+    minWidth: '40%',
   };
   return (
     <View style={[wrapperStyle, BOX_SHADOW, style]}>
       <View style={shadowStyle}></View>
       <View style={buttonStyle}>
-        {!!stats &&
-          stats.map(item => (
-            <View key={item.label + item.count} style={[infoStyle]}>
-              <AppText style={labelStyle} fontWeight="bold">
-                {item.label}
-              </AppText>
-              <AppText style={[labelStyle]} fontWeight="bold">
-                {item.count}
-              </AppText>
-            </View>
-          ))}
+        <View style={{width: '40%'}}>
+          {!!reviewData.book && (
+            <BookComponent
+              book={reviewData.book}
+              style={{marginHorizontal: 24}}
+              shadowColor={palette.primary}
+              disabled
+            />
+          )}
+        </View>
+        <View style={[infoStyle]}>
+          <AppText style={labelStyle} fontWeight="bold">
+            {reviewData.reviewTitle}
+          </AppText>
+          <AppText style={[labelStyle]} fontWeight="bold">
+            {reviewData.rating}
+          </AppText>
+        </View>
       </View>
     </View>
   );
