@@ -42,7 +42,7 @@ export const ReviewComponent: React.FC<Props> = ({style, shadowColor = palette.p
     textAlign: 'center',
   };
   const wrapperStyle: StyleProp<ViewStyle> = {
-    height: 80,
+    height: 180,
     width: Dimensions.get('window').width * 0.9,
     marginHorizontal: 14,
   };

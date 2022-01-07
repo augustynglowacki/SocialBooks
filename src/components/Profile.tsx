@@ -57,7 +57,7 @@ export const Profile: FC<Props> = ({name, photo}) => {
       </View>
       <InfoBox stats={stats} shadowColor={palette.third} style={styles.infoBox} />
       <View style={styles.collections}>
-        <View style={styles.favorite}>
+        <View>
           <AppText style={styles.collectionTitle} fontWeight="bold">
             Favorite
           </AppText>
@@ -70,13 +70,13 @@ export const Profile: FC<Props> = ({name, photo}) => {
             </AppText>
           )}
         </View>
-        <View style={styles.reviews}>
+        <View>
           <AppText style={styles.collectionTitle} fontWeight="bold">
             Reviews
           </AppText>
           {!!userReviews.length && console.log(userReviews.length)}
           {!!userReviews.length ? (
-            <ReviewList data={userReviews} error={error} loading={loading} />
+            <ReviewList data={userReviews} error={error} loading={loading} horizontal={true} />
           ) : (
             <AppText style={{paddingTop: 12}}>Add some reviews!</AppText>
           )}
@@ -89,10 +89,8 @@ export const Profile: FC<Props> = ({name, photo}) => {
 const styles = StyleSheet.create({
   wrapper: {
     flex: 1,
-    backgroundColor: palette.secondary,
+    // backgroundColor: palette.secondary, //drag down effect
   },
-  favorite: {paddingBottom: 0},
-  reviews: {paddingBottom: 20},
   reviewCollection: {
     marginTop: 20,
   },

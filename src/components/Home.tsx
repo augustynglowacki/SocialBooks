@@ -1,52 +1,46 @@
 import React, {useEffect, useState} from 'react';
 import {SerializedError} from '@reduxjs/toolkit';
-import {FetchBaseQueryError} from '@reduxjs/toolkit/dist/query';
 import {StyleSheet, View} from 'react-native';
-import {Book} from 'src/models';
 import {palette} from 'src/styles';
 import {BookComponent} from 'src/components/books';
 import {AppButton, AppText, Container, FeatureButton} from 'src/components/common';
 import {useNavigation} from '@react-navigation/native';
-import {ErrorType, HomeScreenProp, Route} from 'src/constants';
+import {HomeScreenProp, Route} from 'src/constants';
 import {useDispatch, useSelector} from 'react-redux';
 import {logOutUser} from 'src/redux/user/userActions';
-import auth from '@react-native-firebase/auth';
 import {userSelector} from 'src/redux/user/userSlice';
 import {collectionsSelector} from 'src/redux/collections/collectionsSlice';
-interface Props {
-  book: Book | undefined;
-  isLoading: boolean;
-  isError: boolean;
-  error: ErrorType;
-  refetch: () => void;
-}
+import {ReviewList} from './reviews';
+interface Props {}
 
-export const Home: React.FC<Props> = ({book, isLoading, isError, error, refetch}) => {
+export const Home: React.FC<Props> = () => {
   // console.log(error);
   const dispatch = useDispatch();
   const {navigate} = useNavigation<HomeScreenProp>();
   const {
     user: {userName},
   } = useSelector(userSelector);
-  const {reviews} = useSelector(collectionsSelector);
+  const {favorite, reviews, error, loading} = useSelector(collectionsSelector);
   return (
-    <Container>
+    <Container style={styles.container} disableScroll>
       <AppText style={styles.title} variant="h1">
         Hello{' '}
         <AppText variant="h1" style={styles.markedTitle} fontWeight="bold">
           {!!userName && userName}
         </AppText>
       </AppText>
-      <View style={{width: '100%'}}>
-        {!!book && (
-          <BookComponent
-            book={book}
-            style={{marginVertical: 24}}
-            shadowColor={palette.secondary}
-            onPress={() => navigate(Route.DETAILS, {book, id: book.id})}
-          />
+      <View style={{width: '100%', flex: 1}}>
+        <AppText style={styles.collectionTitle} fontWeight="bold">
+          Latest Reviews:
+        </AppText>
+
+        {!!reviews ? (
+          <ReviewList data={reviews} error={error} loading={loading} />
+        ) : (
+          <AppText style={{paddingTop: 12}}>Error loading reviews :/</AppText>
         )}
-        <FeatureButton
+
+        {/* <FeatureButton
           label="Register"
           style={{marginVertical: 24}}
           shadowMaxWidth={169}
@@ -72,22 +66,7 @@ export const Home: React.FC<Props> = ({book, isLoading, isError, error, refetch}
               navigate(Route.LOGIN);
             }}
           />
-        )}
-        <AppButton
-          label="Lorem Ipsum"
-          style={{marginVertical: 24}}
-          onPress={() => {
-            console.log('click');
-          }}
-        />
-        <AppButton
-          label="Lorem Ipsum"
-          style={{marginVertical: 24}}
-          variant="secondary"
-          onPress={() => {
-            console.log('click');
-          }}
-        />
+        )} */}
       </View>
     </Container>
   );
@@ -97,8 +76,16 @@ const styles = StyleSheet.create({
   title: {
     paddingTop: 10,
   },
-  paragraph: {
-    paddingTop: 50,
+  container: {
+    paddingTop: 20,
+    justifyContent: 'flex-start',
+    flex: 1,
+  },
+  collectionTitle: {
+    marginTop: 24,
+    marginBottom: 16,
+    fontSize: 24,
+    textAlign: 'center',
   },
   markedTitle: {
     color: palette.primary,
