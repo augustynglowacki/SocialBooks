@@ -1,12 +1,21 @@
 import {useTheme} from '@react-navigation/native';
 import React from 'react';
-import {Dimensions, FlexStyle, StyleProp, TextStyle, TouchableOpacity, View, ViewStyle} from 'react-native';
+import {
+  Dimensions,
+  FlexStyle,
+  StyleProp,
+  TextStyle,
+  TouchableOpacity,
+  useColorScheme,
+  View,
+  ViewStyle,
+} from 'react-native';
 import {Book, Review} from 'src/models';
 import {BORDER_RADIUS, BOX_SHADOW, palette} from 'src/styles';
 import {BookComponent} from '../books';
 import {Stats} from '../common';
 import {AppText} from '../common/AppText';
-
+import Stars from 'react-native-stars';
 interface Props {
   style?: StyleProp<FlexStyle | ViewStyle>;
   shadowColor?: string;
@@ -19,7 +28,7 @@ export const ReviewComponent: React.FC<Props> = ({style, shadowColor = palette.p
   const {
     colors: {background, text},
   } = useTheme();
-
+  const scheme = useColorScheme();
   const buttonStyle: StyleProp<ViewStyle> = {
     justifyContent: 'center',
     alignItems: 'center',
@@ -72,19 +81,37 @@ export const ReviewComponent: React.FC<Props> = ({style, shadowColor = palette.p
           {!!reviewData.book && (
             <BookComponent
               book={reviewData.book}
-              style={{marginHorizontal: 24}}
+              style={{marginHorizontal: 24, transform: [{translateY: -2}]}}
               shadowColor={palette.primary}
               onPress={onPress}
             />
           )}
         </View>
         <View style={[infoStyle]}>
-          <AppText style={labelStyle} fontWeight="bold">
-            {reviewData.reviewTitle}
-          </AppText>
-          <AppText style={[labelStyle]} fontWeight="bold">
-            {reviewData.rating}
-          </AppText>
+          <View style={{height: '50%', maxHeight: '50%', justifyContent: 'flex-end'}}>
+            <AppText style={labelStyle} fontWeight="bold">
+              {reviewData.reviewTitle}
+            </AppText>
+          </View>
+          <View
+            style={{
+              alignItems: 'center',
+              height: '50%',
+              maxHeight: '50%',
+              justifyContent: 'flex-start',
+              marginTop: 24,
+            }}>
+            <Stars
+              display={3.67}
+              spacing={8}
+              count={5}
+              starSize={23}
+              color={palette.primary}
+              fullStar={scheme === 'dark' ? require('src/assets/images/starFilled.png') : undefined}
+              emptyStar={scheme === 'dark' ? require('src/assets/images/starEmpty.png') : undefined}
+              halfStar={scheme === 'dark' ? require('src/assets/images/starHalf.png') : undefined}
+            />
+          </View>
         </View>
       </View>
     </View>
