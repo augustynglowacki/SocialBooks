@@ -32,7 +32,7 @@ const CollectionsSlice = createSlice({
         state.loading = true;
       })
       .addCase(getFavorite.fulfilled, (state, action: PayloadAction<Book[]>) => {
-        state.favorite = action.payload;
+        state.favorite = [...action.payload].reverse(); //latest entries at the top
         state.loading = false;
       })
       .addCase(getFavorite.rejected, (state, action) => {
@@ -55,7 +55,7 @@ const CollectionsSlice = createSlice({
         state.loading = true;
       })
       .addCase(getReviews.fulfilled, (state, action: PayloadAction<Review[]>) => {
-        state.reviews = action.payload;
+        state.reviews = [...action.payload].reverse(); //latest entries at the top
         state.loading = false;
       })
       .addCase(getReviews.rejected, (state, action) => {
