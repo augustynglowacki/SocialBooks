@@ -1,22 +1,14 @@
-import React, {useEffect, useState} from 'react';
-import {SerializedError} from '@reduxjs/toolkit';
+import React from 'react';
 import {StyleSheet, View} from 'react-native';
 import {palette} from 'src/styles';
-import {BookComponent} from 'src/components/books';
-import {AppButton, AppText, Container, FeatureButton} from 'src/components/common';
-import {useNavigation} from '@react-navigation/native';
-import {HomeScreenProp, Route} from 'src/constants';
-import {useDispatch, useSelector} from 'react-redux';
-import {logOutUser} from 'src/redux/user/userActions';
+import {AppText, Container} from 'src/components/common';
+import {useSelector} from 'react-redux';
 import {userSelector} from 'src/redux/user/userSlice';
 import {collectionsSelector} from 'src/redux/collections/collectionsSlice';
 import {ReviewList} from './reviews';
 interface Props {}
 
 export const Home: React.FC<Props> = () => {
-  // console.log(error);
-  const dispatch = useDispatch();
-  const {navigate} = useNavigation<HomeScreenProp>();
   const {
     user: {userName},
   } = useSelector(userSelector);

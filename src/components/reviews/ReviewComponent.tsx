@@ -12,9 +12,10 @@ interface Props {
   shadowColor?: string;
   paddingVal?: number;
   reviewData: Review;
+  onPress?: () => void;
 }
 
-export const ReviewComponent: React.FC<Props> = ({style, shadowColor = palette.primary, reviewData}) => {
+export const ReviewComponent: React.FC<Props> = ({style, shadowColor = palette.primary, reviewData, onPress}) => {
   const {
     colors: {background, text},
   } = useTheme();
@@ -73,7 +74,7 @@ export const ReviewComponent: React.FC<Props> = ({style, shadowColor = palette.p
               book={reviewData.book}
               style={{marginHorizontal: 24}}
               shadowColor={palette.primary}
-              disabled
+              onPress={onPress}
             />
           )}
         </View>

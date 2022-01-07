@@ -22,8 +22,7 @@ export const ReviewList: React.FC<Props> = ({data, style, horizontal = false, lo
       reviewData={item}
       style={!horizontal && styles.listComponent}
       shadowColor={getBookShadowColor(index)}
-
-      //   onPress={() => navigate(Route.DETAILS, {book: item, id: item.id})}
+      onPress={() => navigate(Route.DETAILS, {book: item.book, id: item.book.id})}
     />
   );
   if (!data.length) {
@@ -39,6 +38,8 @@ export const ReviewList: React.FC<Props> = ({data, style, horizontal = false, lo
         initialNumToRender={4}
         keyExtractor={(item, index) => item.id.toString()}
         contentContainerStyle={[horizontal && {maxHeight: 210, height: 210}]}
+        showsVerticalScrollIndicator={true}
+        showsHorizontalScrollIndicator={true}
         persistentScrollbar={true}
         contentInset={{bottom: !horizontal ? 18 : 0}}
       />

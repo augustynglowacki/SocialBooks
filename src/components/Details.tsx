@@ -24,8 +24,6 @@ export const Details: React.FC<Props> = ({book}) => {
   if (!book) return null;
   const dispatch = useDispatch();
   const {favorite, reviews} = useSelector(collectionsSelector);
-
-  // console.log(reviews.forEach(item => console.log(item.reviewTitle)));
   const favoriteInitialState = favorite.some(item => item.id === book.id);
   const [favoriteButton, setFavoriteButton] = useState(favoriteInitialState);
   const {

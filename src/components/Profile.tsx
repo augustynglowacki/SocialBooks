@@ -74,7 +74,6 @@ export const Profile: FC<Props> = ({name, photo}) => {
           <AppText style={styles.collectionTitle} fontWeight="bold">
             Reviews
           </AppText>
-          {!!userReviews.length && console.log(userReviews.length)}
           {!!userReviews.length ? (
             <ReviewList data={userReviews} error={error} loading={loading} horizontal={true} />
           ) : (

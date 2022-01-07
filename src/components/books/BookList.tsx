@@ -15,7 +15,6 @@ interface Props {
 }
 
 export const BookList: React.FC<Props> = ({data, error}) => {
-  // console.log(data);
   const {navigate} = useNavigation<AnyScreenProp>();
   const renderItem: ListRenderItem<Book> = ({item, index}) => (
     <BookComponent
