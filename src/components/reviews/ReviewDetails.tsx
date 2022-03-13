@@ -14,7 +14,7 @@ import {
 import {Book, Review} from 'src/models';
 import {BORDER_RADIUS, BOX_SHADOW, palette} from 'src/styles';
 import {BookComponent} from '../books';
-import {Container, Stats} from '../common';
+import {Avatar, Container, Stats} from '../common';
 import {AppText} from '../common/AppText';
 import Stars from 'react-native-stars';
 import {ReviewComponent} from './ReviewComponent';
@@ -46,11 +46,22 @@ export const ReviewDetails: React.FC<Props> = ({reviewData}) => {
           reviewData={reviewData}
           onComponentPress={() => navigate(Route.DETAILS, {book: reviewData.book, id: reviewData.book.id})}
         />
-        {!!reviewData.createdBy && (
-          <AppText variant="p" style={styles.author}>
-            Review created by: <AppText fontWeight="bold">{getDisplayName(reviewData.createdBy)}</AppText>
-          </AppText>
-        )}
+        <View style={{flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'flex-end', width: '100%'}}>
+          {!!reviewData.createdBy && (
+            <>
+              <AppText variant="p" style={styles.createdBy}>
+                Review by:
+              </AppText>
+              <View style={{marginRight: 2}}>
+                <Avatar name={getDisplayName(reviewData.createdBy)} size={40} color={palette.primary} />
+              </View>
+              <AppText fontWeight="bold" style={styles.author}>
+                {getDisplayName(reviewData.createdBy)}
+              </AppText>
+            </>
+          )}
+        </View>
+
         {!!reviewData.reviewDescription && (
           <AppText variant="p" style={styles.paragraph}>
             {reviewData.reviewDescription}
@@ -70,13 +81,20 @@ const styles = StyleSheet.create({
     textShadowRadius: 4,
     textShadowColor: 'rgba(0, 0, 0, 0.9)',
   },
+  createdBy: {
+    paddingTop: 30,
+    paddingHorizontal: 3,
+    marginRight: 8,
+    lineHeight: 40,
+  },
   author: {
     paddingTop: 30,
     paddingHorizontal: 3,
-    width: '100%',
+    fontSize: 20,
+    lineHeight: 40,
   },
   paragraph: {
-    paddingTop: 50,
+    paddingTop: 30,
     paddingHorizontal: 3,
     width: '100%',
   },

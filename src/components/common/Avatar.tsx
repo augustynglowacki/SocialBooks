@@ -5,14 +5,16 @@ import {Icon} from './Icon';
 import {Avatar as AvatarPaper} from 'react-native-paper';
 import {useTheme} from '@react-navigation/native';
 interface Props {
-  source: string;
+  source?: string;
   isSmall?: boolean;
   editable?: boolean;
   name?: string;
+  color?: string;
+  size?: number;
   onPress?: () => void;
 }
 
-export const Avatar: React.FC<Props> = ({isSmall, editable, source, name, onPress}) => {
+export const Avatar: React.FC<Props> = ({color, isSmall, size = 100, editable, source, name, onPress}) => {
   const {
     colors: {background, text},
   } = useTheme();
@@ -26,11 +28,11 @@ export const Avatar: React.FC<Props> = ({isSmall, editable, source, name, onPres
       }>
       {!source && !!name ? (
         <AvatarPaper.Text
-          size={100}
+          size={size}
           label={name?.slice(0, 2).toUpperCase()}
           color={text}
           labelStyle={{fontFamily: 'RobotoMono-Bold'}}
-          style={{backgroundColor: background}}>
+          style={{backgroundColor: color ?? background, position: 'relative'}}>
           {' '}
         </AvatarPaper.Text>
       ) : (
