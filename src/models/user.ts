@@ -9,6 +9,7 @@ export interface UserState {
   user: User;
   loading: boolean;
   error: string;
+  allUsers: UserData[];
 }
 
 export interface LoginUser {
@@ -21,5 +22,10 @@ export interface RegisterUser extends LoginUser {
 }
 
 export interface BackendUser extends LoginUser {
+  displayName: string;
+}
+
+export interface UserData {
+  userId: string;
   displayName: string;
 }

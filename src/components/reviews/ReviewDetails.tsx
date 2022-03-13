@@ -19,6 +19,8 @@ import {AppText} from '../common/AppText';
 import Stars from 'react-native-stars';
 import {ReviewComponent} from './ReviewComponent';
 import {AnyScreenProp, Route} from 'src/constants';
+import {useSelector} from 'react-redux';
+import {userSelector} from 'src/redux/user/userSlice';
 
 interface Props {
   style?: StyleProp<FlexStyle | ViewStyle>;
@@ -32,6 +34,8 @@ export const ReviewDetails: React.FC<Props> = ({reviewData}) => {
   } = useTheme();
   const scheme = useColorScheme();
   const {navigate} = useNavigation<AnyScreenProp>();
+  const {allUsers} = useSelector(userSelector);
+  const getDisplayName = (id: string) => allUsers.find(item => item.userId === id)?.displayName;
   return (
     <Container withNavigateBackBar>
       <AppText variant="h1" style={styles.markedTitle}>
@@ -42,6 +46,11 @@ export const ReviewDetails: React.FC<Props> = ({reviewData}) => {
           reviewData={reviewData}
           onComponentPress={() => navigate(Route.DETAILS, {book: reviewData.book, id: reviewData.book.id})}
         />
+        {!!reviewData.createdBy && (
+          <AppText variant="p" style={styles.author}>
+            Review created by: <AppText fontWeight="bold">{getDisplayName(reviewData.createdBy)}</AppText>
+          </AppText>
+        )}
         {!!reviewData.reviewDescription && (
           <AppText variant="p" style={styles.paragraph}>
             {reviewData.reviewDescription}
@@ -61,8 +70,14 @@ const styles = StyleSheet.create({
     textShadowRadius: 4,
     textShadowColor: 'rgba(0, 0, 0, 0.9)',
   },
+  author: {
+    paddingTop: 30,
+    paddingHorizontal: 3,
+    width: '100%',
+  },
   paragraph: {
     paddingTop: 50,
     paddingHorizontal: 3,
+    width: '100%',
   },
 });

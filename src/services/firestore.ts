@@ -28,12 +28,32 @@ export const setData = async (book: Book, name: string) => {
   }
 };
 
+export const setUserData = async () => {
+  const db = firestore();
+  const userId = auth().currentUser?.uid;
+  const displayName = auth().currentUser?.displayName;
+  if (!userId) {
+    return null;
+  }
+
+  const docRef = db.collection('userData').doc(userId);
+  const doc = await docRef.get();
+
+  if (doc.exists) {
+    docRef.delete();
+  }
+  if (!doc.exists) {
+    docRef.set({userId, displayName});
+  }
+};
+
 export const setReview = async (review: Review) => {
   const {
     book: {volumeInfo, id: bookId},
     id,
   } = review;
   const db = firestore();
+  const user = auth().currentUser;
   const userId = auth().currentUser?.uid;
 
   const reviewDescription = review.reviewDescription ?? '';

@@ -1,11 +1,17 @@
-import {createSlice} from '@reduxjs/toolkit';
-import {UserState} from 'src/models/user';
-import {createUserWithEmailAndPassword, logOutUser, signInWithEmailAndPassword} from 'src/redux/user/userActions';
+import {createSlice, PayloadAction} from '@reduxjs/toolkit';
+import {UserData, UserState} from 'src/models/user';
+import {
+  createUserWithEmailAndPassword,
+  getUserData,
+  logOutUser,
+  signInWithEmailAndPassword,
+} from 'src/redux/user/userActions';
 
 const initialState: UserState = {
   loading: false,
   error: '',
   user: {id: '', email: '', userName: '', photoURL: ''},
+  allUsers: [] as UserData[],
 };
 
 const userSlice = createSlice({
@@ -35,6 +41,18 @@ const userSlice = createSlice({
           const [, errorMessage] = action.error.message.split('] ');
           state.error = errorMessage;
         }
+      })
+      .addCase(getUserData.pending, state => {
+        state.error = '';
+        state.loading = true;
+      })
+      .addCase(getUserData.fulfilled, (state, action: PayloadAction<UserData[]>) => {
+        state.allUsers = action.payload;
+        state.loading = false;
+      })
+      .addCase(getUserData.rejected, (state, action) => {
+        state.error = action.error.message ?? 'error';
+        state.loading = false;
       })
       .addCase(logOutUser.pending, state => {
         state.error = '';
