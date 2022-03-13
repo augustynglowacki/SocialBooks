@@ -51,19 +51,19 @@ export const AddReviewScreen: React.FC<Props> = ({route}) => {
     return subscriber;
   }, [navigate]);
 
-  const handleAdReview = (review: Review) => {
+  const handleAddReview = (review: Review) => {
     dispatch(setReviews(review));
   };
 
   const onSubmit = () => {
-    handleAdReview(values);
+    handleAddReview(values);
     goBack();
   };
 
   const validationSchema = Yup.object({
     rating: Yup.number().required(t('required')),
     reviewTitle: Yup.string()
-      .min(6, t('reviewShort', {length: 3}))
+      .min(3, t('reviewShort', {length: 3}))
       .max(24, t('reviewLong', {length: 24}))
       .required(t('required')),
     reviewDescription: Yup.string().max(1000, t('reviewLong', {length: 1000})),

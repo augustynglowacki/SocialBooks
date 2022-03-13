@@ -3,6 +3,8 @@ import {View, StyleSheet} from 'react-native';
 import {Snackbar, useTheme} from 'react-native-paper';
 import {useDispatch} from 'react-redux';
 import {setErrorNull} from 'src/redux/user/userSlice';
+import {BORDER_RADIUS, palette} from 'src/styles';
+import {AppText} from './AppText';
 
 interface Props {
   label: string;
@@ -31,7 +33,9 @@ export const Message: React.FC<Props> = ({label}) => {
           onPress: onDismissSnackBar,
           color: background,
         }}>
-        {label}
+        <AppText variant="p" style={{color: 'white', fontWeight: 'bold'}}>
+          {label}
+        </AppText>
       </Snackbar>
     </View>
   );
@@ -48,7 +52,7 @@ const styles = StyleSheet.create({
     bottom: -110,
   },
   wrapper: {
-    borderRadius: 4,
-    maxHeight: 110,
+    borderRadius: BORDER_RADIUS,
+    color: palette.white,
   },
 });
