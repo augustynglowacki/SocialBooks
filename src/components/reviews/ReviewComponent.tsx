@@ -21,10 +21,15 @@ interface Props {
   shadowColor?: string;
   paddingVal?: number;
   reviewData: Review;
-  onPress?: () => void;
+  onComponentPress?: () => void;
 }
 
-export const ReviewComponent: React.FC<Props> = ({style, shadowColor = palette.primary, reviewData, onPress}) => {
+export const ReviewComponent: React.FC<Props> = ({
+  style,
+  shadowColor = palette.primary,
+  reviewData,
+  onComponentPress,
+}) => {
   const {
     colors: {background, text},
   } = useTheme();
@@ -74,48 +79,49 @@ export const ReviewComponent: React.FC<Props> = ({style, shadowColor = palette.p
     minWidth: '40%',
   };
   return (
-    <View style={[wrapperStyle, BOX_SHADOW, style]}>
-      <View style={shadowStyle}></View>
-      <View style={buttonStyle}>
-        <View style={{width: '40%'}}>
-          {!!reviewData.book && (
-            <BookComponent
-              book={reviewData.book}
-              style={{marginHorizontal: 24, transform: [{translateY: -2}]}}
-              shadowColor={palette.primary}
-              onPress={onPress}
-            />
-          )}
-        </View>
-        <View style={[infoStyle]}>
-          <View style={{height: '50%', maxHeight: '50%', justifyContent: 'flex-end'}}>
-            <AppText style={labelStyle} fontWeight="bold">
-              {reviewData.reviewTitle}
-            </AppText>
-          </View>
-          <View
-            style={{
-              alignItems: 'center',
-              height: '50%',
-              maxHeight: '50%',
-              justifyContent: 'flex-start',
-              marginTop: 24,
-            }}>
-            {!!reviewData.rating && (
-              <Stars
-                display={reviewData.rating}
-                spacing={8}
-                count={5}
-                starSize={23}
-                color={palette.primary}
-                fullStar={scheme === 'dark' ? require('src/assets/images/starFilled.png') : undefined}
-                emptyStar={scheme === 'dark' ? require('src/assets/images/starEmpty.png') : undefined}
-                halfStar={scheme === 'dark' ? require('src/assets/images/starHalf.png') : undefined}
+    <TouchableOpacity onPress={onComponentPress}>
+      <View style={[wrapperStyle, BOX_SHADOW, style]}>
+        <View style={shadowStyle}></View>
+        <View style={buttonStyle}>
+          <View style={{width: '40%'}}>
+            {!!reviewData.book && (
+              <BookComponent
+                book={reviewData.book}
+                style={{marginHorizontal: 24, transform: [{translateY: -2}]}}
+                shadowColor={palette.primary}
               />
             )}
           </View>
+          <View style={[infoStyle]}>
+            <View style={{height: '50%', maxHeight: '50%', justifyContent: 'flex-end'}}>
+              <AppText style={labelStyle} fontWeight="bold">
+                {reviewData.reviewTitle}
+              </AppText>
+            </View>
+            <View
+              style={{
+                alignItems: 'center',
+                height: '50%',
+                maxHeight: '50%',
+                justifyContent: 'flex-start',
+                marginTop: 24,
+              }}>
+              {!!reviewData.rating && (
+                <Stars
+                  display={reviewData.rating}
+                  spacing={8}
+                  count={5}
+                  starSize={23}
+                  color={palette.primary}
+                  fullStar={scheme === 'dark' ? require('src/assets/images/starFilled.png') : undefined}
+                  emptyStar={scheme === 'dark' ? require('src/assets/images/starEmpty.png') : undefined}
+                  halfStar={scheme === 'dark' ? require('src/assets/images/starHalf.png') : undefined}
+                />
+              )}
+            </View>
+          </View>
         </View>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };

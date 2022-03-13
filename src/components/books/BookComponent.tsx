@@ -147,10 +147,17 @@ export const BookComponent: React.FC<Props> = ({
   return (
     <View style={[BOX_SHADOW, wrapperStyle, style, imageLoading && {display: 'none'}]}>
       {isThumbnail ? (
-        <TouchableOpacity disabled={disabled} onPress={onPress}>
-          <View style={shadowStyle}></View>
-          <View style={buttonStyle}>{getBookCover()}</View>
-        </TouchableOpacity>
+        !!onPress ? (
+          <TouchableOpacity disabled={disabled} onPress={onPress}>
+            <View style={shadowStyle}></View>
+            <View style={buttonStyle}>{getBookCover()}</View>
+          </TouchableOpacity>
+        ) : (
+          <>
+            <View style={shadowStyle}></View>
+            <View style={buttonStyle}>{getBookCover()}</View>
+          </>
+        )
       ) : (
         <>
           <View style={shadowStyle}></View>

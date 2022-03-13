@@ -1,12 +1,13 @@
 import {RouteProp} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
-import {Book} from 'src/models';
+import {Book, Review} from 'src/models';
 
 export enum Route {
   HOME_NAVIGATOR = 'HomeNavigator',
   HOME = 'Home',
   SEARCH = 'Search',
   DETAILS = 'Details',
+  REVIEW_DETAILS = 'ReviewDetails',
   LOGIN = 'Login',
   REGISTER = 'Register',
   PROFILE = 'Profile',
@@ -15,6 +16,10 @@ export enum Route {
 }
 type DetailsScreenParams = {
   book: Book;
+  id: string;
+};
+type ReviewDetailsScreenParams = {
+  reviewData: Review;
   id: string;
 };
 type AddReviewScreenParams = {
@@ -29,6 +34,7 @@ export type RootStackParamList = {
   Register: undefined;
   Profile: undefined;
   Details: DetailsScreenParams;
+  ReviewDetails: ReviewDetailsScreenParams;
   AddReview: AddReviewScreenParams;
   Welcome: undefined;
 };
@@ -37,6 +43,9 @@ export type SearchScreenProp = StackNavigationProp<RootStackParamList, 'Home'>;
 export type DetailsScreenRouteProp = RouteProp<RootStackParamList, 'Details'>;
 export type DetailsScreenProp = StackNavigationProp<RootStackParamList, 'Details'>;
 export type DetailsScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Details'>;
+export type ReviewDetailsScreenRouteProp = RouteProp<RootStackParamList, 'ReviewDetails'>;
+export type ReviewDetailsScreenProp = StackNavigationProp<RootStackParamList, 'ReviewDetails'>;
+export type ReviewDetailsScreenNavigationProp = StackNavigationProp<RootStackParamList, 'ReviewDetails'>;
 export type AddReviewScreenRouteProp = RouteProp<RootStackParamList, 'AddReview'>;
 export type AddReviewScreenProp = StackNavigationProp<RootStackParamList, 'AddReview'>;
 export type AddReviewScreenNavigationProp = StackNavigationProp<RootStackParamList, 'AddReview'>;

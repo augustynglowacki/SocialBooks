@@ -2,7 +2,14 @@ import {createStackNavigator, CardStyleInterpolators} from '@react-navigation/st
 import React from 'react';
 import {Platform} from 'react-native';
 import {RootStackParamList, Route} from 'src/constants';
-import {AddReviewScreen, DetailsScreen, LoginScreen, RegisterScreen, WelcomeScreen} from 'src/screens';
+import {
+  AddReviewScreen,
+  DetailsScreen,
+  LoginScreen,
+  RegisterScreen,
+  ReviewDetailsScreen,
+  WelcomeScreen,
+} from 'src/screens';
 import BottomTabsNavigator from './BottomTabs/BottomTabsNavigator';
 
 const Stack = createStackNavigator<RootStackParamList>();
@@ -22,6 +29,7 @@ function HomeNavigator() {
       <Stack.Screen name={Route.HOME_NAVIGATOR} component={BottomTabsNavigator} options={{gestureEnabled: false}} />
       <Stack.Screen name={Route.DETAILS} component={DetailsScreen} />
       <Stack.Screen name={Route.ADD_REVIEW_SCREEN} component={AddReviewScreen} />
+      <Stack.Screen name={Route.REVIEW_DETAILS} component={ReviewDetailsScreen} />
     </Stack.Navigator>
   );
 }

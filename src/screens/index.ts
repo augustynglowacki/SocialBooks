@@ -6,3 +6,4 @@ export * from './RegisterScreen';
 export * from './ProfileScreen';
 export * from './AddReviewScreen';
 export * from './WelcomeScreen';
+export * from './ReviewDetailsScreen';

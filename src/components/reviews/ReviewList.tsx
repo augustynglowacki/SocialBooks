@@ -22,7 +22,7 @@ export const ReviewList: React.FC<Props> = ({data, style, horizontal = false, lo
       reviewData={item}
       style={!horizontal && styles.listComponent}
       shadowColor={getBookShadowColor(index)}
-      onPress={() => navigate(Route.DETAILS, {book: item.book, id: item.book.id})}
+      onComponentPress={() => navigate(Route.REVIEW_DETAILS, {reviewData: item, id: item.id})}
     />
   );
   if (!data.length) {
