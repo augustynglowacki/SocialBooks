@@ -39,7 +39,7 @@ export const AddReview: React.FC<Props> = ({
         <View style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
           {!!book && <BookComponent book={book} style={{marginVertical: 24}} shadowColor={palette.primary} disabled />}
           <AppText style={styles.title} variant="h1">
-            New Review
+            Nowa Recenzja
           </AppText>
         </View>
         <View>

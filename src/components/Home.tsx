@@ -19,7 +19,7 @@ export const Home: React.FC<Props> = () => {
       {!!userName && (
         <Animated.View entering={FadeIn.springify().stiffness(15)}>
           <AppText style={styles.title} variant="h1">
-            Hello{' '}
+            Witaj{' '}
             <AppText variant="h1" style={styles.markedTitle} fontWeight="bold">
               {userName}
             </AppText>
@@ -29,12 +29,12 @@ export const Home: React.FC<Props> = () => {
       {!!reviews && (
         <Animated.View entering={FadeIn.springify().stiffness(15)} style={{width: '100%', flex: 1}}>
           <AppText style={styles.collectionTitle} fontWeight="bold">
-            Latest Reviews:
+            Najnowsze recenzje:
           </AppText>
           {!!reviews ? (
             <ReviewList data={reviews} error={error} loading={loading} />
           ) : (
-            <AppText style={{paddingTop: 12}}>Error loading reviews :/</AppText>
+            <AppText style={{paddingTop: 12}}>Błąd w ładowaniu recenzji:/</AppText>
           )}
         </Animated.View>
       )}

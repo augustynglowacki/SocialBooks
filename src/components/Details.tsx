@@ -93,7 +93,7 @@ export const Details: React.FC<Props> = ({book}) => {
           ))}
       </View>
       <AppButton
-        label="Write a review"
+        label="Zrecenzuj książkę!"
         style={{marginVertical: 24}}
         variant="secondary"
         onPress={() => navigate(Route.ADD_REVIEW_SCREEN, {book: book, id: book.id})}

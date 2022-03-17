@@ -43,8 +43,8 @@ export const Profile: FC<Props> = ({name, photo}) => {
     height: '100%',
   };
   const stats: Stats[] = [
-    {label: 'Favorite', count: favorite.length},
-    {label: 'Reviews', count: userReviews.length},
+    {label: 'Ulubione', count: favorite.length},
+    {label: 'Recenzje', count: userReviews.length},
   ];
 
   // giving background color to SafeAreaView is the only way to have the blue color, giving the gradient
@@ -81,25 +81,25 @@ export const Profile: FC<Props> = ({name, photo}) => {
       <View style={styles.collections}>
         <View>
           <AppText style={styles.collectionTitle} fontWeight="bold">
-            Favorite
+            Twoje ulubione:
           </AppText>
           {!!favorite.length ? (
             <BookList data={favorite} error={error} loading={loading} />
           ) : (
             <AppText style={{paddingTop: 12}}>
-              Add some favorites! {'\n'}1.Search for a movie.{'\n'}2.Open the movie by clicking on it.{'\n'}3.Like by
-              double tapping the movie cover!
+              Dodaj ksiązki do ulubionych! {'\n'}1.Wyszukaj ksiązkę.{'\n'}2.Kliknij na jej okładkę, by przejść na ekran
+              szczegółów.{'\n'}3.Polub ksiązkę wykonując podwójne kliknięcie na jej okładce!
             </AppText>
           )}
         </View>
         <View>
           <AppText style={styles.collectionTitle} fontWeight="bold">
-            Reviews
+            Twoje recenzje:
           </AppText>
           {!!userReviews.length ? (
             <ReviewList data={userReviews} error={error} loading={loading} horizontal={true} />
           ) : (
-            <AppText style={{paddingTop: 12}}>Add some reviews!</AppText>
+            <AppText style={{paddingTop: 12}}>Oceń pierwszą książkę!</AppText>
           )}
         </View>
       </View>

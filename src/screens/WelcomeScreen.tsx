@@ -24,7 +24,7 @@ export const WelcomeScreen: React.FC<Props> = ({}) => {
     <Container style={styles.container} disableScroll>
       <Animated.View entering={FadeIn.springify().stiffness(15)}>
         <AppText style={styles.title} variant="h1">
-          Welcome to{' '}
+          Witaj w{' '}
           <AppText style={styles.markedTitle} variant="h1" fontWeight="bold">
             SOCIALBOOKS
           </AppText>
@@ -36,14 +36,14 @@ export const WelcomeScreen: React.FC<Props> = ({}) => {
       </Animated.View>
       <Animated.View entering={FadeIn.springify().stiffness(15).delay(500)}>
         <AppButton
-          label="Register"
+          label="Rejestracja"
           style={{marginBottom: 36}}
           onPress={() => {
             navigate(Route.REGISTER);
           }}
         />
         <AppButton
-          label="Login"
+          label="Logowanie"
           style={{marginBottom: 48}}
           variant="secondary"
           onPress={() => {

@@ -50,7 +50,7 @@ export const ReviewDetails: React.FC<Props> = ({reviewData}) => {
           {!!reviewData.createdBy && (
             <>
               <AppText variant="p" style={styles.createdBy}>
-                Review by:
+                Autor recenzji:
               </AppText>
               <View style={{marginRight: 2}}>
                 <Avatar name={getDisplayName(reviewData.createdBy)} size={40} color={palette.primary} />

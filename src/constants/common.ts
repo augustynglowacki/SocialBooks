@@ -6,7 +6,7 @@ type ErrorType = FetchBaseQueryError | SerializedError | undefined;
 export type {ErrorType};
 
 export enum QueryFilters {
-  AUTHOR = 'Author',
-  TITLE = 'Title',
-  FULLTEXT = 'Full-text search',
+  AUTHOR = 'Autor',
+  TITLE = 'Tytuł',
+  FULLTEXT = 'Wyszukiwanie full-text',
 }

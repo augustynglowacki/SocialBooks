@@ -32,15 +32,15 @@ export const Search: React.FC = () => {
   );
 
   if (isError && !!error && !('status' in error)) {
-    <AppText>Network error</AppText>;
+    <AppText>Błąd!</AppText>;
   }
   return (
     <Container style={styles.wrapper} withKeyboard>
       <View>
         <AppText style={styles.title} variant="h1">
-          Type to{' '}
+          Wpisz, aby{' '}
           <AppText variant="h1" style={styles.markedTitle}>
-            Search!
+            Szukać!
           </AppText>
         </AppText>
         <Input label={t('search')} value={searchTerm} onChangeText={setSearchTerm} autoFocus />
@@ -53,7 +53,7 @@ export const Search: React.FC = () => {
           </Picker>
         </AppModal>
       </View>
-      <AppButton label="Change Search Type" style={{marginVertical: 24}} onPress={toggleModal} />
+      <AppButton label="Zmień tryb szukania" style={{marginVertical: 24}} onPress={toggleModal} />
     </Container>
   );
 };
