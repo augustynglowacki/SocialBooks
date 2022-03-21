@@ -39,7 +39,6 @@ export const signInWithEmailAndPassword = createAsyncThunk<User, LoginUser>(
       id: uid,
       email,
       userName: displayName,
-      photoURL: '',
     };
   },
 );
@@ -67,7 +66,6 @@ export const createUserWithEmailAndPassword = createAsyncThunk<User, BackendUser
       id: uid,
       email,
       userName: displayNameFirebase,
-      photoURL: '',
     };
   },
 );

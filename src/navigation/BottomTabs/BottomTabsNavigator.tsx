@@ -7,9 +7,9 @@ import {TabIcon} from './TabIcon';
 import {palette} from 'src/styles';
 import {HomeScreen, ProfileScreen, SearchScreen} from 'src/screens';
 import auth from '@react-native-firebase/auth';
-import {useDispatch} from 'react-redux';
+import {batch, useDispatch} from 'react-redux';
 import {useFocusEffect, useNavigation} from '@react-navigation/native';
-import {getFavorite, getReviews} from 'src/redux/collections/collectionsActions';
+import {getFavorite, getFollowing, getReviews} from 'src/redux/collections/collectionsActions';
 import {getUserData} from 'src/redux/user/userActions';
 
 const BOTTOM_TABS_HEIGHT = 60;
@@ -45,9 +45,12 @@ const BottomTabsNavigator = () => {
   const dispatch = useDispatch();
   useFocusEffect(
     useCallback(() => {
-      dispatch(getFavorite());
-      dispatch(getReviews());
-      dispatch(getUserData());
+      batch(() => {
+        dispatch(getFollowing());
+        dispatch(getFavorite());
+        dispatch(getReviews());
+        dispatch(getUserData());
+      });
     }, [dispatch]),
   );
 

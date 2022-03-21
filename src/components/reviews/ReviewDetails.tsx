@@ -1,26 +1,16 @@
 import {useNavigation, useTheme} from '@react-navigation/native';
-import React from 'react';
-import {
-  Dimensions,
-  FlexStyle,
-  StyleProp,
-  StyleSheet,
-  TextStyle,
-  TouchableOpacity,
-  useColorScheme,
-  View,
-  ViewStyle,
-} from 'react-native';
-import {Book, Review} from 'src/models';
-import {BORDER_RADIUS, BOX_SHADOW, palette} from 'src/styles';
-import {BookComponent} from '../books';
-import {Avatar, Container, Stats} from '../common';
+import React, {useState} from 'react';
+import {FlexStyle, StyleProp, StyleSheet, useColorScheme, View, ViewStyle} from 'react-native';
+import {Review} from 'src/models';
+import {palette} from 'src/styles';
+import {AppButton, Avatar, Container} from '../common';
 import {AppText} from '../common/AppText';
-import Stars from 'react-native-stars';
 import {ReviewComponent} from './ReviewComponent';
 import {AnyScreenProp, Route} from 'src/constants';
 import {useSelector} from 'react-redux';
 import {userSelector} from 'src/redux/user/userSlice';
+import {setFollowing} from 'src/services/firestore';
+import {collectionsSelector} from 'src/redux/collections/collectionsSlice';
 
 interface Props {
   style?: StyleProp<FlexStyle | ViewStyle>;
@@ -34,8 +24,17 @@ export const ReviewDetails: React.FC<Props> = ({reviewData}) => {
   } = useTheme();
   const scheme = useColorScheme();
   const {navigate} = useNavigation<AnyScreenProp>();
-  const {allUsers} = useSelector(userSelector);
+  const {following, error} = useSelector(collectionsSelector);
+  const {
+    allUsers,
+    user: {id},
+  } = useSelector(userSelector);
+  const followingInitialState = following.some(item => item === reviewData.createdBy);
+  const [followingButton, setFollowingButton] = useState(followingInitialState);
   const getDisplayName = (id: string) => allUsers.find(item => item.userId === id)?.displayName;
+  const toggleFollowing = () =>
+    !!reviewData.createdBy && setFollowing(reviewData.createdBy) && setFollowingButton(curr => !curr);
+
   return (
     <Container withNavigateBackBar>
       <AppText variant="h1" style={styles.markedTitle}>
@@ -46,21 +45,28 @@ export const ReviewDetails: React.FC<Props> = ({reviewData}) => {
           reviewData={reviewData}
           onComponentPress={() => navigate(Route.DETAILS, {book: reviewData.book, id: reviewData.book.id})}
         />
-        <View style={{flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'flex-end', width: '100%'}}>
-          {!!reviewData.createdBy && (
-            <>
+        {reviewData.createdBy && !!getDisplayName(reviewData.createdBy) && (
+          <View style={{flex: 1}}>
+            <View style={{flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'flex-end', width: '100%'}}>
               <AppText variant="p" style={styles.createdBy}>
                 Autor recenzji:
               </AppText>
-              <View style={{marginRight: 2}}>
-                <Avatar name={getDisplayName(reviewData.createdBy)} size={40} color={palette.primary} />
+              <View>
+                <Avatar name={getDisplayName(reviewData.createdBy)} size={36} color={palette.primary} />
               </View>
               <AppText fontWeight="bold" style={styles.author}>
                 {getDisplayName(reviewData.createdBy)}
               </AppText>
-            </>
-          )}
-        </View>
+            </View>
+            {reviewData.createdBy !== id && (
+              <AppButton
+                label={followingButton ? 'Przestań obserwować' : 'Obserwuj autora recenzji'}
+                onPress={toggleFollowing}
+                style={styles.followButton}
+              />
+            )}
+          </View>
+        )}
 
         {!!reviewData.reviewDescription && (
           <AppText variant="p" style={styles.paragraph}>
@@ -85,17 +91,21 @@ const styles = StyleSheet.create({
     paddingTop: 30,
     paddingHorizontal: 3,
     marginRight: 8,
-    lineHeight: 40,
+    lineHeight: 36,
   },
   author: {
+    marginLeft: 6,
     paddingTop: 30,
     paddingHorizontal: 3,
     fontSize: 20,
-    lineHeight: 40,
+    lineHeight: 36,
   },
   paragraph: {
     paddingTop: 30,
     paddingHorizontal: 3,
     width: '100%',
+  },
+  followButton: {
+    marginTop: 20,
   },
 });

@@ -16,21 +16,18 @@ import {palette} from 'src/styles';
 import {useDispatch, useSelector} from 'react-redux';
 import {BookList} from './books';
 import {collectionsSelector} from 'src/redux/collections/collectionsSlice';
-import {userSelector} from 'src/redux/user/userSlice';
 import {ReviewList} from './reviews';
 import {logOutUser} from 'src/redux/user/userActions';
 import {AnyScreenProp, Route} from 'src/constants';
+
 interface Props {
   name: string;
-  photo: string;
+  id: string;
 }
 
-export const Profile: FC<Props> = ({name, photo}) => {
+export const Profile: FC<Props> = ({name, id}) => {
   const {colors} = useTheme();
   const {favorite, reviews, error, loading} = useSelector(collectionsSelector);
-  const {
-    user: {id},
-  } = useSelector(userSelector);
   const dispatch = useDispatch();
   const {navigate} = useNavigation<AnyScreenProp>();
   const userReviews = reviews.filter(item => item.createdBy === id);
@@ -69,7 +66,7 @@ export const Profile: FC<Props> = ({name, photo}) => {
               </TouchableOpacity>
             </View>
             <View style={styles.info}>
-              <Avatar source={photo} name={name} />
+              <Avatar name={name} />
               <AppText style={styles.title} variant="h1">
                 {name}
               </AppText>

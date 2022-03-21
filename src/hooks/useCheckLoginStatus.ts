@@ -18,7 +18,6 @@ export default function useCheckLoginStatus() {
             setActiveUser({
               email: item.email,
               userName: item.displayName,
-              photoURL: item.photoURL,
               id: item.uid,
             }),
           );

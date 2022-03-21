@@ -9,6 +9,29 @@ export const setFavorite = createAsyncThunk<void, Book>('collections/setFavorite
   await setData(book, 'favorite');
 });
 
+export const setFollowing = createAsyncThunk<void, string>('collections/setFollowing', async id => {
+  await setFollowing(id);
+});
+export const getFollowing = createAsyncThunk<string[]>(
+  'collections/getFollowing',
+  () =>
+    new Promise((resolve, reject) => {
+      const userId = auth().currentUser?.uid ?? 'none';
+      firestore()
+        .collection('users')
+        .doc(userId)
+        .collection('following')
+        .onSnapshot(
+          snap => {
+            resolve(snap.docs.map(doc => doc.id));
+          },
+          error => {
+            reject(error);
+          },
+        );
+    }),
+);
+
 export const getFavorite = createAsyncThunk<Book[]>(
   'collections/getFavorite',
   () =>

@@ -10,7 +10,7 @@ import {
 const initialState: UserState = {
   loading: false,
   error: '',
-  user: {id: '', email: '', userName: '', photoURL: ''},
+  user: {id: '', email: '', userName: ''},
   allUsers: [] as UserData[],
 };
 

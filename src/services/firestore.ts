@@ -47,6 +47,24 @@ export const setUserData = async () => {
   }
 };
 
+export const setFollowing = async (id: string) => {
+  const db = firestore();
+  const userId = auth().currentUser?.uid;
+  if (!userId) {
+    return null;
+  }
+
+  const docRef = db.collection('users').doc(userId).collection('following').doc(id);
+  const doc = await docRef.get();
+
+  if (doc.exists) {
+    docRef.delete();
+  }
+  if (!doc.exists) {
+    docRef.set({id});
+  }
+};
+
 export const setReview = async (review: Review) => {
   const {
     book: {volumeInfo, id: bookId},

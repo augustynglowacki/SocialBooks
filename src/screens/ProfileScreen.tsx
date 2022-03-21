@@ -5,9 +5,8 @@ import {userSelector} from 'src/redux/user/userSlice';
 
 export const ProfileScreen: React.FC = () => {
   const {
-    user: {userName, photoURL},
+    user: {userName, id},
   } = useSelector(userSelector);
 
-  //   console.log(userName, photoURL);
-  return <Profile photo={photoURL} name={userName} />;
+  return <Profile name={userName} id={id} />;
 };

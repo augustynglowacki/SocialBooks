@@ -2,7 +2,6 @@ export interface User {
   id: string;
   email: string;
   userName: string;
-  photoURL: string;
 }
 
 export interface UserState {

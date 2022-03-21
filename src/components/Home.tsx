@@ -14,6 +14,7 @@ export const Home: React.FC<Props> = () => {
     user: {userName},
   } = useSelector(userSelector);
   const {reviews, error, loading} = useSelector(collectionsSelector);
+  
   return (
     <Container style={styles.container} disableScroll>
       {!!userName && (
