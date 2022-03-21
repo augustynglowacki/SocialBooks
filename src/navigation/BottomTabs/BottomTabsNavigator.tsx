@@ -5,7 +5,7 @@ import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {AnyScreenProp, Route} from 'src/constants';
 import {TabIcon} from './TabIcon';
 import {palette} from 'src/styles';
-import {HomeScreen, ProfileScreen, SearchScreen} from 'src/screens';
+import {CommunityScreen, HomeScreen, ProfileScreen, SearchScreen} from 'src/screens';
 import auth from '@react-native-firebase/auth';
 import {batch, useDispatch} from 'react-redux';
 import {useFocusEffect, useNavigation} from '@react-navigation/native';
@@ -19,6 +19,12 @@ const screensData = [
     component: HomeScreen,
     icon: 'ios-book',
     tabColor: palette.primary,
+  },
+  {
+    name: Route.COMMUNITY,
+    component: CommunityScreen,
+    icon: 'ios-people',
+    tabColor: palette.secondary,
   },
   {
     name: Route.SEARCH,

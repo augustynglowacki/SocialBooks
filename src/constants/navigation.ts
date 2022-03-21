@@ -5,6 +5,7 @@ import {Book, Review} from 'src/models';
 export enum Route {
   HOME_NAVIGATOR = 'HomeNavigator',
   HOME = 'Home',
+  COMMUNITY = 'Community',
   SEARCH = 'Search',
   DETAILS = 'Details',
   REVIEW_DETAILS = 'ReviewDetails',
@@ -28,6 +29,7 @@ type AddReviewScreenParams = {
 };
 export type RootStackParamList = {
   Home: undefined;
+  Community: undefined;
   Search: undefined;
   HomeNavigator: undefined;
   Login: undefined;
@@ -39,6 +41,7 @@ export type RootStackParamList = {
   Welcome: undefined;
 };
 export type HomeScreenProp = StackNavigationProp<RootStackParamList, 'Home'>;
+export type CommunityScreenProp = StackNavigationProp<RootStackParamList, 'Community'>;
 export type SearchScreenProp = StackNavigationProp<RootStackParamList, 'Home'>;
 export type DetailsScreenRouteProp = RouteProp<RootStackParamList, 'Details'>;
 export type DetailsScreenProp = StackNavigationProp<RootStackParamList, 'Details'>;
