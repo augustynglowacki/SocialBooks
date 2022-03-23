@@ -38,7 +38,7 @@ export const ReviewDetails: React.FC<Props> = ({reviewData}) => {
   return (
     <Container withNavigateBackBar>
       <AppText variant="h1" style={styles.markedTitle}>
-        Review
+        Recenzja
       </AppText>
       <View style={{flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}}>
         <ReviewComponent

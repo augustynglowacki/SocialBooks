@@ -19,7 +19,7 @@ export const AppText: React.FC<Props> = ({children, style, variant, fontWeight =
   };
 
   const getVariant = (): StyleProp<TextStyle> => {
-    if (variant === 'h1') return {fontSize: 32, letterSpacing: -0.5, textAlign: 'center'};
+    if (variant === 'h1') return {fontSize: 28, letterSpacing: -0.5, textAlign: 'center'};
     if (variant === 'subtitle') return {fontSize: 17, letterSpacing: -0.8, opacity: scheme === 'dark' ? 0.95 : 0.8};
     if (variant === 'p')
       return {

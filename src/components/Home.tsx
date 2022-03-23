@@ -14,12 +14,12 @@ export const Home: React.FC<Props> = () => {
     user: {userName},
   } = useSelector(userSelector);
   const {reviews, error, loading} = useSelector(collectionsSelector);
-  
+
   return (
     <Container style={styles.container} disableScroll>
       {!!userName && (
         <Animated.View entering={FadeIn.springify().stiffness(15)}>
-          <AppText style={styles.title} variant="h1">
+          <AppText variant="h1">
             Witaj{' '}
             <AppText variant="h1" style={styles.markedTitle} fontWeight="bold">
               {userName}
@@ -44,9 +44,6 @@ export const Home: React.FC<Props> = () => {
 };
 
 const styles = StyleSheet.create({
-  title: {
-    paddingTop: 10,
-  },
   container: {
     paddingTop: 10,
     justifyContent: 'flex-start',

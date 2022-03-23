@@ -1,6 +1,6 @@
 import React from 'react';
-import {Home} from 'src/components/Home';
+import {Community} from 'src/components/Community';
 
 export const CommunityScreen: React.FC = () => {
-  return <Home />;
+  return <Community />;
 };

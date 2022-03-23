@@ -38,9 +38,8 @@ export const Search: React.FC = () => {
     <Container style={styles.wrapper} withKeyboard>
       <View>
         <AppText style={styles.title} variant="h1">
-          Wpisz, aby{' '}
           <AppText variant="h1" style={styles.markedTitle}>
-            Szukać!
+            Wyszukaj!
           </AppText>
         </AppText>
         <Input label={t('search')} value={searchTerm} onChangeText={setSearchTerm} autoFocus />
