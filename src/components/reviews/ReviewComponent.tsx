@@ -10,10 +10,9 @@ import {
   View,
   ViewStyle,
 } from 'react-native';
-import {Book, Review} from 'src/models';
+import {Review} from 'src/models';
 import {BORDER_RADIUS, BOX_SHADOW, palette} from 'src/styles';
 import {BookComponent} from '../books';
-import {Stats} from '../common';
 import {AppText} from '../common/AppText';
 import Stars from 'react-native-stars';
 interface Props {

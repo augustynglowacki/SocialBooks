@@ -5,15 +5,14 @@ import {FlatList} from 'react-native-gesture-handler';
 import {useSelector} from 'react-redux';
 import {AnyScreenProp, ErrorType, Route} from 'src/constants';
 import {getBookShadowColor} from 'src/helpers/getBookShadowColor';
-import {Review} from 'src/models';
-import {collectionsSelector} from 'src/redux/collections/collectionsSlice';
+import {Favorite} from 'src/models';
 import {userSelector} from 'src/redux/user/userSlice';
 import {palette} from 'src/styles';
+import {BookComponent} from '../books';
 import {AppText, Avatar} from '../common';
-import {ReviewComponent} from './ReviewComponent';
 
 interface Props {
-  data: Review[];
+  data: Favorite[];
   error?: ErrorType | string | undefined | null;
   loading?: boolean;
   horizontal?: true;
@@ -21,22 +20,12 @@ interface Props {
   community?: boolean;
 }
 
-export const ReviewList: React.FC<Props> = ({data, style, horizontal = false, loading, error, community = false}) => {
+export const FavoriteList: React.FC<Props> = ({data, style, horizontal = false, loading, error, community = false}) => {
   const {navigate} = useNavigation<AnyScreenProp>();
-  const {allUsers} = useSelector(userSelector);
+  const {user, allUsers} = useSelector(userSelector);
   const getDisplayName = (id: string) => allUsers.find(item => item.userId === id)?.displayName;
 
-  const renderItem: ListRenderItem<Review> = ({item, index}) => {
-    if (!community) {
-      return (
-        <ReviewComponent
-          reviewData={item}
-          style={!horizontal && styles.listComponent}
-          shadowColor={getBookShadowColor(index)}
-          onComponentPress={() => navigate(Route.REVIEW_DETAILS, {reviewData: item, id: item.id})}
-        />
-      );
-    }
+  const renderItem: ListRenderItem<Favorite> = ({item, index}) => {
     return (
       <View style={styles.margin}>
         {!!item.createdBy && (
@@ -50,11 +39,10 @@ export const ReviewList: React.FC<Props> = ({data, style, horizontal = false, lo
             <AppText variant="p" style={styles.createdBy}></AppText>
           </View>
         )}
-        <ReviewComponent
-          reviewData={item}
-          style={!horizontal && styles.listComponent}
+        <BookComponent
+          book={item.book}
           shadowColor={getBookShadowColor(index)}
-          onComponentPress={() => navigate(Route.REVIEW_DETAILS, {reviewData: item, id: item.id})}
+          onPress={() => navigate(Route.DETAILS, {book: item.book, id: item.book.id})}
         />
       </View>
     );

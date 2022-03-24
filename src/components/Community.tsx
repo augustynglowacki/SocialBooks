@@ -11,23 +11,20 @@ import Animated, {FadeIn} from 'react-native-reanimated';
 interface Props {}
 
 export const Community: React.FC<Props> = () => {
-  const {
-    user: {userName},
-    allUsers,
-  } = useSelector(userSelector);
+  const {allUsers} = useSelector(userSelector);
   const {reviews, following, error, loading} = useSelector(collectionsSelector);
   //   const followingInitialState = following.find(item => item === reviewData.createdBy);
   const getDisplayName = (id: string) => allUsers.find(item => item.userId === id)?.displayName;
   const getReviewsForUser = (id: string) => reviews.filter(item => item.createdBy === id);
   const getCommunityReviews = () => following.map(item => getReviewsForUser(item));
   const communityReviews = getCommunityReviews().flat();
-  console.log(communityReviews);
+
   return (
     <Container style={styles.container} disableScroll>
       <Animated.View entering={FadeIn.springify().stiffness(15)} style={{width: '100%', flex: 1}}>
         <AppText variant="h1">
           <AppText variant="h1" style={styles.markedTitle}>
-            Społeczność
+            Twoja Społeczność
           </AppText>
         </AppText>
         {!!following.length ? (
