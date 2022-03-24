@@ -18,7 +18,10 @@ export const Community: React.FC<Props> = () => {
   const {reviews, following, error, loading} = useSelector(collectionsSelector);
   //   const followingInitialState = following.find(item => item === reviewData.createdBy);
   const getDisplayName = (id: string) => allUsers.find(item => item.userId === id)?.displayName;
-
+  const getReviewsForUser = (id: string) => reviews.filter(item => item.createdBy === id);
+  const getCommunityReviews = () => following.map(item => getReviewsForUser(item));
+  const communityReviews = getCommunityReviews().flat();
+  console.log(communityReviews);
   return (
     <Container style={styles.container} disableScroll>
       <Animated.View entering={FadeIn.springify().stiffness(15)} style={{width: '100%', flex: 1}}>
@@ -27,10 +30,17 @@ export const Community: React.FC<Props> = () => {
             Społeczność
           </AppText>
         </AppText>
-        {!!reviews ? (
-          <ReviewList data={reviews} error={error} loading={loading} community={true} />
+        {!!following.length ? (
+          !!communityReviews.length ? (
+            <ReviewList data={communityReviews} error={error} loading={loading} community={true} />
+          ) : (
+            <AppText style={{paddingTop: 12}}>Błąd w ładowaniu recenzji.</AppText>
+          )
         ) : (
-          <AppText style={{paddingTop: 12}}>Błąd w ładowaniu recenzji:/</AppText>
+          <>
+            <AppText style={{paddingTop: 12}}>Zaobserwuj uzytkowników, aby stworzyć swoją społeczność!</AppText>
+            <AppText>Mozesz to zrobic, klikając w recenzję na ekranie głównym.</AppText>
+          </>
         )}
       </Animated.View>
     </Container>
