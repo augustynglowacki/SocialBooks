@@ -31,6 +31,7 @@ export const Profile: FC<Props> = ({name, id}) => {
   const dispatch = useDispatch();
   const {navigate} = useNavigation<AnyScreenProp>();
   const userReviews = reviews.filter(item => item.createdBy === id);
+  const userFavorite = favorite.filter(item => item.createdBy === id).map(item => item.book);
   const gradientStyle: StyleProp<ViewStyle | FlexStyle> = {
     flex: 1,
     position: 'absolute',
@@ -80,8 +81,8 @@ export const Profile: FC<Props> = ({name, id}) => {
           <AppText style={styles.collectionTitle} fontWeight="bold">
             Twoje ulubione:
           </AppText>
-          {!!favorite.length ? (
-            <BookList data={favorite} error={error} loading={loading} />
+          {!!userFavorite.length ? (
+            <BookList data={userFavorite} error={error} loading={loading} />
           ) : (
             <AppText style={{paddingTop: 12}}>
               Dodaj ksiązki do ulubionych! {'\n'}1.Wyszukaj ksiązkę.{'\n'}2.Kliknij na jej okładkę, by przejść na ekran

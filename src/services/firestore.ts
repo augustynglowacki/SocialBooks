@@ -2,8 +2,8 @@ import firestore from '@react-native-firebase/firestore';
 import auth from '@react-native-firebase/auth';
 import {Book, Review} from 'src/models';
 
-export const setData = async (book: Book, name: string) => {
-  const {volumeInfo, id} = book;
+export const setData = async (data: Book) => {
+  const {volumeInfo, id} = data;
   const title = volumeInfo?.title ?? '';
   const description = volumeInfo?.description ?? '';
   const averageRating = volumeInfo?.averageRating ?? 0;
@@ -12,19 +12,34 @@ export const setData = async (book: Book, name: string) => {
   const imagePath = volumeInfo?.imageLinks?.thumbnail ?? '';
   const db = firestore();
   const userId = auth().currentUser?.uid;
+  const createdBy = userId ?? '';
 
   if (!userId) {
     return null;
   }
 
-  const docRef = db.collection('users').doc(userId).collection(name).doc(id);
-  const doc = await docRef.get();
+  const globalDocRef = db.collection('favorite').doc(userId + id);
+  const globalDoc = await globalDocRef.get();
 
-  if (doc.exists) {
-    docRef.delete();
+  if (globalDoc.exists) {
+    globalDocRef.delete();
   }
-  if (!doc.exists) {
-    docRef.set({title, description, averageRating, ratingCount, authors, imagePath});
+  if (!globalDoc.exists) {
+    globalDocRef.set({
+      id: userId + id,
+      book: {
+        id,
+        volumeInfo: {
+          title,
+          description,
+          averageRating,
+          ratingCount,
+          authors,
+          imagePath,
+        },
+      },
+      createdBy,
+    });
   }
 };
 
@@ -71,7 +86,6 @@ export const setReview = async (review: Review) => {
     id,
   } = review;
   const db = firestore();
-  const user = auth().currentUser;
   const userId = auth().currentUser?.uid;
 
   const reviewDescription = review.reviewDescription ?? '';

@@ -1,5 +1,5 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
-import {Book, CollectionsState, Review} from 'src/models';
+import {Book, CollectionsState, Favorite, Review} from 'src/models';
 import {getFavorite, setFavorite, getReviews, setReviews, setFollowing, getFollowing} from './collectionsActions';
 
 const initialState: CollectionsState = {
@@ -31,7 +31,7 @@ const CollectionsSlice = createSlice({
         state.error = '';
         state.loading = true;
       })
-      .addCase(getFavorite.fulfilled, (state, action: PayloadAction<Book[]>) => {
+      .addCase(getFavorite.fulfilled, (state, action: PayloadAction<Favorite[]>) => {
         state.favorite = [...action.payload].reverse(); //latest entries at the top
         state.loading = false;
       })

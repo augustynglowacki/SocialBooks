@@ -1,12 +1,12 @@
 import {createAsyncThunk} from '@reduxjs/toolkit';
-import {Book, Review} from 'src/models';
+import {Book, Favorite, Review} from 'src/models';
 import firestore from '@react-native-firebase/firestore';
 import auth from '@react-native-firebase/auth';
 import {setData, setReview} from 'src/services/firestore';
 import {convertToBook} from 'src/helpers/convertResponse';
 
 export const setFavorite = createAsyncThunk<void, Book>('collections/setFavorite', async book => {
-  await setData(book, 'favorite');
+  await setData(book);
 });
 
 export const setFollowing = createAsyncThunk<void, string>('collections/setFollowing', async id => {
@@ -32,28 +32,29 @@ export const getFollowing = createAsyncThunk<string[]>(
     }),
 );
 
-export const getFavorite = createAsyncThunk<Book[]>(
+export const getFavorite = createAsyncThunk<Favorite[]>(
   'collections/getFavorite',
   () =>
     new Promise((resolve, reject) => {
-      const userId = auth().currentUser?.uid ?? 'none';
       firestore()
-        .collection('users')
-        .doc(userId)
         .collection('favorite')
         .onSnapshot(
           snap => {
             resolve(
               snap.docs.map(doc => ({
                 id: doc.id,
-                volumeInfo: {
-                  title: doc.data().title,
-                  description: doc.data().description,
-                  authors: doc.data().authors,
-                  averageRating: doc.data().averageRating,
-                  ratingCount: doc.data().ratingCount,
-                  imageLinks: {
-                    thumbnail: doc.data().imagePath,
+                createdBy: doc.data().createdBy,
+                book: {
+                  id: doc.data().book.id,
+                  volumeInfo: {
+                    title: doc.data().book.volumeInfo.title,
+                    description: doc.data().book.volumeInfo.description,
+                    authors: doc.data().book.volumeInfo.authors,
+                    averageRating: doc.data().book.volumeInfo.averageRating,
+                    ratingCount: doc.data().book.volumeInfo.ratingCount,
+                    imageLinks: {
+                      thumbnail: doc.data().book.volumeInfo.imagePath,
+                    },
                   },
                 },
               })),

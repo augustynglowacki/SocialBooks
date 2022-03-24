@@ -22,13 +22,13 @@ interface Props {
 
 export const Details: React.FC<Props> = ({book}) => {
   if (!book) return null;
-  const dispatch = useDispatch();
-  const {favorite, reviews} = useSelector(collectionsSelector);
-  const favoriteInitialState = favorite.some(item => item.id === book.id);
-  const [favoriteButton, setFavoriteButton] = useState(favoriteInitialState);
   const {
-    user: {userName},
+    user: {userName, id},
   } = useSelector(userSelector);
+  const dispatch = useDispatch();
+  const {favorite} = useSelector(collectionsSelector);
+  const favoriteInitialState = favorite.filter(item => item.createdBy === id).some(item => item.book.id === book.id);
+  const [favoriteButton, setFavoriteButton] = useState(favoriteInitialState);
 
   const handleAddtoCollection = (action: 'favorite') => {
     if (!!userName) {
