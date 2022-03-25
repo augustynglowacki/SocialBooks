@@ -9,3 +9,4 @@ export interface CollectionsState {
   error: string;
   loading: boolean;
 }
+export type CommunityFeedData = Array<Review | Favorite>;

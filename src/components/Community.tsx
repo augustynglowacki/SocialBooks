@@ -3,21 +3,22 @@ import {StyleSheet, View} from 'react-native';
 import {palette} from 'src/styles';
 import {AppText, Container} from 'src/components/common';
 import {useSelector} from 'react-redux';
-import {userSelector} from 'src/redux/user/userSlice';
 import {collectionsSelector} from 'src/redux/collections/collectionsSlice';
 import {ReviewList} from './reviews';
 import Animated, {FadeIn} from 'react-native-reanimated';
+import {CommunityFeedData} from 'src/models';
 
 interface Props {}
 
 export const Community: React.FC<Props> = () => {
-  const {allUsers} = useSelector(userSelector);
-  const {reviews, following, error, loading} = useSelector(collectionsSelector);
-  //   const followingInitialState = following.find(item => item === reviewData.createdBy);
-  const getDisplayName = (id: string) => allUsers.find(item => item.userId === id)?.displayName;
-  const getReviewsForUser = (id: string) => reviews.filter(item => item.createdBy === id);
-  const getCommunityReviews = () => following.map(item => getReviewsForUser(item));
-  const communityReviews = getCommunityReviews().flat();
+  const {reviews, following, error, loading, favorite} = useSelector(collectionsSelector);
+
+  const isUserFollowed = (id: string) => following.some(item => item === id);
+  const communityReviews = (() => reviews.filter(item => !!item.createdBy && isUserFollowed(item.createdBy)))();
+  const communityFavorite = (() => favorite.filter(item => !!item.createdBy && isUserFollowed(item.createdBy)))();
+  const communityFeedData: CommunityFeedData = [...communityReviews, ...communityFavorite].sort((a, b) =>
+    a.createdDate.localeCompare(b.createdDate) ? 1 : -1,
+  );
 
   return (
     <Container style={styles.container} disableScroll>
@@ -31,7 +32,7 @@ export const Community: React.FC<Props> = () => {
           !!communityReviews.length ? (
             <ReviewList data={communityReviews} error={error} loading={loading} community={true} />
           ) : (
-            <AppText style={{paddingTop: 12}}>Błąd w ładowaniu recenzji.</AppText>
+            <AppText style={{paddingTop: 12}}>Błąd w ładowaniu danych.</AppText>
           )
         ) : (
           <>

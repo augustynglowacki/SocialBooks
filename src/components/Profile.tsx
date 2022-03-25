@@ -41,7 +41,7 @@ export const Profile: FC<Props> = ({name, id}) => {
     height: '100%',
   };
   const stats: Stats[] = [
-    {label: 'Ulubione', count: favorite.length},
+    {label: 'Ulubione', count: userFavorite.length},
     {label: 'Recenzje', count: userReviews.length},
   ];
 

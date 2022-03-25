@@ -4,4 +4,5 @@ export interface Favorite {
   id: string;
   book: Book;
   createdBy?: string;
+  createdDate: string;
 }

@@ -44,6 +44,7 @@ export const getFavorite = createAsyncThunk<Favorite[]>(
               snap.docs.map(doc => ({
                 id: doc.id,
                 createdBy: doc.data().createdBy,
+                createdDate: doc.data().createdDate,
                 book: {
                   id: doc.data().book.id,
                   volumeInfo: {

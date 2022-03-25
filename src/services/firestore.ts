@@ -39,6 +39,7 @@ export const setData = async (data: Book) => {
         },
       },
       createdBy,
+      createdDate: new Date().toISOString(),
     });
   }
 };
