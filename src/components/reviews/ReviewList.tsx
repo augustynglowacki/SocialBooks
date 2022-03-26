@@ -6,7 +6,6 @@ import {useSelector} from 'react-redux';
 import {AnyScreenProp, ErrorType, Route} from 'src/constants';
 import {getBookShadowColor} from 'src/helpers/getBookShadowColor';
 import {Review} from 'src/models';
-import {collectionsSelector} from 'src/redux/collections/collectionsSlice';
 import {userSelector} from 'src/redux/user/userSlice';
 import {palette} from 'src/styles';
 import {AppText, Avatar} from '../common';

@@ -6,11 +6,11 @@ import {useSelector} from 'react-redux';
 import {AnyScreenProp, ErrorType, Route} from 'src/constants';
 import {getBookShadowColor} from 'src/helpers/getBookShadowColor';
 import {CommunityFeedData, Favorite, Review} from 'src/models';
-import {collectionsSelector} from 'src/redux/collections/collectionsSlice';
 import {userSelector} from 'src/redux/user/userSlice';
 import {palette} from 'src/styles';
-import {AppText, Avatar} from '../common';
-import {ReviewComponent} from './ReviewComponent';
+import {BookComponent} from './books';
+import {AppText, Avatar} from './common';
+import {ReviewComponent} from './reviews';
 
 interface Props {
   data: CommunityFeedData;
@@ -20,22 +20,14 @@ interface Props {
   style?: StyleProp<ViewStyle>;
 }
 
-export const ReviewList: React.FC<Props> = ({data, style, horizontal = false, loading, error}) => {
+const isReview = (item: Review | Favorite): item is Review => (item as Review).reviewTitle !== undefined;
+
+export const CommunityList: React.FC<Props> = ({data, horizontal = false, error, loading}) => {
   const {navigate} = useNavigation<AnyScreenProp>();
   const {allUsers} = useSelector(userSelector);
   const getDisplayName = (id: string) => allUsers.find(item => item.userId === id)?.displayName;
 
-  const renderItem: ListRenderItem<Review> = ({item, index}) => {
-    if (false) {
-      return (
-        <ReviewComponent
-          reviewData={item}
-          style={!horizontal && styles.listComponent}
-          shadowColor={getBookShadowColor(index)}
-          onComponentPress={() => navigate(Route.REVIEW_DETAILS, {reviewData: item, id: item.id})}
-        />
-      );
-    }
+  const renderItem: ListRenderItem<Review | Favorite> = ({item, index}) => {
     return (
       <View style={styles.margin}>
         {!!item.createdBy && (
@@ -46,15 +38,27 @@ export const ReviewList: React.FC<Props> = ({data, style, horizontal = false, lo
             <AppText fontWeight="bold" style={styles.author}>
               {getDisplayName(item.createdBy)}
             </AppText>
-            <AppText variant="p" style={styles.createdBy}></AppText>
+            <AppText variant="p" style={styles.createdBy}>
+              {isReview(item) ? 'zrecenzował:' : 'lubi to:'}
+            </AppText>
           </View>
         )}
-        <ReviewComponent
-          reviewData={item}
-          style={!horizontal && styles.listComponent}
-          shadowColor={getBookShadowColor(index)}
-          onComponentPress={() => navigate(Route.REVIEW_DETAILS, {reviewData: item, id: item.id})}
-        />
+        {isReview(item) && item.book && (
+          <ReviewComponent
+            reviewData={item}
+            style={styles.mt}
+            shadowColor={getBookShadowColor(index)}
+            onComponentPress={() => navigate(Route.REVIEW_DETAILS, {reviewData: item, id: item.id})}
+          />
+        )}
+        {!isReview(item) && item.book && (
+          <BookComponent
+            book={item.book}
+            style={[styles.mt, styles.ml]}
+            shadowColor={getBookShadowColor(index)}
+            onPress={() => navigate(Route.DETAILS, {book: item.book, id: item.book.id})}
+          />
+        )}
       </View>
     );
   };
@@ -62,7 +66,7 @@ export const ReviewList: React.FC<Props> = ({data, style, horizontal = false, lo
     return null;
   }
   return (
-    <View style={[styles.wrapper, !horizontal && {marginVertical: -18, flex: 1}]}>
+    <View style={styles.wrapper}>
       <FlatList
         data={data}
         renderItem={renderItem}
@@ -70,11 +74,9 @@ export const ReviewList: React.FC<Props> = ({data, style, horizontal = false, lo
         maxToRenderPerBatch={10}
         initialNumToRender={4}
         keyExtractor={(item, index) => item.id.toString()}
-        contentContainerStyle={[horizontal && {maxHeight: 210, height: 210}]}
         showsVerticalScrollIndicator={true}
-        showsHorizontalScrollIndicator={true}
         persistentScrollbar={true}
-        contentInset={{bottom: !horizontal ? 18 : 0}}
+        contentInset={{bottom: 18}}
       />
     </View>
   );
@@ -82,12 +84,16 @@ export const ReviewList: React.FC<Props> = ({data, style, horizontal = false, lo
 
 const styles = StyleSheet.create({
   wrapper: {
-    paddingTop: 20,
     marginHorizontal: -14,
     alignSelf: 'center',
+    marginVertical: -18,
+    flex: 1,
   },
-  listComponent: {
-    marginVertical: 18,
+  mt: {
+    marginTop: 18,
+  },
+  ml: {
+    marginLeft: 15,
   },
   margin: {
     marginBottom: 16,
@@ -97,16 +103,16 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     alignItems: 'flex-end',
     width: '100%',
+    marginLeft: 4,
   },
   createdBy: {
-    paddingTop: 30,
     paddingHorizontal: 3,
     marginRight: 8,
     lineHeight: 36,
   },
   author: {
     marginLeft: 6,
-    paddingTop: 30,
+    paddingTop: 35,
     paddingHorizontal: 3,
     fontSize: 20,
     lineHeight: 36,
