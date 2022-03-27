@@ -3,7 +3,9 @@ import React from 'react';
 import {Platform} from 'react-native';
 import {RootStackParamList, Route} from 'src/constants';
 import {
+  AddChallengeScreen,
   AddReviewScreen,
+  ChallengeDetailsScreen,
   DetailsScreen,
   LoginScreen,
   RegisterScreen,
@@ -30,6 +32,8 @@ function HomeNavigator() {
       <Stack.Screen name={Route.DETAILS} component={DetailsScreen} />
       <Stack.Screen name={Route.ADD_REVIEW_SCREEN} component={AddReviewScreen} />
       <Stack.Screen name={Route.REVIEW_DETAILS} component={ReviewDetailsScreen} />
+      <Stack.Screen name={Route.ADD_CHALLENGE} component={AddChallengeScreen} />
+      <Stack.Screen name={Route.CHALLENGE_DETAILS} component={ChallengeDetailsScreen} />
     </Stack.Navigator>
   );
 }
