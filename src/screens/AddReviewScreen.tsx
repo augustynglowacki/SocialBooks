@@ -66,7 +66,7 @@ export const AddReviewScreen: React.FC<Props> = ({route}) => {
       .min(3, t('reviewShort', {length: 3}))
       .max(24, t('reviewLong', {length: 24}))
       .required(t('required')),
-    reviewDescription: Yup.string().max(1000, t('reviewLong', {length: 1000})),
+    reviewDescription: Yup.string().max(1000, t('reviewLongDescription', {length: 1000})),
   });
 
   const {handleChange, handleSubmit, values, errors, setFieldValue} = useFormik<Review>({

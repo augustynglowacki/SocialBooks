@@ -5,6 +5,10 @@ const translations = {
     short: 'Hasło musi mieć przynajmniej {{length}} znaków długości!',
     reviewShort: 'Tytuł recenzji musi mieć przynajmniej {{length}} znaków!',
     reviewLong: 'Tytuł recenzji moze mieć maksymalnie {{length}} znaków!',
+    reviewLongDescription: 'Opis recenzji moze mieć maksymalnie {{length}} znaków!',
+    challengeShort: 'Tytuł wyzwania musi mieć przynajmniej {{length}} znaków!',
+    challengeLong: 'Tytuł wyzwania moze mieć maksymalnie {{length}} znaków!',
+    challengeLongDescription: 'Opis wyzwania moze mieć maksymalnie {{length}} znaków!',
   },
   common: {
     cancel: 'Anuluj',

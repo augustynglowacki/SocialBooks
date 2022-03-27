@@ -1,11 +1,21 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
-import {Book, CollectionsState, Favorite, Review} from 'src/models';
-import {getFavorite, setFavorite, getReviews, setReviews, setFollowing, getFollowing} from './collectionsActions';
+import {Challenge, CollectionsState, Favorite, Review} from 'src/models';
+import {
+  getFavorite,
+  setFavorite,
+  getReviews,
+  setReviews,
+  setFollowing,
+  getFollowing,
+  setChallenge,
+  getChallenges,
+} from './collectionsActions';
 
 const initialState: CollectionsState = {
   favorite: [],
   reviews: [],
   following: [],
+  challenges: [],
   error: '',
   loading: false,
 };
@@ -82,6 +92,29 @@ const CollectionsSlice = createSlice({
         state.loading = false;
       })
       .addCase(getFollowing.rejected, (state, action) => {
+        state.error = action.error.message ?? 'error';
+        state.loading = false;
+      })
+      .addCase(setChallenge.pending, state => {
+        state.error = '';
+        state.loading = true;
+      })
+      .addCase(setChallenge.fulfilled, state => {
+        state.loading = false;
+      })
+      .addCase(setChallenge.rejected, (state, action) => {
+        state.error = action.error.message ?? 'error';
+        state.loading = false;
+      })
+      .addCase(getChallenges.pending, state => {
+        state.error = '';
+        state.loading = true;
+      })
+      .addCase(getChallenges.fulfilled, (state, action: PayloadAction<Challenge[]>) => {
+        state.challenges = [...action.payload].reverse(); //latest entries at the top
+        state.loading = false;
+      })
+      .addCase(getChallenges.rejected, (state, action) => {
         state.error = action.error.message ?? 'error';
         state.loading = false;
       });

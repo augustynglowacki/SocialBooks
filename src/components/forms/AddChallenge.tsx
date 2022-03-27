@@ -31,6 +31,7 @@ export const AddChallenge: React.FC<Props> = ({
   loading,
 }) => {
   const scheme = useColorScheme();
+  console.log(form, errors);
   return (
     <Container withKeyboard withNavigateBackBar>
       <View style={styles.formWrapper}>

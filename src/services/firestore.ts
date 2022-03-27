@@ -1,6 +1,6 @@
 import firestore from '@react-native-firebase/firestore';
 import auth from '@react-native-firebase/auth';
-import {Book, Review} from 'src/models';
+import {Book, Challenge, Review} from 'src/models';
 
 export const setData = async (data: Book) => {
   const {volumeInfo, id} = data;
@@ -137,6 +137,40 @@ export const setReview = async (review: Review) => {
       comments,
       likes,
       rating,
+    });
+  }
+};
+
+export const setChallenges = async (challenge: Challenge) => {
+  const db = firestore();
+  const userId = auth().currentUser?.uid;
+
+  const createdBy = userId ?? '';
+  const challengeDescription = challenge.challengeDescription ?? '';
+  const challengeTitle = challenge.challengeTitle ?? '';
+  const challengeDeadline = challenge.challengeDeadline ?? new Date().toISOString();
+  const comments = challenge.challengeDescription ?? [];
+  const takingPart = challenge.takingPart ?? [];
+  const id = createdBy + challengeTitle;
+  if (!userId) {
+    return null;
+  }
+
+  const globalDocRef = db.collection('challenges').doc(id);
+  const globalDoc = await globalDocRef.get();
+
+  if (globalDoc.exists) {
+    globalDocRef.delete();
+  }
+  if (!globalDoc.exists) {
+    globalDocRef.set({
+      id,
+      createdBy,
+      challengeDeadline,
+      challengeDescription,
+      challengeTitle,
+      takingPart,
+      comments,
     });
   }
 };

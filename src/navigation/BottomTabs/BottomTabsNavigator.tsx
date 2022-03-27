@@ -5,11 +5,11 @@ import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {AnyScreenProp, Route} from 'src/constants';
 import {TabIcon} from './TabIcon';
 import {palette} from 'src/styles';
-import {CommunityScreen, HomeScreen, ProfileScreen, SearchScreen} from 'src/screens';
+import {ChallengesScreen, CommunityScreen, HomeScreen, ProfileScreen, SearchScreen} from 'src/screens';
 import auth from '@react-native-firebase/auth';
 import {batch, useDispatch} from 'react-redux';
 import {useFocusEffect, useNavigation} from '@react-navigation/native';
-import {getFavorite, getFollowing, getReviews} from 'src/redux/collections/collectionsActions';
+import {getChallenges, getFavorite, getFollowing, getReviews} from 'src/redux/collections/collectionsActions';
 import {getUserData} from 'src/redux/user/userActions';
 
 const BOTTOM_TABS_HEIGHT = 60;
@@ -20,6 +20,13 @@ const screensData = [
     icon: 'ios-book',
     tabColor: palette.primary,
   },
+
+  {
+    name: Route.SEARCH,
+    component: SearchScreen,
+    icon: 'ios-search',
+    tabColor: palette.secondary,
+  },
   {
     name: Route.COMMUNITY,
     component: CommunityScreen,
@@ -27,9 +34,9 @@ const screensData = [
     tabColor: palette.secondary,
   },
   {
-    name: Route.SEARCH,
-    component: SearchScreen,
-    icon: 'ios-search',
+    name: Route.CHALLENGES,
+    component: ChallengesScreen,
+    icon: 'ios-ribbon',
     tabColor: palette.secondary,
   },
   {
@@ -52,6 +59,7 @@ const BottomTabsNavigator = () => {
   useFocusEffect(
     useCallback(() => {
       batch(() => {
+        dispatch(getChallenges());
         dispatch(getFollowing());
         dispatch(getFavorite());
         dispatch(getReviews());

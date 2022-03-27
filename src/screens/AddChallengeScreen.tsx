@@ -11,16 +11,17 @@ import {useFocusEffect} from '@react-navigation/native';
 import {useTranslation} from 'react-i18next';
 // import {setChallenges} from 'src/redux/collections/collectionsActions';
 import {AddChallenge} from 'src/components/forms/AddChallenge';
+import {setChallenge} from 'src/redux/collections/collectionsActions';
 
 export const AddChallengeScreen: React.FC = () => {
   const initialValues: Challenge = {
-    id: new Date().toISOString(),
-    challengeDeadline: new Date().toISOString(),
-    challengeTitle: '',
-    challengeDescription: '',
-    comments: [],
-    takingPart: [],
+    id: '',
     createdBy: '',
+    challengeDeadline: new Date().toISOString(),
+    challengeDescription: '',
+    challengeTitle: '',
+    takingPart: [],
+    comments: [],
   };
   const {t} = useTranslation('form');
   const {error, loading} = useSelector(userSelector);
@@ -36,7 +37,6 @@ export const AddChallengeScreen: React.FC = () => {
   useEffect(() => {
     const subscriber = auth().onAuthStateChanged(user => {
       if (!user) {
-        //TODO change to start screen
         navigate(Route.HOME);
       }
     });
@@ -44,7 +44,7 @@ export const AddChallengeScreen: React.FC = () => {
   }, [navigate]);
 
   const handleAddChallenge = (item: Challenge) => {
-    // dispatch(setChallenges(item));
+    dispatch(setChallenge(item));
   };
 
   const onSubmit = () => {
@@ -53,12 +53,11 @@ export const AddChallengeScreen: React.FC = () => {
   };
 
   const validationSchema = Yup.object({
-    rating: Yup.number().required(t('required')),
-    reviewTitle: Yup.string()
-      .min(3, t('reviewShort', {length: 3}))
-      .max(24, t('reviewLong', {length: 24}))
+    challengeTitle: Yup.string()
+      .min(3, t('challengeShort', {length: 3}))
+      .max(24, t('challengeLong', {length: 180}))
       .required(t('required')),
-    reviewDescription: Yup.string().max(1000, t('reviewLong', {length: 1000})),
+    challengeDescription: Yup.string().max(1000, t('challengeLongDescription', {length: 1000})),
   });
 
   const {handleChange, handleSubmit, values, errors, setFieldValue} = useFormik<Challenge>({

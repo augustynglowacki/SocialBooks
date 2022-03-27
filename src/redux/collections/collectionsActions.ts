@@ -1,9 +1,40 @@
 import {createAsyncThunk} from '@reduxjs/toolkit';
-import {Book, Favorite, Review} from 'src/models';
+import {Book, Challenge, Favorite, Review} from 'src/models';
 import firestore from '@react-native-firebase/firestore';
 import auth from '@react-native-firebase/auth';
-import {setData, setReview} from 'src/services/firestore';
+import {setChallenges, setData, setReview} from 'src/services/firestore';
 import {convertToBook} from 'src/helpers/convertResponse';
+
+export const setChallenge = createAsyncThunk<void, Challenge>('collections/setChallenge', async item => {
+  await setChallenges(item);
+});
+export const getChallenges = createAsyncThunk<Challenge[]>(
+  'collections/getChallenges',
+  () =>
+    new Promise((resolve, reject) => {
+      firestore()
+        .collection('challenges')
+        .onSnapshot(
+          snap => {
+            resolve(
+              snap.docs.map(doc => ({
+                id: doc.id,
+                challengeTitle: doc.data().challengeTitle,
+                challengeDeadline: doc.data().challengeDeadline,
+                challengeName: doc.data().challengeName,
+                challengeDescription: doc.data().challengeDescription,
+                createdBy: doc.data().createdBy,
+                takingPart: doc.data().takingPart,
+                comments: doc.data().comments,
+              })),
+            );
+          },
+          error => {
+            reject(error);
+          },
+        );
+    }),
+);
 
 export const setFavorite = createAsyncThunk<void, Book>('collections/setFavorite', async book => {
   await setData(book);

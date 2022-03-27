@@ -1,26 +1,27 @@
 import React from 'react';
 import {StyleSheet, View} from 'react-native';
 import {palette} from 'src/styles';
-import {AppText, Container} from 'src/components/common';
+import {AppButton, AppText, Container} from 'src/components/common';
 import {useSelector} from 'react-redux';
 import {collectionsSelector} from 'src/redux/collections/collectionsSlice';
 import Animated, {FadeIn} from 'react-native-reanimated';
-
-interface Props {}
-
-export const ChallengesList: React.FC<Props> = ({}) => {
-  const {reviews, following, error, loading, favorite} = useSelector(collectionsSelector);
-
+import {ChallengesScreenProp, Route} from 'src/constants';
+import {useNavigation} from '@react-navigation/native';
+export const ChallengesList: React.FC = () => {
+  const {following, error, loading, challenges} = useSelector(collectionsSelector);
+  const {navigate} = useNavigation<ChallengesScreenProp>();
   const isUserFollowed = (id: string) => following.some(item => item === id);
-  //   const communityReviews = (() => reviews.filter(item => !!item.createdBy && isUserFollowed(item.createdBy)))();
+  const communityChallenges = (() => challenges.filter(item => !!item.createdBy && isUserFollowed(item.createdBy)))();
+
+  console.log(communityChallenges);
 
   return (
     <Container style={styles.container} disableScroll>
       <Animated.View entering={FadeIn.springify().stiffness(15)} style={{width: '100%', flex: 1}}>
         <AppText variant="h1" style={styles.markedTitle}>
-          Twoja Społeczność
+          Wyzwania
         </AppText>
-
+        <AppButton label={'Dodaj wyzwanie'} onPress={() => navigate(Route.ADD_CHALLENGE)} style={styles.followButton} />
         {/* {!!following.length ? (
           !!challenges.length ? (
             <ChallengesList data={communityChallegnes} error={error} loading={loading} />
@@ -49,5 +50,9 @@ const styles = StyleSheet.create({
     textShadowRadius: 4,
     textShadowColor: 'rgba(0, 0, 0, 0.9)',
     paddingBottom: 35,
+  },
+  followButton: {
+    marginTop: 20,
+    marginBottom: 28,
   },
 });
