@@ -111,8 +111,7 @@ const CollectionsSlice = createSlice({
         state.loading = true;
       })
       .addCase(getChallenges.fulfilled, (state, action: PayloadAction<Challenge[]>) => {
-        state.challenges = [...action.payload].reverse(); //latest entries at the top
-        state.loading = false;
+        (state.challenges = action.payload), (state.loading = false);
       })
       .addCase(getChallenges.rejected, (state, action) => {
         state.error = action.error.message ?? 'error';

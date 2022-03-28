@@ -56,18 +56,18 @@ const BottomTabsNavigator = () => {
     height: BOTTOM_TABS_HEIGHT + useSafeAreaInsets().bottom,
   };
   const dispatch = useDispatch();
+
   useFocusEffect(
     useCallback(() => {
       batch(() => {
-        dispatch(getChallenges());
         dispatch(getFollowing());
         dispatch(getFavorite());
         dispatch(getReviews());
         dispatch(getUserData());
+        dispatch(getChallenges());
       });
     }, [dispatch]),
   );
-
   return (
     <Tab.Navigator
       screenOptions={{

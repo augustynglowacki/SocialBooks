@@ -1,58 +1,94 @@
-import React from 'react';
-import {StyleSheet, View} from 'react-native';
-import {palette} from 'src/styles';
-import {AppButton, AppText, Container} from 'src/components/common';
-import {useSelector} from 'react-redux';
-import {collectionsSelector} from 'src/redux/collections/collectionsSlice';
-import Animated, {FadeIn} from 'react-native-reanimated';
-import {ChallengesScreenProp, Route} from 'src/constants';
 import {useNavigation} from '@react-navigation/native';
-export const ChallengesList: React.FC = () => {
-  const {following, error, loading, challenges} = useSelector(collectionsSelector);
-  const {navigate} = useNavigation<ChallengesScreenProp>();
-  const isUserFollowed = (id: string) => following.some(item => item === id);
-  const communityChallenges = (() => challenges.filter(item => !!item.createdBy && isUserFollowed(item.createdBy)))();
+import React from 'react';
+import {ListRenderItem, StyleProp, StyleSheet, View, ViewStyle} from 'react-native';
+import {FlatList} from 'react-native-gesture-handler';
+import {useSelector} from 'react-redux';
+import {AnyScreenProp, ErrorType, Route} from 'src/constants';
+import {getBookShadowColor} from 'src/helpers/getBookShadowColor';
+import {Challenge} from 'src/models';
+import {userSelector} from 'src/redux/user/userSlice';
+import {palette} from 'src/styles';
+import {AppText, Avatar} from '../common';
+import {ChallengeComponent} from './ChallengeComponent';
 
-  console.log(communityChallenges);
+interface Props {
+  data: Challenge[];
+  error?: ErrorType | string | undefined | null;
+  loading?: boolean;
+  horizontal?: true;
+  style?: StyleProp<ViewStyle>;
+}
 
+export const ChallengesList: React.FC<Props> = ({data, horizontal = false, error, loading}) => {
+  const {navigate} = useNavigation<AnyScreenProp>();
+  const {allUsers} = useSelector(userSelector);
+  const getDisplayName = (id: string) => allUsers.find(item => item.userId === id)?.displayName;
+
+  const renderItem: ListRenderItem<Challenge> = ({item, index}) => {
+    return (
+      <View style={styles.margin}>
+        <ChallengeComponent
+          challengeData={item}
+          style={styles.mt}
+          shadowColor={getBookShadowColor(index)}
+          onComponentPress={() => navigate(Route.CHALLENGE_DETAILS, {challengeData: item})}
+        />
+      </View>
+    );
+  };
+  if (!data.length) {
+    return null;
+  }
   return (
-    <Container style={styles.container} disableScroll>
-      <Animated.View entering={FadeIn.springify().stiffness(15)} style={{width: '100%', flex: 1}}>
-        <AppText variant="h1" style={styles.markedTitle}>
-          Wyzwania
-        </AppText>
-        <AppButton label={'Dodaj wyzwanie'} onPress={() => navigate(Route.ADD_CHALLENGE)} style={styles.followButton} />
-        {/* {!!following.length ? (
-          !!challenges.length ? (
-            <ChallengesList data={communityChallegnes} error={error} loading={loading} />
-          ) : (
-            <AppText style={{paddingTop: 12}}>Błąd w ładowaniu danych.</AppText>
-          )
-        ) : (
-          <>
-            <AppText style={{paddingTop: 12}}>Dodaj pierwsze wyzwanie!</AppText>
-          </>
-        )} */}
-      </Animated.View>
-    </Container>
+    <View style={styles.wrapper}>
+      <FlatList
+        data={data}
+        renderItem={renderItem}
+        horizontal={horizontal}
+        maxToRenderPerBatch={10}
+        initialNumToRender={4}
+        keyExtractor={(item, index) => item.id.toString()}
+        showsVerticalScrollIndicator={true}
+        persistentScrollbar={true}
+        contentInset={{bottom: 18}}
+      />
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
-    paddingTop: 10,
-    justifyContent: 'flex-start',
+  wrapper: {
+    marginHorizontal: -14,
+    alignSelf: 'center',
+    marginVertical: -18,
     flex: 1,
   },
-  markedTitle: {
-    color: palette.secondary,
-    textShadowOffset: {width: 1, height: 2},
-    textShadowRadius: 4,
-    textShadowColor: 'rgba(0, 0, 0, 0.9)',
-    paddingBottom: 35,
+  mt: {
+    marginTop: 18,
   },
-  followButton: {
-    marginTop: 20,
-    marginBottom: 28,
+  ml: {
+    marginLeft: 15,
+  },
+  margin: {
+    marginBottom: 16,
+  },
+  flex: {
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    alignItems: 'flex-end',
+    width: '100%',
+    marginLeft: 4,
+  },
+  createdBy: {
+    paddingHorizontal: 3,
+    marginRight: 8,
+    lineHeight: 36,
+  },
+  author: {
+    marginLeft: 6,
+    paddingTop: 35,
+    paddingHorizontal: 3,
+    fontSize: 20,
+    lineHeight: 36,
   },
 });

@@ -1,2 +1,2 @@
-export * from './ChallengesList';
+export * from './Challenges';
 export * from './ChallengeDetails';

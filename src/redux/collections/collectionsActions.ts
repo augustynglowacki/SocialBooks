@@ -21,7 +21,6 @@ export const getChallenges = createAsyncThunk<Challenge[]>(
                 id: doc.id,
                 challengeTitle: doc.data().challengeTitle,
                 challengeDeadline: doc.data().challengeDeadline,
-                challengeName: doc.data().challengeName,
                 challengeDescription: doc.data().challengeDescription,
                 createdBy: doc.data().createdBy,
                 takingPart: doc.data().takingPart,

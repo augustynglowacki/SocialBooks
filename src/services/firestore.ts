@@ -151,7 +151,7 @@ export const setChallenges = async (challenge: Challenge) => {
   const challengeDeadline = challenge.challengeDeadline ?? new Date().toISOString();
   const comments = challenge.challengeDescription ?? [];
   const takingPart = challenge.takingPart ?? [];
-  const id = createdBy + challengeTitle;
+  const id = createdBy + challengeTitle + challengeDeadline;
   if (!userId) {
     return null;
   }

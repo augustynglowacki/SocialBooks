@@ -31,7 +31,6 @@ type AddReviewScreenParams = {
   book: Book;
   id: string;
 };
-
 type ChallengeDetailsScreenParams = {
   challengeData: Challenge;
 };

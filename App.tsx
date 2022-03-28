@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {DefaultTheme, NavigationContainer,  useNavigationContainerRef} from '@react-navigation/native';
+import {DefaultTheme, NavigationContainer, useNavigationContainerRef} from '@react-navigation/native';
 import HomeNavigator from './src/navigation/HomeNavigator';
 import {Provider as PaperProvider} from 'react-native-paper';
 import {Provider} from 'react-redux';
@@ -9,6 +9,7 @@ import {palette} from 'src/styles';
 import {useColorScheme} from 'react-native';
 import {Route} from 'src/constants';
 import useCheckLoginStatus from 'src/hooks/useCheckLoginStatus';
+import {StateContextProvider} from 'src/context/stateContext';
 //Logo inspired by https://www.svgrepo.com/svg/230344/books-book
 //App design inspired by designer 'Sara' https://www.figma.com/community/file/940142152024758826/My-Digital-Bookshelf-App-%5BBravo-Studio-Tutorial%5D
 
@@ -36,20 +37,22 @@ const App: React.FC = () => {
   const [routeName, setRouteName] = useState<string | undefined>('');
   return (
     <Provider store={store}>
-      <PaperProvider>
-        <NavigationContainer
-          theme={scheme === 'dark' ? darkTheme : lightTheme}
-          ref={navigationRef}
-          onReady={() => {
-            setRouteName(navigationRef?.getCurrentRoute()?.name);
-          }}
-          onStateChange={() => {
-            setRouteName(navigationRef?.getCurrentRoute()?.name);
-          }}>
-          <AppStatusBar variant={routeName === Route.PROFILE ? 'translucent' : 'full'} />
-          <HomeNavigator />
-        </NavigationContainer>
-      </PaperProvider>
+      <StateContextProvider>
+        <PaperProvider>
+          <NavigationContainer
+            theme={scheme === 'dark' ? darkTheme : lightTheme}
+            ref={navigationRef}
+            onReady={() => {
+              setRouteName(navigationRef?.getCurrentRoute()?.name);
+            }}
+            onStateChange={() => {
+              setRouteName(navigationRef?.getCurrentRoute()?.name);
+            }}>
+            <AppStatusBar variant={routeName === Route.PROFILE ? 'translucent' : 'full'} />
+            <HomeNavigator />
+          </NavigationContainer>
+        </PaperProvider>
+      </StateContextProvider>
     </Provider>
   );
 };

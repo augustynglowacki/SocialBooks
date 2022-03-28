@@ -1,6 +1,6 @@
 import {useNavigation} from '@react-navigation/native';
 import React, {useCallback, useEffect} from 'react';
-import {AddChallengeScreenProp, Route} from 'src/constants';
+import {AddChallengeScreenProp, AddChallengeScreenRouteProp, Route} from 'src/constants';
 import auth from '@react-native-firebase/auth';
 import {useDispatch, useSelector} from 'react-redux';
 import {useFormik} from 'formik';
@@ -11,9 +11,13 @@ import {useFocusEffect} from '@react-navigation/native';
 import {useTranslation} from 'react-i18next';
 // import {setChallenges} from 'src/redux/collections/collectionsActions';
 import {AddChallenge} from 'src/components/forms/AddChallenge';
-import {setChallenge} from 'src/redux/collections/collectionsActions';
+import {getChallenges, setChallenge} from 'src/redux/collections/collectionsActions';
+import {collectionsSelector} from 'src/redux/collections/collectionsSlice';
+import {useStateContext} from 'src/context/stateContext';
 
 export const AddChallengeScreen: React.FC = () => {
+  const {handleHasSomethingBeenAdded} = useStateContext();
+
   const initialValues: Challenge = {
     id: '',
     createdBy: '',
@@ -49,6 +53,7 @@ export const AddChallengeScreen: React.FC = () => {
 
   const onSubmit = () => {
     handleAddChallenge(values);
+    handleHasSomethingBeenAdded();
     goBack();
   };
 

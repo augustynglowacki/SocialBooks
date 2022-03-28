@@ -1,6 +1,6 @@
 import React from 'react';
-import {ChallengesList} from 'src/components/challenges/ChallengesList';
+import {Challenges} from 'src/components/challenges';
 
 export const ChallengesScreen: React.FC = () => {
-  return <ChallengesList />;
+  return <Challenges />;
 };

@@ -37,7 +37,7 @@ export const ChallengeDetails: React.FC<Props> = ({challengeData}) => {
   return (
     <Container withNavigateBackBar>
       <AppText variant="h1" style={styles.markedTitle}>
-        Recenzja
+        Wyzwanie
       </AppText>
       <View style={{flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}}>
         {/* <ReviewComponent
