@@ -6,4 +6,5 @@ export const palette = {
   grey: '#484848',
   error: '#c23B22',
   white: '#ffffff',
+  green: '#bfeeb7',
 };

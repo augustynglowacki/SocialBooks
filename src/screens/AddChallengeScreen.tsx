@@ -1,6 +1,6 @@
 import {useNavigation} from '@react-navigation/native';
 import React, {useCallback, useEffect} from 'react';
-import {AddChallengeScreenProp, AddChallengeScreenRouteProp, Route} from 'src/constants';
+import {AddChallengeScreenProp, Route} from 'src/constants';
 import auth from '@react-native-firebase/auth';
 import {useDispatch, useSelector} from 'react-redux';
 import {useFormik} from 'formik';

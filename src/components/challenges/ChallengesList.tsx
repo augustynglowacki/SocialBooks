@@ -21,17 +21,28 @@ interface Props {
 
 export const ChallengesList: React.FC<Props> = ({data, horizontal = false, error, loading}) => {
   const {navigate} = useNavigation<AnyScreenProp>();
-  const {allUsers} = useSelector(userSelector);
+  const {
+    allUsers,
+    user: {id},
+  } = useSelector(userSelector);
   const getDisplayName = (id: string) => allUsers.find(item => item.userId === id)?.displayName;
+  const userTakingPart = data.filter(item => item.takingPart?.includes(id));
+  const userCompleted = data.filter(item => item.completed?.includes(id));
 
   const renderItem: ListRenderItem<Challenge> = ({item, index}) => {
+    const userTakingPart = !!item.takingPart?.includes(id);
+    const userCompleted = !!item.completed?.includes(id);
     return (
       <View style={styles.margin}>
         <ChallengeComponent
           challengeData={item}
           style={styles.mt}
-          shadowColor={getBookShadowColor(index)}
-          onComponentPress={() => navigate(Route.CHALLENGE_DETAILS, {challengeData: item})}
+          shadowColor={palette.secondary}
+          onComponentPress={() =>
+            navigate(Route.CHALLENGE_DETAILS, {challengeData: item, userTakingPart, userCompleted})
+          }
+          userTakingPart={userTakingPart}
+          userCompleted={userCompleted}
         />
       </View>
     );

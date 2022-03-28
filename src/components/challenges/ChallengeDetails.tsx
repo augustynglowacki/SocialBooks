@@ -7,18 +7,21 @@ import {AppText} from '../common/AppText';
 import {AnyScreenProp, Route} from 'src/constants';
 import {useSelector} from 'react-redux';
 import {userSelector} from 'src/redux/user/userSlice';
-import {setFollowing} from 'src/services/firestore';
+import {completeChallenge, setFollowing, takePartInChallenge} from 'src/services/firestore';
 import {collectionsSelector} from 'src/redux/collections/collectionsSlice';
 import {Challenge} from 'src/models';
 import {ChallengeComponent} from './ChallengeComponent';
+import {ChalllengeActionButton} from './ChallengeActionButton';
 
 interface Props {
   style?: StyleProp<FlexStyle | ViewStyle>;
   shadowColor?: string;
   challengeData: Challenge;
+  userCompleted: boolean;
+  userTakingPart: boolean;
 }
 
-export const ChallengeDetails: React.FC<Props> = ({challengeData}) => {
+export const ChallengeDetails: React.FC<Props> = ({challengeData, userCompleted, userTakingPart}) => {
   const {
     colors: {background, text},
   } = useTheme();
@@ -33,20 +36,42 @@ export const ChallengeDetails: React.FC<Props> = ({challengeData}) => {
 
   const followingInitialState = following.some(item => item === challengeData.createdBy);
   const [followingButton, setFollowingButton] = useState(followingInitialState);
+  const [userTakingPartState, setUserTakingPartState] = useState(userTakingPart);
+  const [userCompletedState, setUserCompletedState] = useState(userCompleted);
 
   const toggleFollowing = () =>
     !!challengeData.createdBy && setFollowing(challengeData.createdBy) && setFollowingButton(curr => !curr);
+  const toggleIsTakingPart = async () => {
+    await takePartInChallenge(challengeData);
+    setUserTakingPartState(curr => !curr);
+  };
+  const toggleUserCompleted = async () => {
+    await completeChallenge(challengeData);
+    setUserCompletedState(curr => !curr);
+    setUserTakingPartState(false);
+  };
+  const mainColor = (() => {
+    if (userCompletedState) return palette.green;
+    if (userTakingPartState) return palette.primary;
+    return palette.secondary;
+  })();
 
   return (
     <Container withNavigateBackBar>
-      <AppText variant="h1" style={styles.markedTitle}>
+      <AppText variant="h1" style={[styles.markedTitle, {color: mainColor}]}>
         Wyzwanie
       </AppText>
       <View style={{flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}}>
-        {!!challengeData.challengeTitle && <ChallengeComponent challengeData={challengeData} />}
+        {!!challengeData.challengeTitle && <ChallengeComponent challengeData={challengeData} shadowColor={mainColor} />}
         {challengeData.createdBy && !!getDisplayName && (
-          <View style={{flex: 1}}>
-            <View style={{flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'flex-end', width: '100%'}}>
+          <View style={{flex: 1, width: '100%', paddingHorizontal: 4}}>
+            <View
+              style={{
+                flexDirection: 'row',
+                justifyContent: 'flex-start',
+                alignItems: 'flex-end',
+                width: '100%',
+              }}>
               <AppText variant="p" style={styles.createdBy}>
                 Autor wyzwania:
               </AppText>
@@ -57,7 +82,6 @@ export const ChallengeDetails: React.FC<Props> = ({challengeData}) => {
                 {getDisplayName}
               </AppText>
             </View>
-
             {challengeData.createdBy !== id && (
               <AppButton
                 label={followingButton ? 'Przestań obserwować' : 'Obserwuj autora recenzji'}
@@ -76,6 +100,28 @@ export const ChallengeDetails: React.FC<Props> = ({challengeData}) => {
               <AppText variant="p" style={styles.paragraph}>
                 {challengeData.challengeDescription}
               </AppText>
+            )}
+            <ChalllengeActionButton
+              label={userCompletedState ? 'Ukończone' : 'Ukończ'}
+              onPress={toggleUserCompleted}
+              icon="ios-checkbox"
+              style={{marginVertical: 16}}
+              shadowMaxWidth={243}
+              shadowColor={userCompletedState ? palette.green : palette.secondary}
+              state={userCompletedState}
+            />
+            {!!challengeData.takingPart && !userCompletedState && (
+              <ChalllengeActionButton
+                label={userTakingPartState ? 'Zrezygnuj' : 'Weź udział'}
+                onPress={toggleIsTakingPart}
+                icon="ios-people"
+                style={{marginVertical: 16}}
+                shadowMaxWidth={201}
+                shadowColor={palette.secondary}
+                state={userTakingPartState}
+                activeColor={palette.primary}
+                disabled={userCompletedState}
+              />
             )}
           </View>
         )}

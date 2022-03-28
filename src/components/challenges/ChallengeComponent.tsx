@@ -21,6 +21,8 @@ interface Props {
   paddingVal?: number;
   challengeData: Challenge;
   onComponentPress?: () => void;
+  userTakingPart?: boolean;
+  userCompleted?: boolean;
 }
 
 export const ChallengeComponent: React.FC<Props> = ({
@@ -28,6 +30,8 @@ export const ChallengeComponent: React.FC<Props> = ({
   shadowColor = palette.primary,
   challengeData,
   onComponentPress,
+  userTakingPart,
+  userCompleted,
 }) => {
   const {
     colors: {background, text},
@@ -81,7 +85,12 @@ export const ChallengeComponent: React.FC<Props> = ({
   return (
     <TouchableOpacity onPress={onComponentPress}>
       <View style={[wrapperStyle, BOX_SHADOW, style]}>
-        <View style={shadowStyle}></View>
+        <View
+          style={[
+            shadowStyle,
+            userTakingPart && {backgroundColor: palette.primary},
+            userCompleted && {backgroundColor:palette.green},
+          ]}></View>
         <View style={buttonStyle}>
           {/* <View style={{width: '40%'}}>
             {!!reviewData.book && (

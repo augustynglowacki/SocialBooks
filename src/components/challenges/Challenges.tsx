@@ -12,7 +12,8 @@ import {getChallenges} from 'src/redux/collections/collectionsActions';
 import {useStateContext} from 'src/context/stateContext';
 
 export const Challenges: React.FC = () => {
-  const {following, error, loading, challenges} = useSelector(collectionsSelector);
+  const {error, loading, challenges} = useSelector(collectionsSelector);
+
   const {navigate} = useNavigation<ChallengesScreenProp>();
   const {hasSomethingBeenAdded} = useStateContext();
   const sortedChallenges = [...challenges].sort((a, b) => {
@@ -28,7 +29,6 @@ export const Challenges: React.FC = () => {
     }, 100);
   }, [hasSomethingBeenAdded]);
 
-  console.log('challenges', challenges);
   return (
     <Container style={styles.container} disableScroll>
       <Animated.View entering={FadeIn.springify().stiffness(15)} style={{width: '100%', flex: 1}}>

@@ -8,7 +8,9 @@ interface Props {
 }
 
 export const ChallengeDetailsScreen: React.FC<Props> = ({route}) => {
-  const {challengeData} = route.params;
+  const {challengeData, userCompleted, userTakingPart} = route.params;
   if (!challengeData) return null;
-  return <ChallengeDetails challengeData={challengeData} />;
+  return (
+    <ChallengeDetails challengeData={challengeData} userCompleted={userCompleted} userTakingPart={userTakingPart} />
+  );
 };

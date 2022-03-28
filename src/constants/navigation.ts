@@ -33,6 +33,8 @@ type AddReviewScreenParams = {
 };
 type ChallengeDetailsScreenParams = {
   challengeData: Challenge;
+  userCompleted: boolean;
+  userTakingPart: boolean;
 };
 
 export type RootStackParamList = {
