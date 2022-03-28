@@ -25,6 +25,7 @@ export const getChallenges = createAsyncThunk<Challenge[]>(
                 createdBy: doc.data().createdBy,
                 takingPart: doc.data().takingPart,
                 comments: doc.data().comments,
+                completed: doc.data().completed,
               })),
             );
           },

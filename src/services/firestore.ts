@@ -149,7 +149,8 @@ export const setChallenges = async (challenge: Challenge) => {
   const challengeDescription = challenge.challengeDescription ?? '';
   const challengeTitle = challenge.challengeTitle ?? '';
   const challengeDeadline = challenge.challengeDeadline ?? new Date().toISOString();
-  const comments = challenge.challengeDescription ?? [];
+  const comments = challenge.comments ?? [];
+  const completed = challenge.completed ?? [];
   const takingPart = challenge.takingPart ?? [];
   const id = createdBy + challengeTitle + challengeDeadline;
   if (!userId) {
@@ -171,6 +172,94 @@ export const setChallenges = async (challenge: Challenge) => {
       challengeTitle,
       takingPart,
       comments,
+      completed,
+    });
+  }
+};
+
+export const takePartInChallenge = async (challenge: Challenge) => {
+  const db = firestore();
+  const userId = auth().currentUser?.uid;
+
+  const createdBy = userId ?? '';
+  const challengeDescription = challenge.challengeDescription ?? '';
+  const challengeTitle = challenge.challengeTitle ?? '';
+  const challengeDeadline = challenge.challengeDeadline ?? new Date().toISOString();
+  const comments = challenge.comments ?? [];
+  const completed = challenge.completed ?? [];
+  const takingPart = challenge.takingPart ?? [];
+  const id = createdBy + challengeTitle + challengeDeadline;
+  if (!userId) {
+    return null;
+  }
+
+  const globalDocRef = db.collection('challenges').doc(id);
+  const globalDoc = await globalDocRef.get();
+
+  if (takingPart.includes(userId)) {
+    globalDocRef.set({
+      id,
+      createdBy,
+      challengeDeadline,
+      challengeDescription,
+      challengeTitle,
+      takingPart: takingPart.filter(id => id !== userId),
+      comments,
+      completed,
+    });
+  }
+  if (!takingPart.includes(userId)) {
+    globalDocRef.set({
+      id,
+      createdBy,
+      challengeDeadline,
+      challengeDescription,
+      challengeTitle,
+      takingPart: [...takingPart, userId],
+      comments,
+      completed,
+    });
+  }
+};
+export const completeChallenge = async (challenge: Challenge) => {
+  const db = firestore();
+  const userId = auth().currentUser?.uid;
+  const createdBy = userId ?? '';
+  const challengeDescription = challenge.challengeDescription ?? '';
+  const challengeTitle = challenge.challengeTitle ?? '';
+  const challengeDeadline = challenge.challengeDeadline ?? new Date().toISOString();
+  const comments = challenge.comments ?? [];
+  const takingPart = challenge.takingPart ?? [];
+  const completed = challenge.completed ?? [];
+  const id = createdBy + challengeTitle + challengeDeadline;
+  if (!userId) {
+    return null;
+  }
+
+  const globalDocRef = db.collection('challenges').doc(id);
+
+  if (completed.includes(userId)) {
+    globalDocRef.set({
+      id,
+      createdBy,
+      challengeDeadline,
+      challengeDescription,
+      challengeTitle,
+      takingPart,
+      comments,
+      completed: completed.filter(id => id !== userId),
+    });
+  }
+  if (!completed.includes(userId)) {
+    globalDocRef.set({
+      id,
+      createdBy,
+      challengeDeadline,
+      challengeDescription,
+      challengeTitle,
+      takingPart,
+      comments,
+      completed: [...completed, userId],
     });
   }
 };

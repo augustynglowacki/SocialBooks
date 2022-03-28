@@ -40,8 +40,8 @@ export const ChallengeComponent: React.FC<Props> = ({
     flexDirection: 'row',
     backgroundColor: background,
     borderRadius: BORDER_RADIUS,
-    minHeight: 180,
-    height: 180,
+    minHeight: 110,
+    height: 110,
     minWidth: '100%',
     width: '100%',
     maxWidth: 400,
@@ -49,14 +49,14 @@ export const ChallengeComponent: React.FC<Props> = ({
     borderColor: text,
   };
   const labelStyle: StyleProp<TextStyle> = {
-    fontSize: 18,
+    fontSize: 15,
     letterSpacing: 0.1,
-    width: '100%',
+    lineHeight: 18,
     color: text,
     textAlign: 'center',
   };
   const wrapperStyle: StyleProp<ViewStyle> = {
-    height: 180,
+    height: 110,
     width: Dimensions.get('window').width * 0.9,
     marginHorizontal: 14,
   };
@@ -68,14 +68,15 @@ export const ChallengeComponent: React.FC<Props> = ({
     backgroundColor: shadowColor,
     width: Dimensions.get('window').width * 0.9,
     maxWidth: Dimensions.get('window').width * 0.9,
-    height: 175,
+    height: 104,
     borderRadius: BORDER_RADIUS,
   };
   const infoStyle: StyleProp<ViewStyle> = {
-    marginHorizontal: 28,
-    maxWidth: '40%',
-    width: '40%',
-    minWidth: '40%',
+    paddingHorizontal: 22,
+    marginVertical: 22,
+    width: '100%',
+    height: '100%',
+    justifyContent: 'center',
   };
   return (
     <TouchableOpacity onPress={onComponentPress}>
@@ -92,11 +93,9 @@ export const ChallengeComponent: React.FC<Props> = ({
             )}
           </View> */}
           <View style={infoStyle}>
-            <View style={{height: '50%', maxHeight: '50%', justifyContent: 'flex-end'}}>
-              <AppText style={labelStyle} fontWeight="bold">
-                {challengeData.challengeTitle}
-              </AppText>
-            </View>
+            <AppText style={labelStyle} fontWeight="bold">
+              {challengeData.challengeTitle}
+            </AppText>
           </View>
         </View>
       </View>

@@ -60,7 +60,7 @@ export const AddChallengeScreen: React.FC = () => {
   const validationSchema = Yup.object({
     challengeTitle: Yup.string()
       .min(3, t('challengeShort', {length: 3}))
-      .max(24, t('challengeLong', {length: 180}))
+      .max(180, t('challengeLong', {length: 180}))
       .required(t('required')),
     challengeDescription: Yup.string().max(1000, t('challengeLongDescription', {length: 1000})),
   });

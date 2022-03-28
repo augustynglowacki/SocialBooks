@@ -15,8 +15,12 @@ export const Challenges: React.FC = () => {
   const {following, error, loading, challenges} = useSelector(collectionsSelector);
   const {navigate} = useNavigation<ChallengesScreenProp>();
   const {hasSomethingBeenAdded} = useStateContext();
-  const isUserFollowed = (id: string) => following.some(item => item === id);
-  // const communityChallenges = (() => challenges.filter(item => !!item.createdBy && isUserFollowed(item.createdBy)))();
+  const sortedChallenges = [...challenges].sort((a, b) => {
+    if (a.challengeDeadline.localeCompare(b.challengeDeadline) === 1) return -1;
+    if (a.challengeDeadline.localeCompare(b.challengeDeadline) === -1) return 1;
+    return 0;
+  });
+
   const dispatch = useDispatch();
   useEffect(() => {
     setTimeout(() => {
@@ -24,6 +28,7 @@ export const Challenges: React.FC = () => {
     }, 100);
   }, [hasSomethingBeenAdded]);
 
+  console.log('challenges', challenges);
   return (
     <Container style={styles.container} disableScroll>
       <Animated.View entering={FadeIn.springify().stiffness(15)} style={{width: '100%', flex: 1}}>
@@ -32,7 +37,7 @@ export const Challenges: React.FC = () => {
         </AppText>
         <AppButton label={'Dodaj wyzwanie'} onPress={() => navigate(Route.ADD_CHALLENGE)} style={styles.followButton} />
         {!!challenges.length ? (
-          <ChallengesList data={challenges} error={error} loading={loading} />
+          <ChallengesList data={sortedChallenges} error={error} loading={loading} />
         ) : (
           <>
             <AppText style={{paddingTop: 12}}>Dodaj pierwsze wyzwanie!</AppText>
@@ -54,10 +59,11 @@ const styles = StyleSheet.create({
     textShadowOffset: {width: 1, height: 2},
     textShadowRadius: 4,
     textShadowColor: 'rgba(0, 0, 0, 0.9)',
-    paddingBottom: 35,
+    paddingBottom: 15,
   },
   followButton: {
     marginTop: 20,
     marginBottom: 28,
+    paddingBottom: 25,
   },
 });
