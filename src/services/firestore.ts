@@ -181,14 +181,14 @@ export const takePartInChallenge = async (challenge: Challenge) => {
   const db = firestore();
   const userId = auth().currentUser?.uid;
 
-  const createdBy = userId ?? '';
+  const createdBy = challenge.createdBy;
   const challengeDescription = challenge.challengeDescription ?? '';
   const challengeTitle = challenge.challengeTitle ?? '';
   const challengeDeadline = challenge.challengeDeadline ?? new Date().toISOString();
   const comments = challenge.comments ?? [];
   const completed = challenge.completed ?? [];
   const takingPart = challenge.takingPart ?? [];
-  const id = createdBy + challengeTitle + challengeDeadline;
+  const id = challenge.id;
   if (!userId) {
     return null;
   }
@@ -224,14 +224,14 @@ export const takePartInChallenge = async (challenge: Challenge) => {
 export const completeChallenge = async (challenge: Challenge) => {
   const db = firestore();
   const userId = auth().currentUser?.uid;
-  const createdBy = userId ?? '';
+  const createdBy = challenge.createdBy;
   const challengeDescription = challenge.challengeDescription ?? '';
   const challengeTitle = challenge.challengeTitle ?? '';
   const challengeDeadline = challenge.challengeDeadline ?? new Date().toISOString();
   const comments = challenge.comments ?? [];
   const takingPart = challenge.takingPart ?? [];
   const completed = challenge.completed ?? [];
-  const id = createdBy + challengeTitle + challengeDeadline;
+  const id = challenge.id;
   if (!userId) {
     return null;
   }
