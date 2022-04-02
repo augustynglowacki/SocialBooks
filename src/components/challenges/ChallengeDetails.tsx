@@ -101,16 +101,7 @@ export const ChallengeDetails: React.FC<Props> = ({challengeData, userCompleted,
                 {challengeData.challengeDescription}
               </AppText>
             )}
-            <ChalllengeActionButton
-              label={userCompletedState ? 'Ukończone' : 'Ukończ'}
-              onPress={toggleUserCompleted}
-              icon="ios-checkbox"
-              style={{marginVertical: 16}}
-              shadowMaxWidth={243}
-              shadowColor={userCompletedState ? palette.green : palette.secondary}
-              state={userCompletedState}
-            />
-            {!!challengeData.takingPart && !userCompletedState && (
+            {!userCompletedState && (
               <ChalllengeActionButton
                 label={userTakingPartState ? 'Zrezygnuj' : 'Weź udział'}
                 onPress={toggleIsTakingPart}
@@ -120,6 +111,17 @@ export const ChallengeDetails: React.FC<Props> = ({challengeData, userCompleted,
                 shadowColor={palette.secondary}
                 state={userTakingPartState}
                 activeColor={palette.primary}
+              />
+            )}
+            {(!!userTakingPartState || !!userCompletedState) && (
+              <ChalllengeActionButton
+                label={userCompletedState ? 'Ukończone' : 'Ukończ'}
+                onPress={toggleUserCompleted}
+                icon="ios-checkbox"
+                style={{marginVertical: 16}}
+                shadowMaxWidth={243}
+                shadowColor={userCompletedState ? palette.green : palette.secondary}
+                state={userCompletedState}
                 disabled={userCompletedState}
               />
             )}
