@@ -11,8 +11,7 @@ import {useFocusEffect} from '@react-navigation/native';
 import {useTranslation} from 'react-i18next';
 // import {setChallenges} from 'src/redux/collections/collectionsActions';
 import {AddChallenge} from 'src/components/forms/AddChallenge';
-import {getChallenges, setChallenge} from 'src/redux/collections/collectionsActions';
-import {collectionsSelector} from 'src/redux/collections/collectionsSlice';
+import {setChallenge} from 'src/redux/collections/collectionsActions';
 import {useStateContext} from 'src/context/stateContext';
 
 export const AddChallengeScreen: React.FC = () => {

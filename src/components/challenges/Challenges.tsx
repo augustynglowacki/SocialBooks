@@ -1,5 +1,5 @@
-import React, {useContext, useEffect, useState} from 'react';
-import {StyleSheet, View} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {StyleSheet} from 'react-native';
 import {palette} from 'src/styles';
 import {AppButton, AppText, Container} from 'src/components/common';
 import {useDispatch, useSelector} from 'react-redux';

@@ -3,11 +3,11 @@ import {FormikErrors} from 'formik';
 import React from 'react';
 import {useState} from 'react';
 import {useTranslation} from 'react-i18next';
-import {StyleSheet, Text, View} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 import {TextInput} from 'react-native-paper';
 import Animated, {FlipInYRight} from 'react-native-reanimated';
 import {RegisterUser} from 'src/models';
-import {Container, AppButton, Input, Message, AppLogo, AppText} from 'src/components/common';
+import {Container, AppButton, Input, Message, AppLogo} from 'src/components/common';
 import {palette} from 'src/styles';
 
 interface Props {

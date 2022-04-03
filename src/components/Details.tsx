@@ -1,18 +1,16 @@
 import React, {useCallback, useRef, useState} from 'react';
-import {Dimensions, StyleSheet, Touchable, TouchableOpacity, View} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 import {Book} from 'src/models';
 import {palette} from 'src/styles';
 import {BookComponent} from 'src/components/books';
-import {AppButton, AppText, Container, Icon} from 'src/components/common';
+import {AppButton, AppText, Container} from 'src/components/common';
 import {convertDescription} from 'src/helpers/convertDescription';
 import Animated, {useAnimatedStyle, useSharedValue, withDelay, withSpring} from 'react-native-reanimated';
 import {TapGestureHandler} from 'react-native-gesture-handler';
-import {NavigateBackBar} from './common/NavigateBackBar';
 import {useDispatch, useSelector} from 'react-redux';
 import {userSelector} from 'src/redux/user/userSlice';
 import {setFavorite} from 'src/redux/collections/collectionsActions';
 import {collectionsSelector} from 'src/redux/collections/collectionsSlice';
-import {AppModal} from './common/AppModal';
 import {DetailsScreenProp, Route} from 'src/constants';
 import {useNavigation} from '@react-navigation/native';
 
@@ -54,11 +52,6 @@ export const Details: React.FC<Props> = ({book}) => {
     });
     handleAddtoCollection('favorite');
   }, []);
-  //----------------------------------
-  // const [modalVisible, setModalVisible] = useState(false);
-  // const toggleModal = () => {
-  //   setModalVisible(curr => !curr);
-  // };
   const {navigate} = useNavigation<DetailsScreenProp>();
 
   return (
@@ -98,9 +91,6 @@ export const Details: React.FC<Props> = ({book}) => {
         variant="secondary"
         onPress={() => navigate(Route.ADD_REVIEW_SCREEN, {book: book, id: book.id})}
       />
-      {/* <AppModal modalVisible={modalVisible} toggleModal={toggleModal}>
-        <AppText>New modal</AppText>
-      </AppModal> */}
       {!!volumeInfo.description && (
         <AppText variant="p" style={styles.paragraph}>
           {convertDescription(volumeInfo.description)}

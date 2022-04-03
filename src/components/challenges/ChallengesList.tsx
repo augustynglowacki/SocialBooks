@@ -4,11 +4,9 @@ import {ListRenderItem, StyleProp, StyleSheet, View, ViewStyle} from 'react-nati
 import {FlatList} from 'react-native-gesture-handler';
 import {useSelector} from 'react-redux';
 import {AnyScreenProp, ErrorType, Route} from 'src/constants';
-import {getBookShadowColor} from 'src/helpers/getBookShadowColor';
 import {Challenge} from 'src/models';
 import {userSelector} from 'src/redux/user/userSlice';
 import {palette} from 'src/styles';
-import {AppText, Avatar} from '../common';
 import {ChallengeComponent} from './ChallengeComponent';
 
 interface Props {
@@ -25,7 +23,7 @@ export const ChallengesList: React.FC<Props> = ({data, horizontal = false, error
     allUsers,
     user: {id},
   } = useSelector(userSelector);
-  
+
   const renderItem: ListRenderItem<Challenge> = ({item, index}) => {
     const userTakingPart = !!item.takingPart?.includes(id);
     const userCompleted = !!item.completed?.includes(id);

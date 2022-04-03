@@ -3,9 +3,7 @@ import React from 'react';
 import {StyleSheet, useColorScheme, View} from 'react-native';
 import {FormikErrors} from 'formik';
 import {Container, AppButton, Input, Message, AppText} from 'src/components/common';
-import {palette} from 'src/styles';
-import {Book, Challenge} from 'src/models';
-import {BookComponent} from '../books';
+import {Challenge} from 'src/models';
 
 interface Props {
   //type from useFormik handleChange

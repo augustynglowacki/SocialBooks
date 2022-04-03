@@ -12,7 +12,6 @@ import {
 } from 'react-native';
 import {Challenge} from 'src/models';
 import {BORDER_RADIUS, BOX_SHADOW, palette} from 'src/styles';
-import {BookComponent} from '../books';
 import {AppText} from '../common/AppText';
 
 interface Props {

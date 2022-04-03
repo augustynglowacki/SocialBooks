@@ -1,6 +1,6 @@
-import {useNavigation, useTheme} from '@react-navigation/native';
-import React, {useEffect, useState} from 'react';
-import {FlexStyle, StyleProp, StyleSheet, useColorScheme, View, ViewStyle} from 'react-native';
+import {useTheme} from '@react-navigation/native';
+import React, {useState} from 'react';
+import {FlexStyle, StyleProp, StyleSheet, View, ViewStyle} from 'react-native';
 import {palette} from 'src/styles';
 import {AppButton, Avatar, Container} from '../common';
 import {AppText} from '../common/AppText';

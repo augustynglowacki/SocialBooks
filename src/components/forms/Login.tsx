@@ -1,12 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React from 'react';
 import {useState} from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 import {TextInput} from 'react-native-paper';
 import Animated, {FlipInYRight} from 'react-native-reanimated';
 import {useTranslation} from 'react-i18next';
 import {FormikErrors} from 'formik';
-import {Container, AppButton, Input, Message, AppLogo, AppText} from 'src/components/common';
+import {Container, AppButton, Input, Message, AppLogo} from 'src/components/common';
 import {palette} from 'src/styles';
 import {LoginUser} from 'src/models';
 

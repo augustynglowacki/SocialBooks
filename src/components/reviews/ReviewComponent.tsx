@@ -72,10 +72,8 @@ export const ReviewComponent: React.FC<Props> = ({
     borderRadius: BORDER_RADIUS,
   };
   const infoStyle: StyleProp<ViewStyle> = {
-    marginHorizontal: 28,
-    maxWidth: '40%',
-    width: '40%',
-    minWidth: '40%',
+    marginHorizontal: 20,
+    width: '45%',
   };
   return (
     <TouchableOpacity onPress={onComponentPress}>
