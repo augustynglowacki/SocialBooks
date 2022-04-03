@@ -1,5 +1,5 @@
 import React from 'react';
-import {Image, Pressable, StyleSheet, TouchableOpacity} from 'react-native';
+import {FlexStyle, Image, Pressable, StyleProp, StyleSheet, TextStyle, TouchableOpacity, ViewStyle} from 'react-native';
 import {palette} from 'src/styles';
 import {Icon} from './Icon';
 import {Avatar as AvatarPaper} from 'react-native-paper';
@@ -11,27 +11,33 @@ interface Props {
   name?: string;
   color?: string;
   size?: number;
+  style?: StyleProp<FlexStyle | ViewStyle | TextStyle>;
   onPress?: () => void;
+  fontSize?: number;
 }
 
-export const Avatar: React.FC<Props> = ({color, isSmall, size = 100, editable, source, name, onPress}) => {
+export const Avatar: React.FC<Props> = ({
+  color,
+  isSmall,
+  size = 100,
+  editable,
+  source,
+  name,
+  onPress,
+  style,
+  fontSize,
+}) => {
   const {
     colors: {background, text},
   } = useTheme();
   return (
-    <Pressable
-      onPress={onPress}
-      style={({pressed}) =>
-        onPress && {
-          opacity: pressed ? 0.5 : 1,
-        }
-      }>
+    <Pressable onPress={onPress} style={style}>
       {!source && !!name ? (
         <AvatarPaper.Text
           size={size}
           label={name?.slice(0, 2).toUpperCase()}
           color={text}
-          labelStyle={{fontFamily: 'RobotoMono-Bold'}}
+          labelStyle={[{fontFamily: 'RobotoMono-Bold'}, !!fontSize && {fontSize}]}
           style={{backgroundColor: color ?? background, position: 'relative'}}>
           {' '}
         </AvatarPaper.Text>

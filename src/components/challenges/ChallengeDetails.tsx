@@ -111,9 +111,7 @@ export const ChallengeDetails: React.FC<Props> = ({challengeData, userCompleted,
                 label={userTakingPartState ? 'Zrezygnuj' : 'Weź udział'}
                 onPress={toggleIsTakingPart}
                 icon="ios-people"
-                style={{marginVertical: 16}}
-                shadowMaxWidth={201}
-                shadowColor={palette.secondary}
+                style={{marginVertical: 12}}
                 state={userTakingPartState}
                 activeColor={palette.primary}
               />
@@ -123,9 +121,7 @@ export const ChallengeDetails: React.FC<Props> = ({challengeData, userCompleted,
                 label={userCompletedState ? 'Ukończone' : 'Ukończ'}
                 onPress={toggleUserCompleted}
                 icon="ios-checkbox"
-                style={{marginVertical: 16}}
-                shadowMaxWidth={243}
-                shadowColor={userCompletedState ? palette.green : palette.secondary}
+                style={{marginVertical: 12}}
                 state={userCompletedState}
                 disabled={userCompletedState}
               />

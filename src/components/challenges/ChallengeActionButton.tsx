@@ -9,8 +9,6 @@ interface Props {
   label: string;
   onPress?: () => void;
   style?: StyleProp<FlexStyle | ViewStyle>;
-  shadowColor?: string;
-  shadowMaxWidth: number;
   icon: string;
   state: boolean;
   activeColor?: string;
@@ -36,8 +34,8 @@ export const ChalllengeActionButton: React.FC<Props> = ({
     alignSelf: 'flex-start',
     backgroundColor: background,
     borderRadius: BORDER_RADIUS,
-    height: 80,
-    maxWidth: 250,
+    height: 60,
+    width: '100%',
     borderWidth: 4,
     borderColor: text,
   };
@@ -48,8 +46,7 @@ export const ChalllengeActionButton: React.FC<Props> = ({
     color: text,
   };
   const wrapperStyle: StyleProp<ViewStyle> = {
-    height: 80,
-    maxWidth: 250,
+    height: 60,
   };
   const iconStyle: StyleProp<ViewStyle> = {paddingRight: 20};
   if (disabled) {
