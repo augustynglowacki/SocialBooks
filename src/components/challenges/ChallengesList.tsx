@@ -78,29 +78,7 @@ const styles = StyleSheet.create({
     marginTop: 18,
     marginBottom: 12,
   },
-  ml: {
-    marginLeft: 15,
-  },
   margin: {
     marginBottom: 16,
-  },
-  flex: {
-    flexDirection: 'row',
-    justifyContent: 'flex-start',
-    alignItems: 'flex-end',
-    width: '100%',
-    marginLeft: 4,
-  },
-  createdBy: {
-    paddingHorizontal: 3,
-    marginRight: 8,
-    lineHeight: 36,
-  },
-  author: {
-    marginLeft: 6,
-    paddingTop: 35,
-    paddingHorizontal: 3,
-    fontSize: 20,
-    lineHeight: 36,
   },
 });

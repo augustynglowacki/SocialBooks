@@ -13,11 +13,11 @@ import {ChallengeComponent} from './ChallengeComponent';
 import {ChalllengeActionButton} from './ChallengeActionButton';
 import {
   completeChallenge,
-  getChallenges,
   removeCompleteChallenge,
   removeTakePartInChallenge,
   takePartInChallenge,
 } from 'src/redux/collections/collectionsActions';
+import {ChallengeUsers} from './ChallengeUsers';
 
 interface Props {
   style?: StyleProp<FlexStyle | ViewStyle>;
@@ -37,7 +37,7 @@ export const ChallengeDetails: React.FC<Props> = ({challengeData, userCompleted,
     allUsers,
     user: {id},
   } = useSelector(userSelector);
-  const getDisplayName =
+  const challengeAuthorDisplayName =
     challengeData.createdBy &&
     ((id: string) => allUsers.find(item => item.userId === id)?.displayName)(challengeData.createdBy);
 
@@ -45,19 +45,25 @@ export const ChallengeDetails: React.FC<Props> = ({challengeData, userCompleted,
   const [followingButton, setFollowingButton] = useState(followingInitialState);
   const [userTakingPartState, setUserTakingPartState] = useState(userTakingPart);
   const [userCompletedState, setUserCompletedState] = useState(userCompleted);
-
+  const [takingPartData, setTakingPartData] = useState(challengeData.takingPart ?? []);
+  const [completedData, setCompletedData] = useState(challengeData.completed ?? []);
   const toggleFollowing = () =>
     !!challengeData.createdBy && setFollowing(challengeData.createdBy) && setFollowingButton(curr => !curr);
 
   const toggleIsTakingPart = () => {
     dispatch(!userTakingPartState ? takePartInChallenge(challengeData) : removeTakePartInChallenge(challengeData));
     setUserTakingPartState(curr => !curr);
+    setTakingPartData(
+      takingPartData.includes(id) ? [...takingPartData].filter(id => id !== id) : [...takingPartData, id],
+    );
   };
 
   const toggleUserCompleted = () => {
-    dispatch(!userTakingPartState ? completeChallenge(challengeData) : removeCompleteChallenge(challengeData));
+    dispatch(!userCompletedState ? completeChallenge(challengeData) : removeCompleteChallenge(challengeData));
     setUserCompletedState(curr => !curr);
     setUserTakingPartState(false);
+    setCompletedData(completedData.includes(id) ? [...completedData].filter(id => id !== id) : [...completedData, id]);
+    setTakingPartData([...takingPartData].filter(id => id !== id));
   };
 
   const mainColor = (() => {
@@ -73,7 +79,7 @@ export const ChallengeDetails: React.FC<Props> = ({challengeData, userCompleted,
       </AppText>
       <View style={{flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}}>
         {!!challengeData.challengeTitle && <ChallengeComponent challengeData={challengeData} shadowColor={mainColor} />}
-        {challengeData.createdBy && !!getDisplayName && (
+        {challengeData.createdBy && !!challengeAuthorDisplayName && (
           <View style={{flex: 1, width: '100%', paddingHorizontal: 4}}>
             <View
               style={{
@@ -86,10 +92,10 @@ export const ChallengeDetails: React.FC<Props> = ({challengeData, userCompleted,
                 Autor wyzwania:
               </AppText>
               <View>
-                <Avatar name={getDisplayName} size={36} color={palette.primary} />
+                <Avatar name={challengeAuthorDisplayName} size={36} color={palette.primary} />
               </View>
               <AppText fontWeight="bold" style={styles.author}>
-                {getDisplayName}
+                {challengeAuthorDisplayName}
               </AppText>
             </View>
             {challengeData.createdBy !== id && (
@@ -99,11 +105,7 @@ export const ChallengeDetails: React.FC<Props> = ({challengeData, userCompleted,
                 style={styles.followButton}
               />
             )}
-            {!!challengeData.challengeDescription && (
-              <AppText variant="p" style={styles.paragraph}>
-                {challengeData.challengeDescription}
-              </AppText>
-            )}
+            <ChallengeUsers completed={completedData} takingPart={takingPartData} />
             {!userCompletedState && (
               <ChalllengeActionButton
                 label={userTakingPartState ? 'Zrezygnuj' : 'Weź udział'}
@@ -127,6 +129,11 @@ export const ChallengeDetails: React.FC<Props> = ({challengeData, userCompleted,
                 state={userCompletedState}
                 disabled={userCompletedState}
               />
+            )}
+            {!!challengeData.challengeDescription && (
+              <AppText variant="p" style={styles.paragraph}>
+                {challengeData.challengeDescription}
+              </AppText>
             )}
           </View>
         )}

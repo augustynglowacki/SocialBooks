@@ -17,6 +17,7 @@ export const setChallenge = createAsyncThunk<void, Challenge>('collections/setCh
 });
 export const completeChallenge = createAsyncThunk<void, Challenge>('collections/completeChallenge', async item => {
   await setChallengeComplete(item, CollectionActions.ADD);
+  await setTakingPartInChallenge(item, CollectionActions.REMOVE);
 });
 export const removeCompleteChallenge = createAsyncThunk<void, Challenge>(
   'collections/removeCompleteChallenge',
