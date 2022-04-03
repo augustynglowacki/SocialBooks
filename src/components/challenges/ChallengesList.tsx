@@ -25,10 +25,7 @@ export const ChallengesList: React.FC<Props> = ({data, horizontal = false, error
     allUsers,
     user: {id},
   } = useSelector(userSelector);
-  const getDisplayName = (id: string) => allUsers.find(item => item.userId === id)?.displayName;
-  const userTakingPart = data.filter(item => item.takingPart?.includes(id));
-  const userCompleted = data.filter(item => item.completed?.includes(id));
-
+  
   const renderItem: ListRenderItem<Challenge> = ({item, index}) => {
     const userTakingPart = !!item.takingPart?.includes(id);
     const userCompleted = !!item.completed?.includes(id);

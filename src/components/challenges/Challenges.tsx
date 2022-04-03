@@ -1,4 +1,4 @@
-import React, {useContext, useEffect} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {StyleSheet, View} from 'react-native';
 import {palette} from 'src/styles';
 import {AppButton, AppText, Container} from 'src/components/common';
@@ -6,28 +6,72 @@ import {useDispatch, useSelector} from 'react-redux';
 import {collectionsSelector} from 'src/redux/collections/collectionsSlice';
 import Animated, {FadeIn} from 'react-native-reanimated';
 import {ChallengesScreenProp, Route} from 'src/constants';
-import {useNavigation} from '@react-navigation/native';
+import {useNavigation, useTheme} from '@react-navigation/native';
 import {ChallengesList} from './ChallengesList';
 import {getChallenges} from 'src/redux/collections/collectionsActions';
 import {useStateContext} from 'src/context/stateContext';
+import {AppModal} from '../common/AppModal';
+import {Picker} from '@react-native-picker/picker';
+import {userSelector} from 'src/redux/user/userSlice';
+import {Challenge} from 'src/models';
+
+export enum ChallengesFilters {
+  ALL = 'Wszystkie',
+  NOT_STARTED = 'Nierozpoczęte',
+  TAKING_PART = 'W trakcie',
+  COMPLETED = 'Ukończone',
+}
 
 export const Challenges: React.FC = () => {
   const {error, loading, challenges} = useSelector(collectionsSelector);
+  const {
+    allUsers,
+    user: {id},
+  } = useSelector(userSelector);
+  const {
+    colors: {text},
+  } = useTheme();
 
   const {navigate} = useNavigation<ChallengesScreenProp>();
   const {hasSomethingBeenAdded} = useStateContext();
-  const sortedChallenges = [...challenges].sort((a, b) => {
-    if (a.challengeDeadline.localeCompare(b.challengeDeadline) === 1) return -1;
-    if (a.challengeDeadline.localeCompare(b.challengeDeadline) === -1) return 1;
-    return 0;
-  });
-
   const dispatch = useDispatch();
   useEffect(() => {
     setTimeout(() => {
       dispatch(getChallenges());
-    }, 100);
+    }, 200);
   }, [hasSomethingBeenAdded]);
+
+  const [selectedChallenges, setSelectedChallenges] = useState<ChallengesFilters>(ChallengesFilters.ALL);
+
+  const sortedChallenges = (item: Challenge[]) =>
+    [...item].sort((a, b) => {
+      if (a.challengeDeadline.localeCompare(b.challengeDeadline) === 1) return -1;
+      if (a.challengeDeadline.localeCompare(b.challengeDeadline) === -1) return 1;
+      return 0;
+    });
+
+  const [modalVisible, setModalVisible] = useState(false);
+  const toggleModal = () => {
+    setModalVisible(curr => !curr);
+  };
+
+  const userTakingPart = challenges.filter(item => item.takingPart?.includes(id));
+  const userCompleted = challenges.filter(item => item.completed?.includes(id));
+
+  const getFilteredChallenges = (): Challenge[] => {
+    if (selectedChallenges === ChallengesFilters.TAKING_PART) {
+      return sortedChallenges(userTakingPart);
+    }
+    if (selectedChallenges === ChallengesFilters.COMPLETED) {
+      return sortedChallenges(userCompleted);
+    }
+    if (selectedChallenges === ChallengesFilters.NOT_STARTED) {
+      return sortedChallenges(
+        challenges.filter(item => !item.takingPart?.includes(id) && !item.completed?.includes(id)),
+      );
+    }
+    return sortedChallenges(challenges);
+  };
 
   return (
     <Container style={styles.container} disableScroll>
@@ -37,13 +81,21 @@ export const Challenges: React.FC = () => {
         </AppText>
         <AppButton label={'Dodaj wyzwanie'} onPress={() => navigate(Route.ADD_CHALLENGE)} style={styles.followButton} />
         {!!challenges.length ? (
-          <ChallengesList data={sortedChallenges} error={error} loading={loading} />
+          <ChallengesList data={getFilteredChallenges()} error={error} loading={loading} />
         ) : (
           <>
             <AppText style={{paddingTop: 12}}>Dodaj pierwsze wyzwanie!</AppText>
           </>
         )}
       </Animated.View>
+      <AppModal modalVisible={modalVisible} toggleModal={toggleModal}>
+        <Picker selectedValue={selectedChallenges} onValueChange={item => setSelectedChallenges(item)}>
+          {Object.values(ChallengesFilters).map(item => (
+            <Picker.Item key={item} label={item} value={item} color={text} />
+          ))}
+        </Picker>
+      </AppModal>
+      <AppButton label={'Filtruj wyzwania'} onPress={toggleModal} style={styles.filterButton} />
     </Container>
   );
 };
@@ -65,5 +117,8 @@ const styles = StyleSheet.create({
     marginTop: 20,
     marginBottom: 28,
     paddingBottom: 25,
+  },
+  filterButton: {
+    marginBottom: 10,
   },
 });

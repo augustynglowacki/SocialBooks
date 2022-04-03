@@ -52,7 +52,7 @@ export const Search: React.FC = () => {
           </Picker>
         </AppModal>
       </View>
-      <AppButton label="Zmień tryb szukania" style={{marginVertical: 24}} onPress={toggleModal} />
+      <AppButton label="Zmień tryb szukania" style={{marginTop: 24, marginBottom: 12}} onPress={toggleModal} />
     </Container>
   );
 };

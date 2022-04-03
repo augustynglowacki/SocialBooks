@@ -13,7 +13,8 @@ interface Props {
 }
 
 export const ChallengeUsers: React.FC<Props> = ({takingPart, completed}) => {
-  const [expanded, setExpanded] = React.useState(true);
+  //   const [expanded, setExpanded] = React.useState(true);
+  //   const handlePress = () => setExpanded(curr => !curr);
   const {allUsers} = useSelector(userSelector);
   const getDisplayName = (id: string) => allUsers.find(item => item.userId === id)?.displayName;
   const scheme = useColorScheme();
@@ -31,7 +32,6 @@ export const ChallengeUsers: React.FC<Props> = ({takingPart, completed}) => {
     opacity: scheme === 'dark' ? 0.9 : 0.75,
   };
 
-  const handlePress = () => setExpanded(curr => !curr);
   return (
     <>
       <AppText variant="p" style={styles.title}>
@@ -67,8 +67,6 @@ export const ChallengeUsers: React.FC<Props> = ({takingPart, completed}) => {
         </List.Accordion>
         <List.Accordion
           title="Ukończyli:"
-          expanded={expanded}
-          onPress={handlePress}
           style={[listItemStyle, {backgroundColor: background}]}
           titleStyle={baseTextStyle}
           left={() => (
