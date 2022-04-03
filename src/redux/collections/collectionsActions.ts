@@ -2,12 +2,37 @@ import {createAsyncThunk} from '@reduxjs/toolkit';
 import {Book, Challenge, Favorite, Review} from 'src/models';
 import firestore from '@react-native-firebase/firestore';
 import auth from '@react-native-firebase/auth';
-import {setChallenges, setData, setReview} from 'src/services/firestore';
+import {
+  CollectionActions,
+  setChallengeComplete,
+  setChallenges,
+  setData,
+  setReview,
+  setTakingPartInChallenge,
+} from 'src/services/firestore';
 import {convertToBook} from 'src/helpers/convertResponse';
 
 export const setChallenge = createAsyncThunk<void, Challenge>('collections/setChallenge', async item => {
   await setChallenges(item);
 });
+export const completeChallenge = createAsyncThunk<void, Challenge>('collections/completeChallenge', async item => {
+  await setChallengeComplete(item, CollectionActions.ADD);
+});
+export const removeCompleteChallenge = createAsyncThunk<void, Challenge>(
+  'collections/removeCompleteChallenge',
+  async item => {
+    await setChallengeComplete(item, CollectionActions.REMOVE);
+  },
+);
+export const takePartInChallenge = createAsyncThunk<void, Challenge>('collections/takePartInChallenge', async item => {
+  await setTakingPartInChallenge(item, CollectionActions.ADD);
+});
+export const removeTakePartInChallenge = createAsyncThunk<void, Challenge>(
+  'collections/removeTakePartInChallenge',
+  async item => {
+    await setTakingPartInChallenge(item, CollectionActions.REMOVE);
+  },
+);
 export const getChallenges = createAsyncThunk<Challenge[]>(
   'collections/getChallenges',
   () =>
@@ -18,14 +43,8 @@ export const getChallenges = createAsyncThunk<Challenge[]>(
           snap => {
             resolve(
               snap.docs.map(doc => ({
+                ...(doc.data() as Challenge),
                 id: doc.id,
-                challengeTitle: doc.data().challengeTitle,
-                challengeDeadline: doc.data().challengeDeadline,
-                challengeDescription: doc.data().challengeDescription,
-                createdBy: doc.data().createdBy,
-                takingPart: doc.data().takingPart,
-                comments: doc.data().comments,
-                completed: doc.data().completed,
               })),
             );
           },

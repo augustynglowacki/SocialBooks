@@ -1,17 +1,23 @@
 import {useNavigation, useTheme} from '@react-navigation/native';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {FlexStyle, StyleProp, StyleSheet, useColorScheme, View, ViewStyle} from 'react-native';
 import {palette} from 'src/styles';
 import {AppButton, Avatar, Container} from '../common';
 import {AppText} from '../common/AppText';
-import {AnyScreenProp, Route} from 'src/constants';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {userSelector} from 'src/redux/user/userSlice';
-import {completeChallenge, setFollowing, takePartInChallenge} from 'src/services/firestore';
+import {setFollowing} from 'src/services/firestore';
 import {collectionsSelector} from 'src/redux/collections/collectionsSlice';
 import {Challenge} from 'src/models';
 import {ChallengeComponent} from './ChallengeComponent';
 import {ChalllengeActionButton} from './ChallengeActionButton';
+import {
+  completeChallenge,
+  getChallenges,
+  removeCompleteChallenge,
+  removeTakePartInChallenge,
+  takePartInChallenge,
+} from 'src/redux/collections/collectionsActions';
 
 interface Props {
   style?: StyleProp<FlexStyle | ViewStyle>;
@@ -25,6 +31,7 @@ export const ChallengeDetails: React.FC<Props> = ({challengeData, userCompleted,
   const {
     colors: {background, text},
   } = useTheme();
+  const dispatch = useDispatch();
   const {following} = useSelector(collectionsSelector);
   const {
     allUsers,
@@ -41,15 +48,18 @@ export const ChallengeDetails: React.FC<Props> = ({challengeData, userCompleted,
 
   const toggleFollowing = () =>
     !!challengeData.createdBy && setFollowing(challengeData.createdBy) && setFollowingButton(curr => !curr);
-  const toggleIsTakingPart = async () => {
-    await takePartInChallenge(challengeData);
+
+  const toggleIsTakingPart = () => {
+    dispatch(!userTakingPartState ? takePartInChallenge(challengeData) : removeTakePartInChallenge(challengeData));
     setUserTakingPartState(curr => !curr);
   };
-  const toggleUserCompleted = async () => {
-    await completeChallenge(challengeData);
+
+  const toggleUserCompleted = () => {
+    dispatch(!userTakingPartState ? completeChallenge(challengeData) : removeCompleteChallenge(challengeData));
     setUserCompletedState(curr => !curr);
     setUserTakingPartState(false);
   };
+
   const mainColor = (() => {
     if (userCompletedState) return palette.green;
     if (userTakingPartState) return palette.primary;
@@ -84,18 +94,11 @@ export const ChallengeDetails: React.FC<Props> = ({challengeData, userCompleted,
             </View>
             {challengeData.createdBy !== id && (
               <AppButton
-                label={followingButton ? 'Przestań obserwować' : 'Obserwuj autora recenzji'}
+                label={followingButton ? 'Przestań obserwować' : 'Obserwuj autora wyzwania'}
                 onPress={toggleFollowing}
                 style={styles.followButton}
               />
             )}
-            {/* {challengeData.takingPart && (
-              <AppButton
-                label={followingButton ? 'Przestań obserwować' : 'Obserwuj autora recenzji'}
-                onPress={toggleFollowing}
-                style={styles.followButton}
-              />
-            )} */}
             {!!challengeData.challengeDescription && (
               <AppText variant="p" style={styles.paragraph}>
                 {challengeData.challengeDescription}

@@ -9,6 +9,10 @@ import {
   getFollowing,
   setChallenge,
   getChallenges,
+  takePartInChallenge,
+  completeChallenge,
+  removeTakePartInChallenge,
+  removeCompleteChallenge,
 } from './collectionsActions';
 
 const initialState: CollectionsState = {
@@ -114,6 +118,50 @@ const CollectionsSlice = createSlice({
         (state.challenges = action.payload), (state.loading = false);
       })
       .addCase(getChallenges.rejected, (state, action) => {
+        state.error = action.error.message ?? 'error';
+        state.loading = false;
+      })
+      .addCase(takePartInChallenge.pending, state => {
+        state.error = '';
+        state.loading = true;
+      })
+      .addCase(takePartInChallenge.fulfilled, state => {
+        state.loading = false;
+      })
+      .addCase(takePartInChallenge.rejected, (state, action) => {
+        state.error = action.error.message ?? 'error';
+        state.loading = false;
+      })
+      .addCase(removeTakePartInChallenge.pending, state => {
+        state.error = '';
+        state.loading = true;
+      })
+      .addCase(removeTakePartInChallenge.fulfilled, state => {
+        state.loading = false;
+      })
+      .addCase(removeTakePartInChallenge.rejected, (state, action) => {
+        state.error = action.error.message ?? 'error';
+        state.loading = false;
+      })
+      .addCase(completeChallenge.pending, state => {
+        state.error = '';
+        state.loading = true;
+      })
+      .addCase(completeChallenge.fulfilled, state => {
+        state.loading = false;
+      })
+      .addCase(completeChallenge.rejected, (state, action) => {
+        state.error = action.error.message ?? 'error';
+        state.loading = false;
+      })
+      .addCase(removeCompleteChallenge.pending, state => {
+        state.error = '';
+        state.loading = true;
+      })
+      .addCase(removeCompleteChallenge.fulfilled, state => {
+        state.loading = false;
+      })
+      .addCase(removeCompleteChallenge.rejected, (state, action) => {
         state.error = action.error.message ?? 'error';
         state.loading = false;
       });

@@ -2,6 +2,11 @@ import firestore from '@react-native-firebase/firestore';
 import auth from '@react-native-firebase/auth';
 import {Book, Challenge, Review} from 'src/models';
 
+export enum CollectionActions {
+  ADD = 'ADD',
+  REMOVE = 'REMOVE',
+}
+
 export const setData = async (data: Book) => {
   const {volumeInfo, id} = data;
   const title = volumeInfo?.title ?? '';
@@ -177,59 +182,30 @@ export const setChallenges = async (challenge: Challenge) => {
   }
 };
 
-export const takePartInChallenge = async (challenge: Challenge) => {
+export const setTakingPartInChallenge = async (challenge: Challenge, type: CollectionActions) => {
   const db = firestore();
   const userId = auth().currentUser?.uid;
-
-  const createdBy = challenge.createdBy;
-  const challengeDescription = challenge.challengeDescription ?? '';
-  const challengeTitle = challenge.challengeTitle ?? '';
-  const challengeDeadline = challenge.challengeDeadline ?? new Date().toISOString();
-  const comments = challenge.comments ?? [];
-  const completed = challenge.completed ?? [];
   const takingPart = challenge.takingPart ?? [];
   const id = challenge.id;
   if (!userId) {
     return null;
   }
-
   const globalDocRef = db.collection('challenges').doc(id);
-  const globalDoc = await globalDocRef.get();
 
-  if (takingPart.includes(userId)) {
-    globalDocRef.set({
-      id,
-      createdBy,
-      challengeDeadline,
-      challengeDescription,
-      challengeTitle,
+  if (type === CollectionActions.REMOVE) {
+    globalDocRef.update({
       takingPart: takingPart.filter(id => id !== userId),
-      comments,
-      completed,
     });
   }
-  if (!takingPart.includes(userId)) {
-    globalDocRef.set({
-      id,
-      createdBy,
-      challengeDeadline,
-      challengeDescription,
-      challengeTitle,
-      takingPart: [...takingPart, userId],
-      comments,
-      completed,
+  if (type === CollectionActions.ADD) {
+    globalDocRef.update({
+      takingPart: [...new Set([...takingPart, userId])],
     });
   }
 };
-export const completeChallenge = async (challenge: Challenge) => {
+export const setChallengeComplete = async (challenge: Challenge, type: CollectionActions) => {
   const db = firestore();
   const userId = auth().currentUser?.uid;
-  const createdBy = challenge.createdBy;
-  const challengeDescription = challenge.challengeDescription ?? '';
-  const challengeTitle = challenge.challengeTitle ?? '';
-  const challengeDeadline = challenge.challengeDeadline ?? new Date().toISOString();
-  const comments = challenge.comments ?? [];
-  const takingPart = challenge.takingPart ?? [];
   const completed = challenge.completed ?? [];
   const id = challenge.id;
   if (!userId) {
@@ -238,28 +214,14 @@ export const completeChallenge = async (challenge: Challenge) => {
 
   const globalDocRef = db.collection('challenges').doc(id);
 
-  if (completed.includes(userId)) {
-    globalDocRef.set({
-      id,
-      createdBy,
-      challengeDeadline,
-      challengeDescription,
-      challengeTitle,
-      takingPart,
-      comments,
+  if (type === CollectionActions.REMOVE) {
+    globalDocRef.update({
       completed: completed.filter(id => id !== userId),
     });
   }
-  if (!completed.includes(userId)) {
-    globalDocRef.set({
-      id,
-      createdBy,
-      challengeDeadline,
-      challengeDescription,
-      challengeTitle,
-      takingPart,
-      comments,
-      completed: [...completed, userId],
+  if (type === CollectionActions.ADD) {
+    globalDocRef.update({
+      completed: [...new Set([...completed, userId])],
     });
   }
 };
