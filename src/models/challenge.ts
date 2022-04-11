@@ -8,6 +8,5 @@ export interface Challenge {
   challengeTitle: string;
   challengeDescription?: string;
   takingPart?: string[];
-  comments?: string[];
   completed?: string[];
 }

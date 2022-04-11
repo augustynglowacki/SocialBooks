@@ -6,8 +6,6 @@ export const convertToBook = ({id, volumeInfo}: Book): Book => ({
     title: volumeInfo.title,
     authors: volumeInfo.authors,
     description: volumeInfo.description,
-    averageRating: volumeInfo.averageRating,
-    ratingCount: volumeInfo.ratingCount,
     imageLinks: {
       thumbnail: volumeInfo.imageLinks?.thumbnail,
     },
@@ -22,8 +20,7 @@ export const convertToBooks = (response: Book[]): Book[] => {
         title: volumeInfo.title,
         authors: volumeInfo.authors,
         description: volumeInfo.description,
-        averageRating: volumeInfo.averageRating,
-        ratingCount: volumeInfo.ratingCount,
+  
         imageLinks: {
           thumbnail: volumeInfo.imageLinks?.thumbnail,
         },

@@ -102,8 +102,6 @@ export const getFavorite = createAsyncThunk<Favorite[]>(
                     title: doc.data().book.volumeInfo.title,
                     description: doc.data().book.volumeInfo.description,
                     authors: doc.data().book.volumeInfo.authors,
-                    averageRating: doc.data().book.volumeInfo.averageRating,
-                    ratingCount: doc.data().book.volumeInfo.ratingCount,
                     imageLinks: {
                       thumbnail: doc.data().book.volumeInfo.imagePath,
                     },

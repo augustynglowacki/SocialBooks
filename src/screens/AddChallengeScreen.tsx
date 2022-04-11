@@ -24,7 +24,6 @@ export const AddChallengeScreen: React.FC = () => {
     challengeDescription: '',
     challengeTitle: '',
     takingPart: [],
-    comments: [],
   };
   const {t} = useTranslation('form');
   const {error, loading} = useSelector(userSelector);

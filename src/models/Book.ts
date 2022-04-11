@@ -4,8 +4,6 @@ export interface Book {
     title?: string;
     authors?: string[];
     description?: string;
-    averageRating?: number;
-    ratingCount?: number;
     imageLinks?: {
       thumbnail?: string;
     };

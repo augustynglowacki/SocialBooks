@@ -11,8 +11,6 @@ export const setData = async (data: Book) => {
   const {volumeInfo, id} = data;
   const title = volumeInfo?.title ?? '';
   const description = volumeInfo?.description ?? '';
-  const averageRating = volumeInfo?.averageRating ?? 0;
-  const ratingCount = volumeInfo?.ratingCount ?? 0;
   const authors = volumeInfo?.authors ?? [];
   const imagePath = volumeInfo?.imageLinks?.thumbnail ?? '';
   const db = firestore();
@@ -37,8 +35,6 @@ export const setData = async (data: Book) => {
         volumeInfo: {
           title,
           description,
-          averageRating,
-          ratingCount,
           authors,
           imagePath,
         },
@@ -104,8 +100,6 @@ export const setReview = async (review: Review) => {
   const rating = review.rating ?? 0;
   const title = volumeInfo?.title ?? '';
   const description = volumeInfo?.description ?? '';
-  const averageRating = volumeInfo?.averageRating ?? 0;
-  const ratingCount = volumeInfo?.ratingCount ?? 0;
   const authors = volumeInfo?.authors ?? [];
   const thumbnail = volumeInfo?.imageLinks?.thumbnail ?? '';
 
@@ -127,8 +121,6 @@ export const setReview = async (review: Review) => {
         volumeInfo: {
           title,
           description,
-          averageRating,
-          ratingCount,
           authors,
           imageLinks: {
             thumbnail,
@@ -154,7 +146,6 @@ export const setChallenges = async (challenge: Challenge) => {
   const challengeDescription = challenge.challengeDescription ?? '';
   const challengeTitle = challenge.challengeTitle ?? '';
   const challengeDeadline = challenge.challengeDeadline ?? new Date().toISOString();
-  const comments = challenge.comments ?? [];
   const completed = challenge.completed ?? [];
   const takingPart = challenge.takingPart ?? [];
   const id = createdBy + challengeTitle + challengeDeadline;
@@ -176,7 +167,6 @@ export const setChallenges = async (challenge: Challenge) => {
       challengeDescription,
       challengeTitle,
       takingPart,
-      comments,
       completed,
     });
   }
