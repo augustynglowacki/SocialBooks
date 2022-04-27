@@ -82,10 +82,6 @@ const styles = StyleSheet.create({
   markedTitle: {
     paddingTop: 10,
     marginBottom: 30,
-    color: palette.primary,
-    textShadowOffset: {width: 1, height: 2},
-    textShadowRadius: 4,
-    textShadowColor: 'rgba(0, 0, 0, 0.9)',
   },
   createdBy: {
     paddingTop: 30,

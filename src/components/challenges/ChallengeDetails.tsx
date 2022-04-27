@@ -54,7 +54,7 @@ export const ChallengeDetails: React.FC<Props> = ({challengeData, userCompleted,
     dispatch(!userTakingPartState ? takePartInChallenge(challengeData) : removeTakePartInChallenge(challengeData));
     setUserTakingPartState(curr => !curr);
     setTakingPartData(
-      takingPartData.includes(id) ? [...takingPartData].filter(id => id !== id) : [...takingPartData, id],
+      takingPartData.includes(id) ? [...takingPartData].filter(item => item !== id) : [...takingPartData, id],
     );
   };
 
@@ -62,8 +62,10 @@ export const ChallengeDetails: React.FC<Props> = ({challengeData, userCompleted,
     dispatch(!userCompletedState ? completeChallenge(challengeData) : removeCompleteChallenge(challengeData));
     setUserCompletedState(curr => !curr);
     setUserTakingPartState(false);
-    setCompletedData(completedData.includes(id) ? [...completedData].filter(id => id !== id) : [...completedData, id]);
-    setTakingPartData([...takingPartData].filter(id => id !== id));
+    setCompletedData(
+      completedData.includes(id) ? [...completedData].filter(item => item !== id) : [...completedData, id],
+    );
+    setTakingPartData([...takingPartData].filter(item => item !== id));
   };
 
   const mainColor = (() => {
@@ -103,6 +105,7 @@ export const ChallengeDetails: React.FC<Props> = ({challengeData, userCompleted,
                 label={followingButton ? 'Przestań obserwować' : 'Obserwuj autora wyzwania'}
                 onPress={toggleFollowing}
                 style={styles.followButton}
+                variant="secondary"
               />
             )}
             <ChallengeUsers completed={completedData} takingPart={takingPartData} />
@@ -149,9 +152,9 @@ const styles = StyleSheet.create({
     paddingTop: 10,
     marginBottom: 30,
     color: palette.primary,
-    textShadowOffset: {width: 1, height: 2},
-    textShadowRadius: 4,
-    textShadowColor: 'rgba(0, 0, 0, 0.9)',
+    textShadowOffset: {width: 1, height: 1},
+    textShadowRadius: 3,
+    textShadowColor: 'rgba(0, 0, 0, 1)',
   },
   createdBy: {
     paddingTop: 30,

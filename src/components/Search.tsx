@@ -38,9 +38,7 @@ export const Search: React.FC = () => {
     <Container style={styles.wrapper} withKeyboard>
       <View>
         <AppText style={styles.title} variant="h1">
-          <AppText variant="h1" style={styles.markedTitle}>
-            Wyszukaj!
-          </AppText>
+          <AppText variant="h1">Wyszukaj!</AppText>
         </AppText>
         <Input label={t('search')} value={searchTerm} onChangeText={setSearchTerm} autoFocus />
         {!!data && <BookList data={data} error={error} loading={isLoading} />}
@@ -67,11 +65,5 @@ const styles = StyleSheet.create({
   title: {
     paddingTop: 10,
     marginBottom: 30,
-  },
-  markedTitle: {
-    color: palette.secondary,
-    textShadowOffset: {width: 1, height: 2},
-    textShadowRadius: 4,
-    textShadowColor: 'rgba(0, 0, 0, 0.9)',
   },
 });

@@ -52,10 +52,6 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   markedTitle: {
-    color: palette.secondary,
-    textShadowOffset: {width: 1, height: 2},
-    textShadowRadius: 4,
-    textShadowColor: 'rgba(0, 0, 0, 0.9)',
     paddingBottom: 35,
   },
 });

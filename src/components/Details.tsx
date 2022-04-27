@@ -24,20 +24,22 @@ export const Details: React.FC<Props> = ({book}) => {
     user: {userName, id},
   } = useSelector(userSelector);
   const dispatch = useDispatch();
+
+  const {volumeInfo} = book;
+
   const {favorite} = useSelector(collectionsSelector);
-  const favoriteInitialState = favorite.filter(item => item.createdBy === id).some(item => item.book.id === book.id);
+  const favoriteInitialState: boolean = favorite
+    .filter(item => item.createdBy === id)
+    .some(item => item.book.id === book.id);
   const [favoriteButton, setFavoriteButton] = useState(favoriteInitialState);
 
-  const handleAddtoCollection = (action: 'favorite') => {
+  const handleAddtoCollection = () => {
     if (!!userName) {
-      if (action === 'favorite') {
-        setFavoriteButton(prev => !prev);
-        dispatch(setFavorite(book));
-      }
+      setFavoriteButton(prev => !prev);
+      dispatch(setFavorite(book));
     }
   };
-  const {volumeInfo} = book;
-  //heart animation, touch logic
+
   const scale = useSharedValue(0);
   const doubleTapRef = useRef();
   const rStyle = useAnimatedStyle(() => ({
@@ -50,8 +52,9 @@ export const Details: React.FC<Props> = ({book}) => {
         scale.value = withDelay(500, withSpring(0));
       }
     });
-    handleAddtoCollection('favorite');
+    handleAddtoCollection();
   }, []);
+
   const {navigate} = useNavigation<DetailsScreenProp>();
 
   return (
@@ -60,7 +63,7 @@ export const Details: React.FC<Props> = ({book}) => {
       withNavigateBackBar
       rightIcon
       buttonState={favoriteButton}
-      toggleButtonState={() => handleAddtoCollection('favorite')}>
+      toggleButtonState={handleAddtoCollection}>
       <TapGestureHandler maxDelayMs={500} ref={doubleTapRef} numberOfTaps={2} onActivated={onDoubleTap}>
         <View>
           <BookComponent book={book} style={{marginVertical: 24}} shadowColor={palette.secondary} variant="details" />
@@ -133,7 +136,7 @@ const styles = StyleSheet.create({
     shadowRadius: 145,
   },
   paragraph: {
-    paddingTop: 50,
+    paddingTop: 20,
     paddingHorizontal: 3,
   },
 });

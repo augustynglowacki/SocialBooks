@@ -95,8 +95,6 @@ export const setReview = async (review: Review) => {
 
   const createdBy = userId ?? '';
   const createdDate = review.createdDate ?? '';
-  const comments = review.reviewDescription ?? [''];
-  const likes = review.likes ?? 0;
   const rating = review.rating ?? 0;
   const title = volumeInfo?.title ?? '';
   const description = volumeInfo?.description ?? '';
@@ -131,8 +129,6 @@ export const setReview = async (review: Review) => {
       createdDate,
       reviewDescription,
       reviewTitle,
-      comments,
-      likes,
       rating,
     });
   }

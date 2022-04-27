@@ -25,7 +25,7 @@ export const AppButton: React.FC<Props> = ({disabled, label, variant = 'primary'
     justifyContent: 'center',
     alignItems: 'center',
     alignSelf: 'center',
-    backgroundColor: isPrimary ? 'transparent' : text,
+    backgroundColor: isPrimary ? secondary : text,
     borderRadius: BORDER_RADIUS,
     height: 60,
     minWidth: '100%',
@@ -40,36 +40,13 @@ export const AppButton: React.FC<Props> = ({disabled, label, variant = 'primary'
     textShadowRadius: 3,
     textShadowColor: 'rgba(0, 0, 0, 0.2)',
   };
-  const gradientStyle: StyleProp<ViewStyle | FlexStyle> = {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    width: '100%',
-    borderRadius: BORDER_RADIUS,
-  };
-
-  const ButtonVariant = () => {
-    if (isPrimary) {
-      return (
-        <LinearGradient colors={[secondary, primary, third]} style={gradientStyle} start={{x: 0.48, y: 0}}>
-          <AppText style={labelStyle} fontWeight="bold">
-            {label}
-          </AppText>
-        </LinearGradient>
-      );
-    } else {
-      return (
-        <AppText style={labelStyle} fontWeight="bold">
-          {label}
-        </AppText>
-      );
-    }
-  };
 
   return (
     <View style={[BOX_SHADOW, style]}>
       <TouchableOpacity disabled={disabled} onPress={onPress} style={buttonStyle}>
-        <ButtonVariant />
+        <AppText style={labelStyle} fontWeight="bold">
+          {label}
+        </AppText>
       </TouchableOpacity>
     </View>
   );
